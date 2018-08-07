@@ -10,8 +10,8 @@ That’s pretty much it.
 
 ![](resources/5467FCC10335F0C8F8E685A90A430F29.jpg)
 
- if this you thought it can help your 
+ if this you thought it can help your
 
-you can donate me 
+you can donate me, thanks
 
-您认为这代码提对您有帮助，打赏我
+您认为这代码提对您有帮助，请打赏, 谢谢
