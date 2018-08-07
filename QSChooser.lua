@@ -1,4 +1,7 @@
 
+-- author : joys
+-- qq: 501919181
+-- Email: joysnipple@icloud.com
 
 qsc_chooser_Obj = nil
 hs.shutdownCallback = function()

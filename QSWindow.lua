@@ -1,4 +1,9 @@
 
+-- author : joys
+-- qq: 501919181
+-- Email: joysnipple@icloud.com
+
+
 
 -- {'h',  "⇪ + H",  "显示 1.隐藏文件", qsl_fn_keyStroke({'shift', 'cmd'}, '.'), "2.App name", qsw_showCurrentAppName},
 function qsw_showCurrentAppName()

@@ -1,4 +1,7 @@
 
+-- author : joys
+-- qq: 501919181
+-- Email: joysnipple@icloud.com
 
 -- {'c',  "⇪ + C",  "1.@\" \"", qssePasteEditStringToNSString,
 function qssePasteEditStringToNSString()

@@ -1,4 +1,8 @@
 
+-- author : joys
+-- qq: 501919181
+-- Email: joysnipple@icloud.com
+
 -- // ********************************** mark by joys 2018-06-22 21:24 **
 -- // * : define on or off
 -- // *******************************************************************
@@ -114,10 +118,5 @@ function init_retTitle(tab)
     return titleTips
 end
 
-
--- qslCurlFtpDownFromServer('pi', 'joyspace', '/Users/qinshaobo/Desktop/config.txt', 'ftp://192.168.31.188/anonymous/config.txt')
--- --  curl  -o -u admin:admin -T /Volumes/backUp/AMao_Joys/op.002 ftp://172.16.6.164/16TB/赵处/op.002
--- qslCurlFtpDownFromServer('pi', 'joyspace', '/Volumes/WorkDisk/config.txt', 'ftp://192.168.31.188/anonymous/config.txt')
--- qslCurlFtpDeleteFile('pi', 'joyspace', 'ftp://192.168.31.188/anonymous/config.txt', 'config.txt')
 
 --

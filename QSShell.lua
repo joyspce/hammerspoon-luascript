@@ -1,4 +1,7 @@
 
+-- author : joys
+-- qq: 501919181
+-- Email: joysnipple@icloud.com
 
 -- // *********************************** mark by joys 2018-06-24 21:42 ***
 -- //  : shell command

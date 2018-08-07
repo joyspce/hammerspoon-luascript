@@ -1,4 +1,7 @@
 
+-- author : joys
+-- qq: 501919181
+-- Email: joysnipple@icloud.com
 
 -- 存放 init 长代码
 
