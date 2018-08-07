@@ -1,0 +1,419 @@
+c for statement | for (int i = 1; <#condition#> > i; i++) {___    <#statements#>___}
+gcd after|dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(<#delayInSeconds#> * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{___    <#code to be executed after a specified delay#>___});
+gcd once|static dispatch_once_t onceToken;___dispatch_once(&onceToken, ^{___    <#code to be executed once#>___});
+c if else |if (<#condition#>) {___    <#statements#>___} else {___    <#statements#>___}
+c if |if (<#condition#>) {___    <#statements#>___}
+c for |for (<#initialization#>; <#condition#>; <#increment#>) {___    <#statements#>___}
+b block_typedef|typedef <#returnType#>(^<#name#>)(<#arguments#>);
+c c_typedef|typedef <#existing#> <#new#>;
+b inline_block_as_variable|<#returnType#>(^<#blockName#>)(<#parameterTypes#>) = ^(<#parameters#>) {___    <#statements#>___};
+m compare|- (NSComparisonResult)compare:(id)other___{___    return <#comparison expression#>;___}
+m init |- (instancetype)init___{___    self = [super init];___    if (self) {___        <#statements#>___    }___    return self;___}
+m initwithframe|- (instancetype)initWithFrame:(NSRect)frame___{___    self = [super initWithFrame:frame];___    if (self) {___        <#statements#>___    }___    return self;___}
+cc objective-c_class_declaration|@interface <#class name#> : <#superclass#>______@end
+cc objective-c_class_extension|@interface <#class name#> ()______@end
+cc objective-c_class_implementation|@implementation <#class#>______<#methods#>______@end
+cc objective-c_protocol_definition|@protocol <#protocol name#> <NSObject>______<#methods#>______@end
+c while|while (<#condition#>) {___    <#statements#>___}
+m test|- (void)test<#Name#> {___    <#statements#>___}
+c try catch finally|@try {___    <#Code that can potentially throw an exception#>___}___@catch (NSException *exception) {___    <#Handle an exception thrown in the @try block#>___}___@finally {___    <#Code that gets executed whether or not an exception is thrown#>___}
+cc category |@interface <#class name#> (<#category name#>)______@end______@implementation <#class#> (<#category name#>)______<#methods#>______@end
+gcd async|dispatch_async(dispatch_get_global_queue(<#dispatch_queue_priority_t priority#>, <#unsigned long flags#>), ^(void) {___    <#code#>______    dispatch_async(dispatch_get_main_queue(), ^(void) {___        <#code#>___    });___});
+m UICollectionViewDataSource|___#pragma mark - UICollectionViewDataSource___- (NSInteger)collectionView:(UICollectionView *)collectionView___     numberOfItemsInSection:(NSInteger)section___{___    return <#numberOfItemsInSection#>;___}______- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView___                  cellForItemAtIndexPath:(NSIndexPath *)indexPath___{___    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:<#reuseIdentifier#> forIndexPath:indexPath];______    [self configureCell:cell forItemAtIndexPath:indexPath];______    return cell;___}______- (void)configureCell:(UICollectionViewCell *)cell___   forItemAtIndexPath:(NSIndexPath *)indexPath___{___    <# statements #>___}___
+m life cycle|#pragma mark - UIViewController______- (void)viewDidLoad {___    [super viewDidLoad];___}______- (void)viewWillAppear:(BOOL)animated {___    [super viewWillAppear:animated];___}______- (void)viewDidAppear:(BOOL)animated {___    [super viewDidAppear:animated];___}______- (void)viewWillDisappear:(BOOL)animated {___    [super viewWillDisappear:animated];___}______- (void)viewDidDisappear:(BOOL)animated {___    [super viewDidDisappear:animated];___}______- (void)didReceiveMemoryWarning {___    [super didReceiveMemoryWarning];___}
+ndcoding|___#pragma mark - NSCoding______- (instancetype)initWithCoder:(NSCoder *)decoder {___    self = [super init];___    if (!self) {___      return nil;___    }______    <# implementation #>______    return self;___}______- (void)encodeWithCoder:(NSCoder *)coder {___  <# implementation #>___}___
+m UIPickerViewDelegate |#pragma mark - UIPickerViewDelegate______- (NSString *)pickerView:(UIPickerView *)pickerView___             titleForRow:(NSInteger)row___            forComponent:(NSInteger)component___{___  <#code#>___}______- (void)pickerView:(UIPickerView *)pickerView___      didSelectRow:(NSInteger)row___       inComponent:(NSInteger)component___{___  <#code#>___}______#pragma mark - UIPickerDataSource______- (NSInteger)pickerView:(UIPickerView *)pickerView___numberOfRowsInComponent:(NSInteger)component___{___    return <#number#>___}______- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {___    return <#number#>___}
+strongself|__strong __typeof(<#weakSelf#>)strongSelf = <#weakSelf#>;
+m UITableViewDataSource|#pragma mark - UITableViewDataSource______- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {___    return <#number#>;___}______- (NSInteger)tableView:(UITableView *)tableView___ numberOfRowsInSection:(NSInteger)section___{___    return <#number#>;___}______- (UITableViewCell *)tableView:(UITableView *)tableView___         cellForRowAtIndexPath:(NSIndexPath *)indexPath___{___    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#reuseIdentifier#> forIndexPath:<#indexPath#>];______    [self configureCell:cell forRowAtIndexPath:indexPath];______    return cell;___}______- (void)configureCell:(UITableViewCell *)cell___    forRowAtIndexPath:(NSIndexPath *)indexPath___{___    <#statements#>___}______#pragma mark - UITableViewDelegate______- (void)tableView:(UITableView *)tableView___didSelectRowAtIndexPath:(NSIndexPath *)indexPath___{___    <#statements#>___}
+weakself|__weak typeof(self)weakSelf = self;
+m Method Swizzling|#import <objc/runtime.h>______@implementation UIViewController (Tracking)______+ (void)load {___    static dispatch_once_t onceToken;___    dispatch_once(&onceToken, ^{___        Class class = [self class];______        SEL originalSelector = @selector(viewWillAppear:);___        SEL swizzledSelector = @selector(xxx_viewWillAppear:);______        Method originalMethod = class_getInstanceMethod(class, originalSelector);___        Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);______        // When swizzling a class method, use the following:___        // Class class = object_getClass((id)self);___        // ...___        // Method originalMethod = class_getClassMethod(class, originalSelector);___        // Method swizzledMethod = class_getClassMethod(class, swizzledSelector);______        BOOL didAddMethod =___            class_addMethod(class,___                originalSelector,___                method_getImplementation(swizzledMethod),___                method_getTypeEncoding(swizzledMethod));______        if (didAddMethod) {___            class_replaceMethod(class,___                swizzledSelector,___                method_getImplementation(originalMethod),___                method_getTypeEncoding(originalMethod));___        } else {___            method_exchangeImplementations(originalMethod, swizzledMethod);___        }___    });___}______#pragma mark - Method Swizzling______- (void)xxx_viewWillAppear:(BOOL)animated {___    [self xxx_viewWillAppear:animated];___    NSLog(@"viewWillAppear: %@", self);___}______@end
+
+"#pragma mark -",
+"// TODO: 在这干活",
+"// FIXME: 修改",
+"// !!!: 好",
+"// ???: 不明白",
+"#warning 添加警告",
+
+"#pragma mark - Life Cycle",
+"#pragma mark - Events Action",
+"#pragma mark - Private Methods",
+"#pragma mark - Getters and Setters",
+"#pragma mark - <UITableViewDataSource>,
+#pragma mark - <UITableViewDelegate>",
+"#pragma mark - UITextFieldDelegate",
+"#pragma mark - Custom Delegates",
+"void(^)(NSData *data)",
+"@property (nonatomic, copy) void(^successBlock)(NSData *data);",
+"(void(^)(NSData *data))",
+'static NSString *const KQC__key = @"";',
+'static NSString *const KQC__Notification = @"";',
+"typedef NS_ENUM(type, ENUM_name) \n   \n;",
+"typedef NS_OPTIONS(type, OPTIONS_name) \n   \n",
+
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Class class = [self class];
+
+        SEL originalSelector = @selector(viewWillAppear:);
+        SEL swizzledSelector = @selector(ms_viewWillAppear:);
+
+        Method originalMethod = class_getInstanceMethod(class, originalSelector);
+        Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
+
+        BOOL didAddMethod =
+        class_addMethod(class,
+                        originalSelector,
+                        method_getImplementation(swizzledMethod),
+                        method_getTypeEncoding(swizzledMethod));
+
+        if (didAddMethod) {
+            class_replaceMethod(class,
+                                swizzledSelector,
+                                method_getImplementation(originalMethod),
+                                method_getTypeEncoding(originalMethod));
+        } else {
+            method_exchangeImplementations(originalMethod, swizzledMethod);
+        }
+    });
+}
+
+MyClass *myClass = [[MyClass alloc] init];
+
+   //KVC
+   NSString* property = [myClass valueForKey:@"_property"];
+   NSLog(@"property: %@", property);
+
+   Ivar ivar = class_getInstanceVariable(objc_getClass("MyClass"), "_property");
+   if(ivar){
+       NSString* ivarProperty = (__bridge NSString *)(*(void**)((__bridge void*)myClass + ivar_getOffset(ivar)));
+       NSLog(@"ivarProperty: %@", ivarProperty);
+   }
+
+   //AssociatedObject
+
+   objc_setAssociatedObject(myClass, kAssociatedKey, @"AssociatedObject1", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+
+   NSString* associatedString = objc_getAssociatedObject(myClass, kAssociatedKey);
+
+   NSLog(@"associatedString: %@", associatedString);
+
+   objc_setAssociatedObject(myClass, &kExampleDoubleKey, @"AssociatedObject2", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+
+   associatedString = objc_getAssociatedObject(myClass, &kExampleDoubleKey);
+
+   NSLog(@"associatedString: %@", associatedString);
+
+   objc_setAssociatedObject(myClass, @selector(myProperty), @"AssociatedObject3", OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+
+   associatedString = objc_getAssociatedObject(myClass, @selector(myProperty));
+
+   NSLog(@"associatedString: %@", associatedString);
+
+
+   "#pragma mark -",
+   "// TODO: 在这干活",
+   "// FIXME: 修改",
+   "// !!!: 好",
+   "// ???: 不明白",
+   "#warning 添加警告",
+
+   "#pragma mark - Life Cycle",
+   "#pragma mark - Events Action",
+   "#pragma mark - Private Methods",
+   "#pragma mark - Getters and Setters",
+   "#pragma mark - <UITableViewDataSource>,
+   #pragma mark - <UITableViewDelegate>",
+   "#pragma mark - UITextFieldDelegate",
+   "#pragma mark - Custom Delegates",
+   "void(^)(NSData *data)",
+   "@property (nonatomic, copy) void(^successBlock)(NSData *data);",
+   "(void(^)(NSData *data))",
+   'static NSString *const KQC__key = @"";',
+   'static NSString *const KQC__Notification = @"";',
+   "typedef NS_ENUM(type, ENUM_name) \n   \n;",
+   "typedef NS_OPTIONS(type, OPTIONS_name) \n   \n",
+
+
+   static NSOperationQueue *queue;
+
+   // 1.创建队列
+   queue = [[NSOperationQueue alloc] init];
+   // 2.创建操作 1
+   NSInvocationOperation *op1 = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(download) object:nil];
+   // 3.使用 addOperation: 添加所有操作到队列中
+       [queue addOperation:op1];
+   - (void)download{
+   // 4.回到主线程
+       [self performSelectorOnMainThread:@selector(download_completed:) withObject:@"completed" waitUntilDone:YES];
+   }
+   // 5.结束
+   - (void)download_completed:(NSString *)str{
+       [queue release];
+   }
+
+   struct objc_object {
+       Class _Nonnull isa  OBJC_ISA_AVAILABILITY;
+   };
+
+   struct objc_class {
+       Class _Nonnull isa  OBJC_ISA_AVAILABILITY;
+
+   #if !__OBJC2__
+       Class _Nullable super_class                              OBJC2_UNAVAILABLE;
+       const char * _Nonnull name                               OBJC2_UNAVAILABLE;
+       long version                                             OBJC2_UNAVAILABLE;
+       long info                                                OBJC2_UNAVAILABLE;
+       long instance_size                                       OBJC2_UNAVAILABLE;
+       struct objc_ivar_list * _Nullable ivars                  OBJC2_UNAVAILABLE;
+       struct objc_method_list * _Nullable * _Nullable methodLists                    OBJC2_UNAVAILABLE;
+       struct objc_cache * _Nonnull cache                       OBJC2_UNAVAILABLE;
+       struct objc_protocol_list * _Nullable protocols          OBJC2_UNAVAILABLE;
+   #endif
+
+   } OBJC2_UNAVAILABLE;
+
+   objc_setAssociatedObject 可以变相的给对象增加成员变量
+   objc_getAssociatedObject
+
+
+   // 动态创建对象
+   ##import <objc/runtime.h>
+   // 创建一个名为 TangQiaoCustomView 的类名, 父类 UIView
+   Class newClass = objc_allocateClassPair([UIView class], "TangQiaoCustomView",0);
+   // 增加一个名为 report  的方法
+   class_addMethod(newClass, @selector(report), (IMP)reportFunction, "v@:");
+   // 注册该类
+   objc_registerClassPair(newClass);
+
+   id instance_obj = [[newClass alloc]init];
+   [instance_obj performSelector:@selector(report)];
+
+   void  reportFunction(id self, SEL _cmd) {
+       NSLog(@"This object is %p.", self);
+       NSLog(@"Class is %@, and super is %@", [self class], [self superclass]);
+
+       Class courrentClass = [self class];
+       for (int i = 1; i < 5; i++) {
+           NSLog(@"Following the isa pointer %d times gives %p", i, courrentClass);
+           courrentClass = object_getClass(courrentClass);
+       }
+
+       NSLog(@"NSObject's class is %p", [NSObject class]);
+       NSLog(@"NSObject's meta class is %p", object_getClass([NSObject class]));
+   }
+
+   // *********************************** mark by joys 2018-07-01 21:06 ***
+   // NS :  Method Swizzing API
+   // *********************************************************************
+
+   class_replaceMethod 替换类方法的定义
+   mehod_exchangeImplementations 交换类方法的实现
+   mehod_setImplementation 设置一个方法的实现
+
+   typedef double(^retDoubleWithDoubleBlock)(double);
+
+   retDoubleWithDoubleBlock blockDouble = ^(double x){
+       retain x + x;
+   }
+
+   // 作为参数
+   (void(^)(id obj, NSUInteger idx, BOOL *stop))
+
+   技巧!使用[NSThread currentThread]获得任务所在线程，适用于这三种技术
+   (4) 使线程休眠 0.3 秒:[NSThread sleepForTimeInterval:0.3f];
+
+    在 C 语言函数中，定义类型，绝大多数的结尾是_t 或者 ref
+
+   // 记住:在开发中永远用 DISPATCH_QUEUE_PRIORITY_DEFAULT
+   //
+   @synchronized(self)
+   @autoreleasepool{}
+
+   UIWebView 是 iOS 内置的浏览器控件，可以浏览网页、打开文档等，还能够加载 html/htm、pdf、docx、txt 等格式的文件
+
+   // 更新界面
+   [[NSOperationQueue mainQueue] addOperationWithBlock:
+   ^{
+   self.logonResult.text = str; }];
+   } }];
+   【备注】注意在 URL 中如果包含中文字符或者特殊字符(例如:空格)，需要使用百分号转义以确保 URL 的合 法
+   使用指定编码对字符串进行百分号转义:
+   stringByAddingPercentEscapesUsingEncoding
+   解码百分号转义的字符串:
+   stringByAddingPercentEscapesUsingEncoding
+
+   网络访问常用代码格式:
+   NSURL *url = nil;
+   NSURLRequest *requst = [NSURLRequest requestWithURL:url cachePolicy:0 timeoutInterval:10.0f]; // 新建一条线程,连接到网络,并等待返回数据
+   [NSURLConnection sendAsynchronousRequest:requst queue:
+   [[NSOperationQueue alloc] init] completionHandler:
+   ^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+   // data 就是从网络返回的数据
+   // 对 data 处理
+   // 重新回到主线程工作 dispatch_async(dispatch_get_main_queue(), ^{
+   // 更新 UI });
+   }];
+
+   // 将接收到的二进制数据反序列化为数据字典 NSDictionary *dict =
+   [NSJSONSerialization JSONObjectWithData:data options:nil error:NULL];
+
+   // 如果用户有头像就加载头像 if (user.userImage) {
+   dispatch_async(dispatch_get_main_queue(), ^{ self.imageView.image =
+   [user loadImageWithURL:user.userImage]; });
+   }
+
+   提示:MPMoviePlayerController 并不支持所有的视频格式，如果要播放不支持的视频格式，需要借助第三
+   方框架进行解码，如 VLC
+    https://github.com/videolan/vlc
+
+   73、文件(分段)下载
+   1、HTTP HEAD 方法
+   NSMutableURLRequest
+   timeoutInterval:kTimeout];
+   request.HTTPMethod = @"HEAD";
+   [NSURLConnection sendAsynchronousRequest:request queue:self.myQueue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+   NSLog(@"%@", response); NSLog(@"---------------"); NSLog(@"%@", data);
+   }];
+   运行测试代码可以发现，HEAD 方法只是返回资源信息，而不会返回数据体 应用场景:
+   (1) 获取资源 Mimetype
+   (2) 获取资源文件大小，用于端点续传或多线程下载 2、使用块代码获取网络资源大小的方法
+   - (void)fileSizeWithURL:(NSURL *)url completion:(void (^)(long long contentLength))completion {
+   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:0 timeoutInterval:kTimeout];
+   request.HTTPMethod = @"HEAD";
+   NSURLResponse *response = nil;
+   [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:NULL];
+   completion(response.expectedContentLength); }
+   3、确定每次下载数据包的伪代码实现 - (void)downloadFileWithURL:(NSURL *)url {
+   *request =
+   [NSMutableURLRequest
+   requestWithURL:url
+   cachePolicy:0
+   [self fileSizeWithURL:url completion:^(long long contentLength) { NSLog(@"文件总大小:%lld", contentLength);
+   // 根据大小下载文件
+   while (contentLength > kDownloadBytes) { NSLog(@"每次下载长度:%lld", (long long)kDownloadBytes); contentLength -= kDownloadBytes;
+   }
+   NSLog(@"最后下载字节数:%lld", contentLength); }];
+   }
+   4、HTTP Range 的示例
+    通过设置 Range 可以指定每次从网路下载数据包的大小  Range 示例
+    bytes=0-499
+    bytes=500-999
+    bytes=500-
+    bytes=-500
+    bytes=500-599,800-899 同时指定几个范围
+   从 0 到 499 的头 500 个字节
+   从 500 到 999 的第二个 500 字节 从 500 字节以后的所有字节 最后 500 个字节
+    Range 小结
+    - 用于分隔
+    前面的数字表示起始字节数
+    后面的数组表示截止字节数，没有表示到末尾  用于分组，可以一次指定多个 Range，不过很少用
+   5、分段 Range 代码实现
+   long long fromBytes = 0;
+   long long toBytes = 0;
+   while (contentLength > kDownloadBytes) {
+   toBytes = fromBytes + kDownloadBytes - 1;
+   NSString *range = [NSString stringWithFormat:@"bytes=%lld-%lld", fromBytes, toBytes]; NSLog(@"range %@", range);
+   fromBytes += kDownloadBytes;
+   contentLength -= kDownloadBytes;
+   }
+
+   fromBytes = fromBytes + contentLength - 1;
+   NSString *range = [NSString stringWithFormat:@"bytes=%lld-%lld", fromBytes, toBytes]; NSLog(@"range %@", range);
+   6、分段下载文件
+   /**NSURLRequestUseProtocolCachePolicy = 0 // 默认的缓存策略,内存缓存
+   NSURLRequestReloadIgnoringLocalCacheData = 1// 忽略本地的内存缓存*/
+   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:kTimeout];
+   NSString *range = [NSString stringWithFormat:@"bytes=%lld-%lld", from, end];
+   [request setValue:range forHTTPHeaderField:@"Range"];
+   NSURLResponse *response = nil;
+   NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:NULL];
+   NSLog(@"%@-%@-%ld", range, response, (unsigned long)data.length);
+   提示:
+   如果 GET 包含 Range 请求头，响应会以状态码 206(PartialContent)返回而不是 200(OK) 7、将数据写入文件
+   - (void)appendData:(NSData *)data
+   {
+   // 打开缓存文件
+   NSFileHandle *fp =
+   [NSFileHandle fileHandleForWritingAtPath:self.cachePath];
+   // 如果文件不存在，直接写入数据
+   if (!fp) {
+   [data writeToFile:self.cachePath atomically:YES]; } else {
+   // 移动到文件末尾
+   [fp seekToEndOfFile];
+   // 将数据文件追加到文件末尾 [fp writeData:data];
+   // 关闭文件句柄
+   [fp closeFile];
+   }
+
+   }
+   8、检查文件大小
+   // 判断文件是否存在
+   if ([[NSFileManager defaultManager] fileExistsAtPath:self.cachePath]) {
+   NSDictionary *dict = [[NSFileManager defaultManager] attributesOfItemAtPath:self.cachePath error:NULL];
+   return [dict[NSFileSize] longLongValue]; } else {
+   return 0; }
+   提示:由于数据是追加的，为了避免重复从网络下载文件，在下载之前
+   1. 判断缓存路径中文件是否已经存在
+   2. 如果存在检查文件大小
+   3. 如果文件大小与网络资源大小一致，则不再下载
+   74、URLSession
+   1、概述
+    NSURLSession 是 iOS7 中新的网络接口，与 NSURLConnection 是并列的。  当程序在前台时，NSURLSession 与 NSURLConnection 大部分可以互相替代  NSURLSession 支持后台网络操作，除非用户强行关闭
+    NSURLSession 提供的功能:
+    通过 URL 将数据下载到内存
+    通过 URL 将数据下载到文件系统
+    将数据上传到指定 URL
+    在后台完成上述功能
+    对于小型数据，例如用户登录、下载小图像、JSON & XML 仍然使用 NSURLConnection 的异步或同
+   步方法即可
+
+   判断 UIImageView 当前显示的是否是某张图片
+   myImageView.currentImage == [UIImage imageNamed:”mypic”];
+
+   - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+   // 1.取出水平方向上滚动的距离
+   CGFloat offsetX = scrollView.contentOffset.x;
+   // 2.求出页码
+   double pageDouble = offsetX / scrollView.frame.size.width; int pageInt = (int)(pageDouble + 0.5); self.pageControl.currentPage = pageInt;
+   }
+
+   22、修改 UITableViewCell 距离 UITableView 上下左右边距
+   UITableViewCell 默认是和 UITableView 上下左右边距没有距离的，要想其上下左右都有一段距离，如下
+
+   方法为重写 UITableViewCell 的 setFrame 方法: - (void)setFrame:(CGRect)frame
+   {
+   frame.origin.y += 10; frame.origin.x = 10; frame.size.width -= 2 * 10; frame.size.height -= 10; [super setFrame:frame];
+   }
+   24、去除点击按钮内部文字和图片变深色效果
+   myButton.adjustImageWhenHightlighted = NO;
+   26、替换字符串内指定字符(串)
+   NSString *newString =
+   [oldString stringByReplacingOccurencesofString:@”name” withString:
+   @”newname”];
+   27、插入 view 到指定 view 下方
+   [self.view insertSubview:myView1 belowSubview:myView2];
+   将 myView1 插入到 myView2 下面
+   28、恢复 transform 效果
+   平移:
+   btn.transform = CGAffineTransformMakeTranslation(0, 2);
+   回到平移前位置:
+   btn.transform = CGAffineTransformIdentity;
+
+   方法一(此方法不太可靠):
+   开启程序后台运行:
+   [application beginBackgroundTaskWithExpirationHandler:^{
+   //后台运行过期后会调用此 block 内代码 }];
+   上面在后台开启任务让程序在后台持续保持运行状态，但能保持运行的时间是不确定。比如内存不足的时候 系统可能停止其在后台运行。
+   方法二:
+   欺骗系统，在 Info.plist 中声明自己的应用类型为 audio、在后台播放 mp3。使其能长期在后台运行。d
+
+
+   for k,v in pairs(hs.window.allWindows()) do
+       print(k .. "---" .. tostring(v) )
+   end
+
+
+   //

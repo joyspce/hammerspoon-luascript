@@ -1,0 +1,32 @@
+
+
+
+2018/06/30 修复 cap + shift+ > 在大屏的bug
+
+07/28       修复 加入词条 确认 删除
+
+07/29       加入 /Volumes/WorkDisk/SyncFloder/ 同步 /Volumes/BackUp/MyBackUp/SyncFloder/
+
+07/30       修复 qsa_leftMouseDownAndDragged 移动慢
+
+/
+
+function select_sort(t)
+     for i=1, #t - 1 do
+          local min = i
+          for j=i+1, #t do
+               if t[j] > t[min]  then
+                    min = j
+               end
+          end
+          if min ~= i then
+               t[min], t[i] = t[i], t[min]
+          end
+     end
+end
+tb = {77, 99, 2, 334, 22, 32, 9}
+print("-------------before--------------")
+print(table.concat(tb, " "))
+print("-------------after---------------")
+select_sort(tb)
+print(table.concat(tb, " "))
