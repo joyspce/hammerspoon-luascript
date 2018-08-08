@@ -1,5 +1,4 @@
 
-
 -- author : joys
 -- qq: 501919181
 -- Email: joysnipple@icloud.com
@@ -7,6 +6,8 @@
 QSK_upDateLastDate = "最后更新日期: 2018/08/08"
 
 require "QSConfig"
+
+
 
 
 -- 鼠标左键点下
@@ -45,28 +46,28 @@ operation_config_kyes = {
     "",
     "      *****   命 令 行  *****",
     {'d',  "⇪ + D:", "鼠标左键点下", init_functionWithBack1, qsa_leftMouseDownAndDragged, qsa_leftMouseUp},
-    {'h',  "⇪ + H",  "显示 1.隐藏文件", qsl_fn_keyStroke({'shift', 'cmd'}, '.'), "2.App name", qsw_showCurrentAppName},
+    {'h',  "⇪ + H",  "显示 1.隐藏文件", qs_fn(qsl_keyStroke,{'shift', 'cmd'}, '.'), "2.App name", qsw_showCurrentAppName},
     {'n',  "⇪ + N",  "New 1.Floder", qsaNewFloder, "2.textFile", qsaNewFile, "3.shell", qsa_NewShellTemplate},
     {'p',  "⇪ + P",  "1.复制当前路径", qsaCopyCourrentPath, "2.reloadLua", hs.reload},
     {'g',  "⇪ + G",  "1.v2ex", qsc_v2exRequest, "2.anycomplete", qsc_anycomplete},
-    {'m',  "⇪ + M",  "移动COPY文件", qsl_fn_keyStroke({'cmd', 'alt'}, 'v')},
+    {'m',  "⇪ + M",  "移动COPY文件", qs_fn(qsl_keyStroke,{'cmd', 'alt'}, 'v')},
     {'v',  "⇪ + V",  "CopyTo 1.Xcode", qss_copyToXcode, "2.记事本", qss_copyToNotes},
     {'x',  "⇪ + X",  "CopyTo 1.Atom", qss_copyToAtom, "2.Quiver", qss_copyToQuiver},
     {'t',  "⇪ + T",  "1.倒计时", qst_timer, "2.番茄时间", runtomatoTimeManViewager, "3.大小写", qsa_capslock},
-    {'y',  "⇪ + Y",  "1.有道词典",qsc_youdaoInstantTrans,"2.多张图片 幻灯片模式", qsl_fn_keyStroke({'cmd', 'alt'}, 'y')},
+    {'y',  "⇪ + Y",  "1.有道词典",qsc_youdaoInstantTrans,"2.多张图片 幻灯片模式", qs_fn(qsl_keyStroke,{'cmd', 'alt'}, 'y')},
     "",
     "      *****   编 辑 行  *****",
     -- 重复自动操作键盘  -- time时间 times次数 ...键盘Keys
     {'8',  "⇪ + 8",  "AutoKeys 秒 次数 key1 key2...", qsa_strokeInEditByPasteboard},
 
-    {'j',  "⇪ + J",  "向左 K向右 移动一个单词", qsl_fn_keyStroke({'alt'}, 'Left')},
-    {'k',  "⇪", qsl_fn_keyStroke({'alt'}, 'Right')},
-    {'l',  "⇪ + L",  "向左 R向右 删除一个单词", qsl_fn_keyStroke({'alt'}, 51)},
-    {'r',  "⇪", function() qsl_fn_keyStroke({'alt'},'Right')(); qsl_fn_keyStroke({'alt'}, 51)() end},
-    {51,   "⇪ + ⌫",  "删除一行 或块", qsl_fn_keyStroke({'cmd'}, 51)},
+    {'j',  "⇪ + J",  "向左 K向右 移动一个单词", qs_fn(qsl_keyStroke,{'alt'}, 'Left')},
+    {'k',  "⇪", qs_fn(qsl_keyStroke,{'alt'}, 'Right')},
+    {'l',  "⇪ + L",  "向左 R向右 删除一个单词", qs_fn(qsl_keyStroke,{'alt'}, 51)},
+    {'r',  "⇪", function() qs_fn(qsl_keyStroke,{'alt'},'Right')(); qs_fn(qsl_keyStroke,{'alt'}, 51)() end},
+    {51,   "⇪ + ⌫",  "删除一行 或块", qs_fn(qsl_keyStroke,{'cmd'}, 51)},
     "",
     "      *****  Shift Key   *****",
-    {'f', "⇪ + ⇧ + F", "全屏 or 非全屏", qsl_fn_keyStroke({'cmd,ctrl'},'f') },
+    {'f', "⇪ + ⇧ + F", "全屏 or 非全屏", qs_fn(qsl_keyStroke,{'cmd,ctrl'},'f') },
     {'c', "⇪ + ⇧ + C", "窗口移动到中心", qswMoveWindowToCenter},
     {'/', "⇪ + ⇧ + /", "窗口最小化", qswWindowMinimize},
 
@@ -129,14 +130,14 @@ operation_config_kyes = {
     {'z',  "⌥ + Z", "1.Cycript", qss_cycriptStep1, "2.@import", qss_cycriptStep2, "3.show中文", qss_printChineseWord},
     "",
     "      ***** 文件操作 *****",
-    {'1', "⌥ + 1", "MAC系统1.New", qssh_openFolder("/Volumes/MACNew"), "2.High", qssh_openFolder("/Volumes/MACHigh"),
-                          "3.Mojave", qssh_openFolder("/Volumes/MACMojave")},
+    {'1', "⌥ + 1", "MAC系统1.New", qs_fn(qssh_openFolder, "/Volumes/MACNew"), "2.High", qs_fn(qssh_openFolder, "/Volumes/MACHigh"),
+                          "3.Mojave", qs_fn(qssh_openFolder, "/Volumes/MACMojave")},
 
-    {'2',   "⌥ + 2", "1.WorkDisk",  qssh_openFolder("/Volumes/WorkDisk"), "2.BackUP", qssh_openFolder("/Volumes/BackUP")                             },
-    {'3',   "⌥ + 3", "1.SyncFloder",qssh_openFolder("/Volumes/WorkDisk/SyncFloder/"),
-                     "2.WatchFile", qssh_openFolder("/Volumes/WorkDisk/WatchFile")},
-    {'4',   "⌥ + 4", "1.WorkFiles", qssh_openFolder("/Volumes/WorkDisk/SyncFloder/WorkFiles/"),
-                     "2.Learn",     qssh_openFolder("/Volumes/WorkDisk/SyncFloder/Learn/")},
+    {'2',   "⌥ + 2", "1.WorkDisk",  qs_fn(qssh_openFolder,"/Volumes/WorkDisk"), "2.BackUP", qs_fn(qssh_openFolder,"/Volumes/BackUP")                             },
+    {'3',   "⌥ + 3", "1.SyncFloder",qs_fn(qssh_openFolder,"/Volumes/WorkDisk/SyncFloder/"),
+                     "2.WatchFile", qs_fn(qssh_openFolder,"/Volumes/WorkDisk/WatchFile")},
+    {'4',   "⌥ + 4", "1.WorkFiles", qs_fn(qssh_openFolder,"/Volumes/WorkDisk/SyncFloder/WorkFiles/"),
+                     "2.Learn",     qs_fn(qssh_openFolder,"/Volumes/WorkDisk/SyncFloder/Learn/")},
 
     {'b',  "⌥ + B", "1.百度网盘", 'BaiduNetdisk_mac', "2.BT", 'Transmission'},
     {'y',   "⌥ + Y", "1.FTP", 'Yummy FTP', "2.BetterZip", 'BetterZip', "3.ZipWithPW", qsaZipFileWithPassWord},

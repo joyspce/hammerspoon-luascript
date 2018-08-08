@@ -62,10 +62,10 @@ function qss_showCPU_Info()
 end
 
 function qss_CopyToApp(app, appNames)
-    qsl_delayedFn(0.15, qsl_fn_keyStroke({'cmd'}, 'c'))
+    qsl_delayedFn(0.15, qs_fn(qsl_keyStroke,{'cmd'}, 'c'))
     qsl_delayedFn(0.2, function() hs.application.launchOrFocus(app) end)
     qsl_delayedFn(0.3, function()
-        if qshs_isLaunchOrFocus(app, appNames) then qsl_delayedFn(0.3, qsl_fn_keyStroke({'cmd'}, 'v')) end
+        if qshs_isLaunchOrFocus(app, appNames) then qsl_delayedFn(0.3, qs_fn(qsl_keyStroke,{'cmd'}, 'v')) end
     end)
 end
 -- {"v",  "⇪ + V",  "CopyTo 1.Xcode", qss_copyToXcode, "2.记事本", qss_copyToNotes},

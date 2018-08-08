@@ -144,7 +144,7 @@ function qsw_dubbleCick()
     -- 第二次
     if dubbleCickCount > 1 then
         -- print("第二次"..os.clock() - watcherEventTime)
-        if os.clock() - watcherEventTime < 0.026 then qsl_fn_keyStroke( {'cmd'}, 'c')() end
+        if os.clock() - watcherEventTime < 0.026 then qs_fn(qsl_keyStroke, {'cmd'}, 'c')() end
         dubbleCickCount = 1;
         -- 重新计算时间
         watcherEventTime = os.clock();
@@ -164,7 +164,7 @@ eventLeftMouseUp = hs.eventtap.new( { hs.eventtap.event.types.leftMouseDown,
         --show(watcherEventTiem)
         elseif arg1Type == hs.eventtap.event.types.leftMouseUp then
             if watcherEventIsDown and watcherEventIsDrag then
-              qsl_fn_keyStroke( {'cmd'}, 'c')()
+              qs_fn(qsl_keyStroke, {'cmd'}, 'c')()
             else
               qsw_dubbleCick()
             end

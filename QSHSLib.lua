@@ -41,7 +41,7 @@ function qsl_keyStroke(mods, key)
     hs.eventtap.event.newKeyEvent(mods, key, true):post()
     hs.eventtap.event.newKeyEvent(mods, key, false):post()
 end
-function qsl_fn_keyStroke(mods, key) return function() qsl_keyStroke(mods, key) end end
+
 
 -- //———————————————————————————— mouse action ————————————————————————————
 function qshs_leftMouseDown(point)
@@ -63,13 +63,13 @@ function qshs_isSavePasteboard(str)
     return false
 end
 function qshlPasteAndWriteBackWithString(str)
-    qsl_delayedFn(0.15, qsl_fn_keyStroke({'cmd'}, 'v')) -- 粘贴
+    qsl_delayedFn(0.15, qs_fn(qsl_keyStroke,{'cmd'}, 'v')) -- 粘贴
     qsl_delayedFn(0.20, function() qshs_isSavePasteboard(str) end) -- 写回内存
 end
 -- qshs_savePasteboardFn(function(paste) end)
 function qshs_savePasteboardFn(fn)
     local paste = hs.pasteboard.getContents() or ""
-    qsl_delayedFn(0.1, qsl_fn_keyStroke({'cmd'}, 'x'))
+    qsl_delayedFn(0.1, qs_fn(qsl_keyStroke,{'cmd'}, 'x'))
     qsl_delayedFn(0.2, function()
         local paste2 = hs.pasteboard.getContents() or ""
 
@@ -215,14 +215,12 @@ end
 applescript = hs.osascript.applescript
 
 function qssh_openFolder(str)
-    return function()
-        applescript([[
-        tell application "Finder"
-            activate
-            do shell script "open ]]..str..[["
-        end tell
-       ]])
-    end
+    applescript([[
+    tell application "Finder"
+        activate
+        do shell script "open ]]..str..[["
+    end tell
+   ]])
 end
 
 -- //——————————————————— file ———————————————————

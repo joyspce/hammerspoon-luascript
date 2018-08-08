@@ -5,6 +5,10 @@
 
 -- //  : QSLib
 
+function qs_fn(fn, arg1, arg2,arg3,arg4,arg5)
+    return function() fn(arg1, arg2,arg3,arg4,arg5) end
+end
+
 -- // ———————————————————————————— file operation ————————————————————————————
 function qsl_arrayRead(path)
    local arrayStr,configfile = {},assert(io.open(path,"r"));

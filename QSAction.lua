@@ -25,7 +25,7 @@ end
 
 function qsaNewFloder()
     if qshs_isWindowWithAppNamesFn({"访达","Finder"}, '不能在当前应用新建文件夹') then
-        qsl_delayedFn(0.2, qsl_fn_keyStroke({'cmd', 'shift'}, 'n'))
+        qsl_delayedFn(0.2, qs_fn(qsl_keyStroke,{'cmd', 'shift'}, 'n'))
     end
 end
 function qsaNewFile()

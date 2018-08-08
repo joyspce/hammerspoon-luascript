@@ -111,5 +111,5 @@ function qssClearComment() qsseComment123Count = 1 end
 -- -- "⌥ + 9      打开WorkDisk盘的LuaZip目录"
 -- function qsihOpenLuaZipeFloderAndPastProjetZipFile()
 --     qssh_openFolder("/Volumes/WorkDisk/LuaZip/")();
---     qsl_delayedFn( 1.0, qsl_fn_keyStroke({'cmd'}, 'v'))
+--     qsl_delayedFn( 1.0, qs_fn(qsl_keyStroke,{'cmd'}, 'v'))
 -- end

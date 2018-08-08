@@ -5,7 +5,7 @@
 
 
 
--- {'h',  "⇪ + H",  "显示 1.隐藏文件", qsl_fn_keyStroke({'shift', 'cmd'}, '.'), "2.App name", qsw_showCurrentAppName},
+-- {'h',  "⇪ + H",  "显示 1.隐藏文件", qs_fn(qsl_keyStroke,{'shift', 'cmd'}, '.'), "2.App name", qsw_showCurrentAppName},
 function qsw_showCurrentAppName()
     qshs_getFocusedWindowFn(function(win)
         local app = win:application()
@@ -25,7 +25,7 @@ function qswScreenResizeFullOrMiddle()
         local fw = win:frame();
         -- full screen
         if fw.y < 1 then
-            qsl_fn_keyStroke({'cmd','ctrl'}, 'f')()
+            qs_fn(qsl_keyStroke,{'cmd','ctrl'}, 'f')()
             hs.timer.doAfter(0.03, qswScreenResizeFullOrMiddle)
         elseif not(math.abs(frame.x - fw.x) > 2 or math.abs(frame.y - fw.y) > 2
                 or math.abs(frame.w - fw.w) > 2 or math.abs(frame.h - fw.h) > 2) then
@@ -94,7 +94,7 @@ function _qswMovetoSpecifyWindow(whichOne, win)
         qswShowSpaceBarOnce = false
         qsl_keyStroke({'ctrl'}, 'Up')
     end
-    qsl_delayedFn(0.3, qsl_fn_keyStroke({'ctrl'}, tostring(whichOne)))
+    qsl_delayedFn(0.3, qs_fn(qsl_keyStroke,{'ctrl'}, tostring(whichOne)))
     -- qsl_delayedFn(0.7, win:focus())
     qsl_delayedFn(0.7, function() qswMoveScerrnToNextWindow() end)
 end
@@ -117,7 +117,7 @@ function _moveToWhichWindow(whichOne)
         end
         -- 全屏下
         if (frame.y < 1) then
-            qsl_fn_keyStroke({'cmd','ctrl'}, 'f')()
+            qs_fn(qsl_keyStroke,{'cmd','ctrl'}, 'f')()
             hs.timer.doAfter(0.6, function() _moveToWhichWindow(whichOne) end)
             return
         end
