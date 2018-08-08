@@ -118,15 +118,18 @@ function QSWatch()
     return mine
 end
 --
--- qsw_watch = QSWatch()
+qsw_watch = QSWatch()
 -- qsw_watch.watchPath  = hs.configdir -- /Users/joyspace/.hammerspoon
 -- qsw_watch.targetPath = "/Volumes/MACHigh/Users/qinshaobo/.hammerspoon"
---
--- g_watch_SyncFloder_file = hs.pathwatcher.new(qsw_watch.watchPath,
---     function(paths, flagTables)
---         qsw_watch.pathwatcher_fn(paths, flagTables, nil)
---     end
--- ):start()
+qsw_watch.watchPath  = "/Volumes/WorkDisk/SyncFloder/MyCode/LUA/hammerSpoon/"
+qsw_watch.targetPath = hs.configdir.."/"
+
+
+g_watch_SyncFloder_file = hs.pathwatcher.new(qsw_watch.watchPath,
+    function(paths, flagTables)
+        qsw_watch.pathwatcher_fn(paths, flagTables, nil)
+    end
+):start()
 
 ---- for copy 双击 拖动鼠标 监测
 local watcherEventTime, dubbleCickCount = 0, 0;
@@ -196,8 +199,14 @@ appWatcher = hs.application.watcher.new(function(appName, eventType, appObject)
 end)
 appWatcher:start()
 
-
-mail_pass = 'put_your_password' -- 输入你的密码
+mail_pass = '' -- 输入你的 Email 密码
+if #mail_pass < 1 then
+    local path = "/Volumes/WorkDisk/Temp/password.txt"
+    if doesFileExist(path) then
+        local array = qsl_arrayRead(path)
+        mail_pass = array[1]
+    end
+end
 --  ——————————————————— 手动分割线 监测 WIFI打开后 Email to joysnipple@icloud.com  ———————————————————
 function qsw_sentMail(mailItems, isShow)
     local python = [[#!/usr/bin/python
@@ -210,7 +219,7 @@ mail_host = 'smtp.qq.com'
 mail_user = '501919181'
 
 ]]
-..mail_pass.."\n"
+.."mail_pass = "..mail_pass.."\n"
 ..mailItems..
 [[
 

@@ -225,6 +225,37 @@ function qssh_openFolder(str)
     end
 end
 
+-- //——————————————————— file ———————————————————
+function doesDirectoryExist(path)
+    if path then
+        local attr = hs.fs.attributes(path)
+        return attr and attr.mode == 'directory'
+    else
+        return false
+    end
+end
+function doesFileExist(path)
+    if path == nil then return nil end
+    local attr = hs.fs.attributes(path)
+    if type(attr) == "table" then
+        return true
+    else
+        return false
+    end
+end
+
+function printWindowsInScreen()
+  hs.fnutils.each(hs.window.allWindows(), function(win)
+    print(inspect({
+      title   = win:title(),
+      app     = win:application():name(),
+      role    = win:role(),
+      subrole = win:subrole()
+    }))
+  end)
+end
+
+
 
 
 --

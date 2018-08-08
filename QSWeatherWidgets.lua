@@ -52,7 +52,7 @@ if not qsww_weather_obj then
     obj.canvas[6] = {
         type = "text",
         text = "time left",
-        textColor = {hex="#A6AAC3"},
+        textColor = wordsColor,
         textSize = 18,
         frame = { x = 225, y = heightY+10, w = width, h = height }
     }

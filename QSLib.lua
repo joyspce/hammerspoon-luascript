@@ -219,7 +219,9 @@ function qslSSHDownFromServer(port, host, localFullFile, serverFullFilePath)
     os.execute(shell)
 end
 
+function isNumber(value) return type(value) == "number" end
 
+function isTable(value) return type(value) == "table" end
 
 
 
