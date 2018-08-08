@@ -7,7 +7,7 @@ Installation:
 * Put `karabiner/karabiner.json` in `~/.config/karabiner/karabiner.json`
 
 use
-press right (alt \) to show hotkeys guide
+press right (alt \\) to show hotkeys guide
 
 what you see is what you get, that is not good
 you should what you think is what you get, so use the hotkeys is better
