@@ -4,7 +4,7 @@
 -- qq: 501919181
 -- Email: joysnipple@icloud.com
 
-QSK_upDateLastDate = "最后更新日期: 2018/07/30"
+QSK_upDateLastDate = "最后更新日期: 2018/08/08"
 
 require "QSConfig"
 
@@ -162,7 +162,7 @@ print('joys config reloaded successful update :', QSK_upDateLastDate)
 
 
 
--- 
+--
 -- function drawBoxes()
 -- 	print("Drawing red and blue boxes.")
 -- 	redFrame = hs.geometry.rect({x=100, y=100, h=100, w=200})
