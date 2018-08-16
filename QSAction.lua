@@ -20,6 +20,7 @@ function qsaCopyCourrentPath()
                set the clipboard to currentPath
            end tell
         ]])
+        show("copy path")
     end)
 end
 
@@ -186,17 +187,20 @@ end
 --- "⌥ + D:   鼠标左键点下"
 _qsaIsLeftMouseUp = false;
 function _qsaDragged()
-    if _qsaIsLeftMouseUp then
-        qsl_delayedFn(0.005, function()
+    if _qsaIsLeftMouseUp and hyperyKeyIsStrock then
+        qsl_delayedFn(0.01, function()
             qshs_leftMouseDragged(hs.mouse.getAbsolutePosition())
             _qsaDragged()
         end)
+    else
+        _qsaIsLeftMouseUp = false
     end
 end
+
 function qsa_leftMouseUp()
     print("qsa_LeftMouseUp")
     local point = hs.mouse.getAbsolutePosition()
-    if point then qsl_delayedFn(0.02, function() qshs_leftMouseUp(point) end) end
+    qshs_leftMouseUp(point)
     _qsaIsLeftMouseUp = false
 end
 function qsa_leftMouseDownAndDragged()

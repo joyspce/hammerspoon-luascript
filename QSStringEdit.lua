@@ -16,11 +16,29 @@ function qssePasteEditStringToNSString()
 end
 -- "2.去重复", qssePasteStringRemoveSameString,
 function qssePasteStringRemoveSameString()
+    function isNotInArray(array, var)
+        for i,v in ipairs(array) do
+            if v == var then return false end
+        end
+        return true
+    end
     qshs_savePasteboardFn(function(paste)
-        local tempPaste = string.gsub(paste, "  ", " ");
-        local array = removeSameStringInArray(arrayWithStringAndSplit(tempPaste,"\n"))
+        local array = qsl_arrayWithStringAndSplit(paste,"\n")
+        local haveInArray = {}
         local text = ""
-        for i,v in ipairs(array) do text = text..v.."\n" end
+        for i,var in ipairs(array) do
+            if #var == 0 then
+                text = text.."\n"
+            elseif qsl_isPreFix(var, "//") or qsl_isPreFix(var, "--") or
+                   qsl_isPreFix(var, "#") or  qsl_isPreFix(var, '"') then
+                text = text..var.."\n"
+            else
+                if isNotInArray(haveInArray, var) then
+                    haveInArray[#haveInArray+1] = var
+                    text = text..var.."\n"
+                end
+            end
+        end
         return text
     end)
 end

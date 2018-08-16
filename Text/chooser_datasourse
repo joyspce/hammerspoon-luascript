@@ -1,4 +1,4 @@
-9.0|comment split line 2|//———————————————————————————— split line ————————————————————————————
+10.0|comment split line 2|//———————————————————————————— split line ————————————————————————————
 7.0|comment split line|//——————————————————— 手动分割线 ———————————————————
 7.0|try catch finally|@try {___    <#Code that can potentially throw an exception#>___}___@catch (NSException *exception) {___    <#Handle an exception thrown in the @try block#>___}___@finally {___    <#Code that gets executed whether or not an exception is thrown#>___}
 3.0|f UIPickerViewDelegate |#pragma mark - UIPickerViewDelegate______- (NSString *)pickerView:(UIPickerView *)pickerView___             titleForRow:(NSInteger)row___            forComponent:(NSInteger)component___{___  <#code#>___}______- (void)pickerView:(UIPickerView *)pickerView___      didSelectRow:(NSInteger)row___       inComponent:(NSInteger)component___{___  <#code#>___}______#pragma mark - UIPickerDataSource______- (NSInteger)pickerView:(UIPickerView *)pickerView___numberOfRowsInComponent:(NSInteger)component___{___    return <#number#>___}______- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {___    return <#number#>___}
@@ -9,79 +9,80 @@
 1.0|ife |if (/* condition */) {___    /* code */___} else if (/* condition */) {___    /* code */___}
 1.0|ndcoding|___#pragma mark - NSCoding______- (instancetype)initWithCoder:(NSCoder *)decoder {___    self = [super init];___    if (!self) {___      return nil;___    }______    <# implementation #>______    return self;___}______- (void)encodeWithCoder:(NSCoder *)coder {___  <# implementation #>___}___
 1|b inline_block_as_variable|<#returnType#>(^<#blockName#>)(<#parameterTypes#>) = ^(<#parameters#>) {___    <#statements#>___};
-0|@ UIImage  |@property (nonatomic strong) UIImage      *img_;
 0|m ! |//!!!: 好
-0|k NS_OPTIONS|typedef NS_OPTIONS(type OPTIONS_name){}
-0|@ double |@property (nonatomic assign) double       d_;
-0|@ UIButton|@property (nonatomic strong) UIButton     *btn_;
-0|@ UITableView|@property (nonatomic strong) UITableView  *tableView;
 0|# private methods|#pragma mark - Private Methods
-0|x objective-c_class_declaration|@interface <#class name#> : <#superclass#>______@end
 0|# UITableViewDelegate |#pragma mark - <UITableViewDelegate>
-0|@ UILable  |@property (nonatomic strong) UILable      *lbl_;
-0|for statement | for (int i = 1; <#condition#> > i; i++) {___    <#statements#>___}
-0|@ NSString |@property (nonatomic copy  ) NSString     *str_;
-0|m init |- (instancetype)init___{___    self = [super init];___    if (self) {___        <#statements#>___    }___    return self;___}
-0|if |if (<#condition#>) {___    <#statements#>___}
-0|@ UIImageView|@property (nonatomic strong) UIImageView  *imgV_;
-0|# Life Cycle|#pragma mark - Life Cycle
+0|@ UIImage  |@property (nonatomic strong) UIImage      *img_;
+0|k NS_OPTIONS|typedef NS_OPTIONS(type OPTIONS_name){}
+0|x objective-c_class_declaration|@interface <#class name#> : <#superclass#>______@end
+0|@ UIButton|@property (nonatomic strong) UIButton     *btn_;
 0|@ UITextField|@property (nonatomic strong) UITextField  *tfd_;
-0|# custom delegates |#pragma mark - Custom Delegates
-0|# add |#warning 添加警告
-0|f UICollectionViewDataSource|___#pragma mark - UICollectionViewDataSource___- (NSInteger)collectionView:(UICollectionView *)collectionView___     numberOfItemsInSection:(NSInteger)section___{___    return <#numberOfItemsInSection#>;___}______- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView___                  cellForItemAtIndexPath:(NSIndexPath *)indexPath___{___    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:<#reuseIdentifier#> forIndexPath:indexPath];______    [self configureCell:cell forItemAtIndexPath:indexPath];______    return cell;___}______- (void)configureCell:(UICollectionViewCell *)cell___   forItemAtIndexPath:(NSIndexPath *)indexPath___{___    <# statements #>___}___
-0|function|int name(/* arguments */) {___    /* code */___    return 0;___}
-0|s static|// File specific constants___static const double name = value;___static NSString * const name = value;
-0|c c_typedef|typedef <#existing#> <#new#>;
-0|@ block| @property (nonatomic copy) void(^successBlock)(NSData *data);
-0|@ NSData |@property (nonatomic copy  ) NSData       *data_;
-0|g once|static dispatch_once_t onceToken;___dispatch_once(&onceToken, ^{___    <#code to be executed once#>___});
-0|# xxx |#pragma mark -
-0|after|dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(<#delayInSeconds#> * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{___    <#code to be executed after a specified delay#>___});
-0|extern | //External constants___// .h___extern const double name;___// .m___const double name = value;___// .h___extern NSString * const name;___// .m___NSString * const name = value;
-0|enum |typedef NS_ENUM(NSInteger, RWTLeftMenuTopItemType) {___  RWTLeftMenuTopItemMain,___  RWTLeftMenuTopItemShows,___  RWTLeftMenuTopItemSchedule___}; 
-0|@ @autoreleasepool |@autoreleasepool { ___    // code that creates temporary objects___}
-0|c class create|Class header (MyClassName.h)___#import "AnyHeaderFile.h"______@interface MyClassName : SuperClassName___    // define public properties___    // define public methods___@end___Class implementation (MyClassName.m)___#import "MyClassName.h"______@interface MyClassName ()___    // define private properties___    // define private methods___@end______@implementation MyClassName {___    // define private instance variables___}______// implement methods______@end
-0|x objective-c_protocol_definition|@protocol <#protocol name#> <NSObject>______<#methods#>______@end
-0|# UITextFieldDelegate |#pragma mark - <UITextFieldDelegate>
-0|header |// Frameworks___@import QuartzCore;______// Models___#import "NYTUser.h"______// Views___#import "NYTButton.h"___#import "NYTUserView.h"
+0|@ UILable  |@property (nonatomic strong) UILable      *lbl_;
+0|if |if (<#condition#>) {___    <#statements#>___}
+0|@ NSString |@property (nonatomic copy  ) NSString     *str_;
 0|@ float |@property (nonatomic assign) float        f_;
+0|# Life Cycle|#pragma mark - Life Cycle
+0|for statement | for (int i = 1; <#condition#> > i; i++) {___    <#statements#>___}
+0|m init |- (instancetype)init___{___    self = [super init];___    if (self) {___        <#statements#>___    }___    return self;___}
+0|@ double |@property (nonatomic assign) double       d_;
+0|@ UIImageView|@property (nonatomic strong) UIImageView  *imgV_;
+0|@ UITableView|@property (nonatomic strong) UITableView  *tableView;
+0|enum |typedef NS_ENUM(NSInteger, RWTLeftMenuTopItemType) {___  RWTLeftMenuTopItemMain,___  RWTLeftMenuTopItemShows,___  RWTLeftMenuTopItemSchedule___}; 
+0|# custom delegates |#pragma mark - Custom Delegates
+0|s static|// File specific constants___static const double name = value;___static NSString * const name = value;
+0|g once|static dispatch_once_t onceToken;___dispatch_once(&onceToken, ^{___    <#code to be executed once#>___});
+0|after|dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(<#delayInSeconds#> * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{___    <#code to be executed after a specified delay#>___});
+0|function|int name(/* arguments */) {___    /* code */___    return 0;___}
+0|c c_typedef|typedef <#existing#> <#new#>;
+0|# xxx |#pragma mark -
+0|@ NSData |@property (nonatomic copy  ) NSData       *data_;
 0|@ NSDictionary |@property (nonatomic copy  ) NSDictionary *dic_;
+0|# add |#warning 添加警告
+0|pragma | #pragma mark Properties______@dynamic someProperty;______- (void)setCustomProperty:(id)value {}______#pragma mark Lifecycle______+ (instancetype)objectWithThing:(id)thing {}___- (instancetype)init {}______#pragma mark Drawing______- (void)drawRect:(CGRect) {}______#pragma mark Another functional grouping______#pragma mark GHSuperclass______- (void)someOverriddenMethod {}______#pragma mark NSCopying______- (id)copyWithZone:(NSZone *)zone {}______#pragma mark NSObject______- (NSString *)description {} 
+0|@ @autoreleasepool |@autoreleasepool { ___    // code that creates temporary objects___}
+0|f UICollectionViewDataSource|___#pragma mark - UICollectionViewDataSource___- (NSInteger)collectionView:(UICollectionView *)collectionView___     numberOfItemsInSection:(NSInteger)section___{___    return <#numberOfItemsInSection#>;___}______- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView___                  cellForItemAtIndexPath:(NSIndexPath *)indexPath___{___    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:<#reuseIdentifier#> forIndexPath:indexPath];______    [self configureCell:cell forItemAtIndexPath:indexPath];______    return cell;___}______- (void)configureCell:(UICollectionViewCell *)cell___   forItemAtIndexPath:(NSIndexPath *)indexPath___{___    <# statements #>___}___
+0|header |// Frameworks___@import QuartzCore;______// Models___#import "NYTUser.h"______// Views___#import "NYTButton.h"___#import "NYTUserView.h"
+0|x objective-c_protocol_definition|@protocol <#protocol name#> <NSObject>______<#methods#>______@end
+0|c class create|Class header (MyClassName.h)___#import "AnyHeaderFile.h"______@interface MyClassName : SuperClassName___    // define public properties___    // define public methods___@end___Class implementation (MyClassName.m)___#import "MyClassName.h"______@interface MyClassName ()___    // define private properties___    // define private methods___@end______@implementation MyClassName {___    // define private instance variables___}______// implement methods______@end
+0|extern | //External constants___// .h___extern const double name;___// .m___const double name = value;___// .h___extern NSString * const name;___// .m___NSString * const name = value;
+0|# UITextFieldDelegate |#pragma mark - <UITextFieldDelegate>
 0|m fixme|// FIXME: 修改
-0|@ BOOL |@property (nonatomic assign) BOOL         is_;
+0|k key|static NSString *const KQC__key = @"KQC__key";
+0|# events action|#pragma mark - Events Action
 0|@ UIView   |@property (nonatomic strong) UIView       *view_;
 0|strongself|__strong __typeof(<#weakSelf#>)strongSelf = <#weakSelf#>;
-0|f life cycle|#pragma mark - UIViewController______- (void)viewDidLoad {___    [super viewDidLoad];___}______- (void)viewWillAppear:(BOOL)animated {___    [super viewWillAppear:animated];___}______- (void)viewDidAppear:(BOOL)animated {___    [super viewDidAppear:animated];___}______- (void)viewWillDisappear:(BOOL)animated {___    [super viewWillDisappear:animated];___}______- (void)viewDidDisappear:(BOOL)animated {___    [super viewDidDisappear:animated];___}______- (void)didReceiveMemoryWarning {___    [super didReceiveMemoryWarning];___}
-0|g async|dispatch_async(dispatch_get_global_queue(<#dispatch_queue_priority_t priority#>, <#unsigned long flags#>), ^(void) {___    <#code#>______    dispatch_async(dispatch_get_main_queue(), ^(void) {___        <#code#>___    });___});
-0|k NS_ENUM|typedef NS_ENUM(type ENUM_name){}
-0|@ NSNumber| @property (nonatomic strong) NSNumber     *num_;
 0|b block|void(^)(NSData *data)
 0|x objective-c_class_extension|@interface <#class name#> ()______@end
-0|f UITableViewDataSource|#pragma mark - UITableViewDataSource______- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {___    return <#number#>;___}______- (NSInteger)tableView:(UITableView *)tableView___ numberOfRowsInSection:(NSInteger)section___{___    return <#number#>;___}______- (UITableViewCell *)tableView:(UITableView *)tableView___         cellForRowAtIndexPath:(NSIndexPath *)indexPath___{___    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#reuseIdentifier#> forIndexPath:<#indexPath#>];______    [self configureCell:cell forRowAtIndexPath:indexPath];______    return cell;___}______- (void)configureCell:(UITableViewCell *)cell___    forRowAtIndexPath:(NSIndexPath *)indexPath___{___    <#statements#>___}______#pragma mark - UITableViewDelegate______- (void)tableView:(UITableView *)tableView___didSelectRowAtIndexPath:(NSIndexPath *)indexPath___{___    <#statements#>___}
-0|@ int |@property (nonatomic assign) int          i_;
+0|k NS_ENUM|typedef NS_ENUM(type ENUM_name){}
+0|f life cycle|#pragma mark - UIViewController______- (void)viewDidLoad {___    [super viewDidLoad];___}______- (void)viewWillAppear:(BOOL)animated {___    [super viewWillAppear:animated];___}______- (void)viewDidAppear:(BOOL)animated {___    [super viewDidAppear:animated];___}______- (void)viewWillDisappear:(BOOL)animated {___    [super viewWillDisappear:animated];___}______- (void)viewDidDisappear:(BOOL)animated {___    [super viewDidDisappear:animated];___}______- (void)didReceiveMemoryWarning {___    [super didReceiveMemoryWarning];___}
+0|k Notification|static NSString *const KQC__Notification = @"KQC__Notification";
+0|@ NSNumber| @property (nonatomic strong) NSNumber     *num_;
+0|g async|dispatch_async(dispatch_get_global_queue(<#dispatch_queue_priority_t priority#>, <#unsigned long flags#>), ^(void) {___    <#code#>______    dispatch_async(dispatch_get_main_queue(), ^(void) {___        <#code#>___    });___});
+0|@ UIViewController|@property (nonatomic strong) UIViewController *vc_;
 0|# Getters and Setters|#pragma mark - Getters and Setters
 0|f test|- (void)test<#Name#> {___    <#statements#>___}
+0|f UITableViewDataSource|#pragma mark - UITableViewDataSource______- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {___    return <#number#>;___}______- (NSInteger)tableView:(UITableView *)tableView___ numberOfRowsInSection:(NSInteger)section___{___    return <#number#>;___}______- (UITableViewCell *)tableView:(UITableView *)tableView___         cellForRowAtIndexPath:(NSIndexPath *)indexPath___{___    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#reuseIdentifier#> forIndexPath:<#indexPath#>];______    [self configureCell:cell forRowAtIndexPath:indexPath];______    return cell;___}______- (void)configureCell:(UITableViewCell *)cell___    forRowAtIndexPath:(NSIndexPath *)indexPath___{___    <#statements#>___}______#pragma mark - UITableViewDelegate______- (void)tableView:(UITableView *)tableView___didSelectRowAtIndexPath:(NSIndexPath *)indexPath___{___    <#statements#>___}
+0|@ int |@property (nonatomic assign) int          i_;
+0|f compare|- (NSComparisonResult)compare:(id)other___{___    return <#comparison expression#>;___}
 0|m todo|// TODO: 在这干活
 0|f Method Swizzling|#import <objc/runtime.h>______@implementation UIViewController (Tracking)______+ (void)load {___    static dispatch_once_t onceToken;___    dispatch_once(&onceToken, ^{___        Class class = [self class];______        SEL originalSelector = @selector(viewWillAppear:);___        SEL swizzledSelector = @selector(xxx_viewWillAppear:);______        Method originalMethod = class_getInstanceMethod(class, originalSelector);___        Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);______        // When swizzling a class method, use the following:___        // Class class = object_getClass((id)self);___        // ...___        // Method originalMethod = class_getClassMethod(class, originalSelector);___        // Method swizzledMethod = class_getClassMethod(class, swizzledSelector);______        BOOL didAddMethod =___            class_addMethod(class,___                originalSelector,___                method_getImplementation(swizzledMethod),___                method_getTypeEncoding(swizzledMethod));______        if (didAddMethod) {___            class_replaceMethod(class,___                swizzledSelector,___                method_getImplementation(originalMethod),___                method_getTypeEncoding(originalMethod));___        } else {___            method_exchangeImplementations(originalMethod, swizzledMethod);___        }___    });___}______#pragma mark - Method Swizzling______- (void)xxx_viewWillAppear:(BOOL)animated {___    [self xxx_viewWillAppear:animated];___    NSLog(@"viewWillAppear: %@", self);___}______@end
-0|f compare|- (NSComparisonResult)compare:(id)other___{___    return <#comparison expression#>;___}
-0|@ UIViewController|@property (nonatomic strong) UIViewController *vc_;
-0|k Notification|static NSString *const KQC__Notification = @"KQC__Notification";
-0|t try |@try { ___    // code that might throw an exception___    NSException *exception = [NSException exceptionWithName:@"ExampleException" reason:@"In your face!" userInfo:nil];___    @throw exception;___}___@catch (CustomException *ce) {___    // CustomException-specific handling ...___}___@catch (NSException *ne) {___    // generic NSException handling ... ___    // re-throw the caught exception in a catch block:___    @throw;___} @finally {___    // runs whether an exception occurred or not___}
-0|b block_typedef|typedef <#returnType#>(^<#name#>)(<#arguments#>);
-0|weakself|__weak typeof(self)weakSelf = self;
-0|c for |for (<#initialization#>; <#condition#>; <#increment#>) {___    <#statements#>___}
-0|@ NSDate |@property (nonatomic copy  ) NSDate       *date_;
-0|x objective-c_class_implementation|@implementation <#class#>______<#methods#>______@end
-0|# events action|#pragma mark - Events Action
-0|# UITableViewDataSource|#pragma mark - <UITableViewDataSource>
 0|@ UISwitch |@property (nonatomic strong) UISwitch     *sw_;
+0|t try |@try { ___    // code that might throw an exception___    NSException *exception = [NSException exceptionWithName:@"ExampleException" reason:@"In your face!" userInfo:nil];___    @throw exception;___}___@catch (CustomException *ce) {___    // CustomException-specific handling ...___}___@catch (NSException *ne) {___    // generic NSException handling ... ___    // re-throw the caught exception in a catch block:___    @throw;___} @finally {___    // runs whether an exception occurred or not___}
+0|weakself|__weak typeof(self)weakSelf = self;
+0|@ NSDate |@property (nonatomic copy  ) NSDate       *date_;
 0|f initwithframe|- (instancetype)initWithFrame:(NSRect)frame___{___    self = [super initWithFrame:frame];___    if (self) {___        <#statements#>___    }___    return self;___}
-0|k key|static NSString *const KQC__key = @"KQC__key";
 0|b block syntax|//Block Syntax___//Block as a local variable___returnType (^blockName)(parameterTypes) = ^returnType(parameters) {...};___//Block as a property___@property (nonatomic, copy) returnType (^blockName)(parameterTypes);___//Block as a method parameter___- (void)someMethodThatTakesABlock:(returnType (^)(parameterTypes))blockName;___//Block as an argument to a method call___[someObject someMethodThatTakesABlock: ^returnType (parameters) {...}];___//Block as typedef___typedef returnType (^TypeName)(parameterTypes);___TypeName blockName = ^returnType(parameters) {...};
-0|while |while (/* condition */) {___    /* code */___}
+0|c for |for (<#initialization#>; <#condition#>; <#increment#>) {___    <#statements#>___}
+0|@ BOOL |@property (nonatomic assign) BOOL         is_;
+0|@ block| @property (nonatomic copy) void(^successBlock)(NSData *data);
+0|# UITableViewDataSource|#pragma mark - <UITableViewDataSource>
+0|x objective-c_class_implementation|@implementation <#class#>______<#methods#>______@end
+0|b block_typedef|typedef <#returnType#>(^<#name#>)(<#arguments#>);
+0|@ NSArray |@property (nonatomic copy  ) NSArray      *arr_;
 0|cgrect |CGRect frame = self.view.frame;______CGFloat x = CGRectGetMinX(frame);___CGFloat y = CGRectGetMinY(frame);___CGFloat width = CGRectGetWidth(frame);___CGFloat height = CGRectGetHeight(frame);
 0|cc category |@interface <#class name#> (<#category name#>)______@end______@implementation <#class#> (<#category name#>)______<#methods#>______@end
-0| animate|// blocks are easily readable___[UIView animateWithDuration:1.0 animations:^{___  // something___} completion:^(BOOL finished) {___  // something___}];
-0|@ NSArray |@property (nonatomic copy  ) NSArray      *arr_;
-0| peagma|#pragma mark - Lifecycle______- (instancetype)init {}___- (void)dealloc {}___- (void)viewDidLoad {}___- (void)viewWillAppear:(BOOL)animated {}___- (void)didReceiveMemoryWarning {}______#pragma mark - Custom Accessors______- (void)setCustomProperty:(id)value {}___- (id)customProperty {}______#pragma mark - IBActions______- (IBAction)submitData:(id)sender {}______#pragma mark - Public______- (void)publicMethod {}______#pragma mark - Private______- (void)privateMethod {}______#pragma mark - Protocol conformance___#pragma mark - UITextFieldDelegate___#pragma mark - UITableViewDataSource___#pragma mark - UITableViewDelegate______#pragma mark - NSCopying______- (id)copyWithZone:(NSZone *)zone {}______#pragma mark - NSObject______- (NSString *)description {}
 0|error |NSError *error;___if (![self trySomethingWithError:&error]) {___    // Handle Error___}
-0|pragma | #pragma mark Properties______@dynamic someProperty;______- (void)setCustomProperty:(id)value {}______#pragma mark Lifecycle______+ (instancetype)objectWithThing:(id)thing {}___- (instancetype)init {}______#pragma mark Drawing______- (void)drawRect:(CGRect) {}______#pragma mark Another functional grouping______#pragma mark GHSuperclass______- (void)someOverriddenMethod {}______#pragma mark NSCopying______- (id)copyWithZone:(NSZone *)zone {}______#pragma mark NSObject______- (NSString *)description {} 
+0|while |while (/* condition */) {___    /* code */___}
+0| peagma|#pragma mark - Lifecycle______- (instancetype)init {}___- (void)dealloc {}___- (void)viewDidLoad {}___- (void)viewWillAppear:(BOOL)animated {}___- (void)didReceiveMemoryWarning {}______#pragma mark - Custom Accessors______- (void)setCustomProperty:(id)value {}___- (id)customProperty {}______#pragma mark - IBActions______- (IBAction)submitData:(id)sender {}______#pragma mark - Public______- (void)publicMethod {}______#pragma mark - Private______- (void)privateMethod {}______#pragma mark - Protocol conformance___#pragma mark - UITextFieldDelegate___#pragma mark - UITableViewDataSource___#pragma mark - UITableViewDelegate______#pragma mark - NSCopying______- (id)copyWithZone:(NSZone *)zone {}______#pragma mark - NSObject______- (NSString *)description {}
+0| animate|// blocks are easily readable___[UIView animateWithDuration:1.0 animations:^{___  // something___} completion:^(BOOL finished) {___  // something___}];
+0| | 

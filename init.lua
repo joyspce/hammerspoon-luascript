@@ -7,9 +7,6 @@ QSK_upDateLastDate = "最后更新日期: 2018/08/08"
 
 require "QSConfig"
 
-
-
-
 -- 鼠标左键点下
 init_functionWithBack1 = 1
 operation_config_kyes = {
@@ -33,20 +30,20 @@ operation_config_kyes = {
     ---- positiont Move
     {0x24,    "⇪ + ↩:", "Next moniter full size", qswMoveScerrnToNextWindow},
     {0x31,    "⇪ + □",  "窗口最大化or合适大小", qswScreenResizeFullOrMiddle},
-    {"a",     "⇪ + A",  "提示 1.当前APP", hs.hints.windowHints, "2.MousePoint", qsw_mouseHighlight},
+    {"a",     "⇪ + A",  "提示 1.当前APP", hs.hints.windowHints, "2.App name", qsw_showCurrentAppName},
     {'q',     "⇪ + Q",  "显示空间栏", qswShowSpaceBar},
     {'1',     "⇪ + 1-4","移动当前APP到桌面 1-4", moveToWhichWindow(1)},
     {'2',     "⇪", moveToWhichWindow(2)},
     {'3',     "⇪", moveToWhichWindow(3)},
     {'4',     "⇪", moveToWhichWindow(4)},
-    {'Up',    "⇪ + ↑",	 "窗口上 ↓窗口下", qswMoveWindowUp},
-    {'Down',  "⇪", qswMoveWindowDown},
-    {'Left',  "⇪ + ←",  "窗口左 → 窗口右", qswMoveWindowToLeft},
-    {'Right', "⇪", qswMoveWindowToRight},
+    {'r',  "⇪ + R",  "Fouse Next Screen", qsw_fouseNextScreen},
+    {0x1b, "⇪ + -", "窗口 缩小- 放大+", qswResizeScreen(10)},
+    {0x18, "⇪", qswResizeScreen(11)},
+
     "",
     "      *****   命 令 行  *****",
     {'d',  "⇪ + D:", "鼠标左键点下", init_functionWithBack1, qsa_leftMouseDownAndDragged, qsa_leftMouseUp},
-    {'h',  "⇪ + H",  "显示 1.隐藏文件", qs_fn(qsl_keyStroke,{'shift', 'cmd'}, '.'), "2.App name", qsw_showCurrentAppName},
+    {'.',  "⇪ + .",  "显示 1.隐藏文件", qs_fn(qsl_keyStroke,{'shift', 'cmd'}, '.'),  "2.MousePoint", qsw_mouseHighlight},
     {'n',  "⇪ + N",  "New 1.Floder", qsaNewFloder, "2.textFile", qsaNewFile, "3.shell", qsa_NewShellTemplate},
     {'p',  "⇪ + P",  "1.复制当前路径", qsaCopyCourrentPath, "2.reloadLua", hs.reload},
     {'g',  "⇪ + G",  "1.v2ex", qsc_v2exRequest, "2.anycomplete", qsc_anycomplete},
@@ -56,31 +53,39 @@ operation_config_kyes = {
     {'t',  "⇪ + T",  "1.倒计时", qst_timer, "2.番茄时间", runtomatoTimeManViewager, "3.大小写", qsa_capslock},
     {'y',  "⇪ + Y",  "1.有道词典",qsc_youdaoInstantTrans,"2.多张图片 幻灯片模式", qs_fn(qsl_keyStroke,{'cmd', 'alt'}, 'y')},
     "",
-    "      *****   编 辑 行  *****",
+    "      *****  keyborad  *****",
+    {'h',  "⇪ + H",  "键盘 H左← J下↓ K上↑ K右→ ", init_functionWithBack1,
+                                        qs_fn(qsk_strokeDown, 'Left'),  qsk_strokeUp},
+    {'j',  "⇪", init_functionWithBack1, qs_fn(qsk_strokeDown, 'Down'),  qsk_strokeUp},
+    {'k',  "⇪", init_functionWithBack1, qs_fn(qsk_strokeDown, 'Up'),    qsk_strokeUp},
+    {'l',  "⇪", init_functionWithBack1, qs_fn(qsk_strokeDown, 'Right'), qsk_strokeUp},
+
+    {'o',  "⇪ + O",  "tmux 1.o next", qsk_tmux_o_next, "2.n next", qsk_tmux_n_next,
+                          "3.create window", qsk_tmux_n_createWindow },
+    {'0',  "⇪ + 0",  "tmux 1.vertical", qsk_tmux_split_vertical, "2.horizontal", qsk_tmux_split_horizontally },
+
     -- 重复自动操作键盘  -- time时间 times次数 ...键盘Keys
     {'8',  "⇪ + 8",  "AutoKeys 秒 次数 key1 key2...", qsa_strokeInEditByPasteboard},
 
-    {'j',  "⇪ + J",  "向左 K向右 移动一个单词", qs_fn(qsl_keyStroke,{'alt'}, 'Left')},
-    {'k',  "⇪", qs_fn(qsl_keyStroke,{'alt'}, 'Right')},
-    {'l',  "⇪ + L",  "向左 R向右 删除一个单词", qs_fn(qsl_keyStroke,{'alt'}, 51)},
-    {'r',  "⇪", function() qs_fn(qsl_keyStroke,{'alt'},'Right')(); qs_fn(qsl_keyStroke,{'alt'}, 51)() end},
     {51,   "⇪ + ⌫",  "删除一行 或块", qs_fn(qsl_keyStroke,{'cmd'}, 51)},
     "",
     "      *****  Shift Key   *****",
-    {'f', "⇪ + ⇧ + F", "全屏 or 非全屏", qs_fn(qsl_keyStroke,{'cmd,ctrl'},'f') },
     {'c', "⇪ + ⇧ + C", "窗口移动到中心", qswMoveWindowToCenter},
     {'/', "⇪ + ⇧ + /", "窗口最小化", qswWindowMinimize},
 
-    {0x1b, "⇪ + ⇧ + -", "窗口缩小 + 窗口放大", qswResizeScreen(10)},
-    {0x18, "⇧", qswResizeScreen(11)},
-    {'h',  "⇪ + ⇧ + J", "窗口向左移动一格 L右I上K下", qswResizeScreen(5)},
-    {'l',  "⇧", qswResizeScreen(6)},
-    {'j',  "⇧", qswResizeScreen(7)},
-    {'k',  "⇧", qswResizeScreen(8)},
+    {'h',  "⇪ + ⇧ + H",	 "窗口 H左← J下↓ K上↑ L右→", qswMoveWindowToLeft},
+    {'j',  "⇧", qswMoveWindowDown},
+    {'k',  "⇧", qswMoveWindowUp},
+    {'l',  "⇧", qswMoveWindowToRight},
 
-    {"Left",  "⇪ + ⇧ + ←", "窗口减少一格 → 大一格",screenMoveShift(5)},
+    {'y',  "⇪ + ⇧ + Y", "窗口移动 Y左← U下↓ I上↑ O右→", qswResizeScreen(5)},
+    {'u',  "⇧", qswResizeScreen(8)},
+    {'i',  "⇧", qswResizeScreen(7)},
+    {'o',  "⇧", qswResizeScreen(6)},
+
+    {"Left",  "⇪ + ⇧ + ←", "窗口 横 少一格 → 大一格",screenMoveShift(5)},
     {"Right", "⇧", screenMoveShift(6)},
-    {"Up",    "⇪ + ⇧ + ↑", "窗口减少一格 ↓ 大一格", screenMoveShift(7)},
+    {"Up",    "⇪ + ⇧ + ↑", "窗口 竖 少一格 ↓ 大一格", screenMoveShift(7)},
     {"Down",  "⇧", screenMoveShift(8)},
 
     {0x21, "⇪ + ⇧ + [",  "窗口左上移动", screenMoveShift(1)},
@@ -147,6 +152,8 @@ operation_config_kyes = {
     {0x2a,  "⌥ + \\:", "QS快捷键提示", showShortcutsTips},
     {0x24,  "⌥ + ↩",   "Next moniter same size", qswMoveScerrnToNextWindowSameSize},
     {'Up',  "⌥ + ↑",   "向上翻页 ↓向下翻页", qswScrollWheelUp},
+    {'8',  "⌥ +  8",   "git 1.trending", qs_fn(qsih_openURL, "https://github.com/trending"),
+                            "2.topics",  qs_fn(qsih_openURL, "https://github.com/topics")},
     {'Down',"⌥", qswScrollWheelDown},
 
     QSK_upDateLastDate,

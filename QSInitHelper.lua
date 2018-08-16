@@ -58,11 +58,13 @@ end
 
 
 -- "⌥ + L    1.google镜像2.Lantern"
-function qsih_OpenGoogleImage()
+function qsih_OpenGoogleImage() qsih_openURL("https://init.pw ") end
+
+function qsih_openURL(url)
     hs.osascript.applescript([[tell application "Safari"
         activate
         delay 0.1
-        open location "https://init.pw"
+        open location "]]..url..[["
     end tell ]])
 end
 

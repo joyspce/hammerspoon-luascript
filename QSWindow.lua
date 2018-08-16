@@ -4,7 +4,6 @@
 -- Email: joysnipple@icloud.com
 
 
-
 -- {'h',  "⇪ + H",  "显示 1.隐藏文件", qs_fn(qsl_keyStroke,{'shift', 'cmd'}, '.'), "2.App name", qsw_showCurrentAppName},
 function qsw_showCurrentAppName()
     qshs_getFocusedWindowFn(function(win)
@@ -276,9 +275,26 @@ function qsw_mouseHighlight()
     mouseCircle:setFill(false)
     mouseCircle:setStrokeWidth(10)
     mouseCircle:show()
-
     -- Set a timer to delete the circle after 3 seconds
     mouseCircleTimer = hs.timer.doAfter(3, function() mouseCircle:delete() end)
+end
+
+--{'r',  "⇪ + R",  "Fouse Next Screen", qsw_fouseNextScreen},
+function qsw_fouseNextScreen()
+    -- 1. 获取当前window
+    local win = hs.window.frontmostWindow()
+    local origPoint = hs.mouse.getAbsolutePosition()
+    local frame = win:screen():frame()
+    if frame.x > 0 then
+        --show("在副屏") -> 主屏
+        local point = {x =qsl_mainScreenW/2, y =qsl_mainScreenH/2}
+        qshs_mouseTap(point)
+    else
+        --show("在主屏") -> 副屏
+        local point = {x = qsl_mainScreenW + qsl_mainScreenW/2, y = qsl_mainScreenH/2}
+        qshs_mouseTap(point)
+    end
+    qsl_delayedFn(0.1, function() hs.mouse.setAbsolutePosition(origPoint) end)
 end
 
 --

@@ -10,7 +10,7 @@ function qst_drewView()
     if qst_drewView_obj then return end
     local textSize = 130
     local width = textSize * 2
-    local rect = {x = qsl_mainScreenW - width - 50 , y = 350, w = width, h = textSize}
+    local rect = {x = qsl_mainScreenW - width - 20 , y = 410, w = width, h = textSize}
     local  color = {red=1, blue=0.85, green=0.85, alpha = 0.75}
     local obj = {}
     obj.canvas = hs.canvas.new(rect):show()

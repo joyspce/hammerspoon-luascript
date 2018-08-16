@@ -121,9 +121,8 @@ end
 qsw_watch = QSWatch()
 -- qsw_watch.watchPath  = hs.configdir -- /Users/joyspace/.hammerspoon
 -- qsw_watch.targetPath = "/Volumes/MACHigh/Users/qinshaobo/.hammerspoon"
-qsw_watch.watchPath  = "/Volumes/WorkDisk/SyncFloder/MyCode/LUA/hammerSpoon/"
-qsw_watch.targetPath = hs.configdir.."/"
-
+qsw_watch.watchPath  = hs.configdir
+qsw_watch.targetPath = "/Volumes/WorkDisk/SyncFloder/MyCode/LUA/hammerSpoon"
 
 g_watch_SyncFloder_file = hs.pathwatcher.new(qsw_watch.watchPath,
     function(paths, flagTables)
@@ -185,7 +184,7 @@ appWatcher = hs.application.watcher.new(function(appName, eventType, appObject)
                 if not eventLeftMouseUpIsStop then
                     eventLeftMouseUp:start();
                     eventLeftMouseUpIsStop = true;
-                    show( appArr[i].." -- isSelectCopy" );
+                    -- show( appArr[i].." -- isSelectCopy" );
                 end
                 break;
             else

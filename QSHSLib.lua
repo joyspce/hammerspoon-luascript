@@ -14,15 +14,26 @@ function qsl_delayedFn(time, fn)
     return ret
 end
 
+function qshs_asyncGet(url, fu_body, fn_else)
+    hs.http.asyncGet(url, nil, function(status, body, headers)
+        if fu_body and status == 200 and body then
+            fu_body(body)
+        else
+            if fn_else then fn_else() end
+        end
+    end)
+end
+
 -- hs.fnutils.contains(table, element) -> bool
 -- Determine if a table contains a given object
 function contains(tab, element) return hs.fnutils.contains(tab, element) end
 
 -- // ———————————————————————————— change keys ————————————————————————————
+hyperyKeyIsStrock = false
 hyperyKey = hs.hotkey.modal.new({}, "F17")
 hs.hotkey.bind({}, 'F18',
-    function() hyperyKey.triggered = true;  hyperyKey:enter() end,
-    function() hyperyKey.triggered = false; hyperyKey:exit()  end
+    function() hyperyKey.triggered = true;  hyperyKey:enter() hyperyKeyIsStrock = true end,
+    function() hyperyKey.triggered = false; hyperyKey:exit()  hyperyKeyIsStrock = false end
 )
 hyperyKeyAlt = hs.hotkey.modal.new({}, "F19")
 hs.hotkey.bind({}, 'F20',
@@ -42,7 +53,6 @@ function qsl_keyStroke(mods, key)
     hs.eventtap.event.newKeyEvent(mods, key, false):post()
 end
 
-
 -- //———————————————————————————— mouse action ————————————————————————————
 function qshs_leftMouseDown(point)
     hs.eventtap.event.newMouseEvent(hs.eventtap.event.types.leftMouseDown, point):post()
@@ -54,9 +64,12 @@ function qshs_leftMouseUp(point)
     hs.eventtap.event.newMouseEvent(hs.eventtap.event.types.leftMouseUp, point):post()
 end
 
+function qshs_mouseTap(point)
+    qshs_leftMouseDown(point)
+    qsl_delayedFn(0.1, function() qshs_leftMouseUp(point) end)
+end
 
 -- // ———————————————————————————— pasteboard 粘贴板 ————————————————————————————
-
 function qshs_isSavePasteboard(str)
     if str and #str ~= 0 and hs.pasteboard.writeObjects(str) then return true end
     show("savePasteboard 没保存")
