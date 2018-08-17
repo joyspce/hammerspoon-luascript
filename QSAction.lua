@@ -187,7 +187,7 @@ end
 --- "⌥ + D:   鼠标左键点下"
 _qsaIsLeftMouseUp = false;
 function _qsaDragged()
-    if _qsaIsLeftMouseUp and hyperyKeyIsStrock then
+    if _qsaIsLeftMouseUp and hyperyKey.triggered then
         qsl_delayedFn(0.01, function()
             qshs_leftMouseDragged(hs.mouse.getAbsolutePosition())
             _qsaDragged()

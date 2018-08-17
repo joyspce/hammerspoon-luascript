@@ -190,14 +190,9 @@ function qsc_anycomplete()
         -- Reset list when no query is given
         if string:len() == 0 then return reset() end
 
-        hs.http.asyncGet(string.format(URL, query), nil, function(status, data)
-            if not data then
-                show("NOdata")
-                return
-            end
-
-            local from, to = string.find(data, "window.bing.sug%(")
-            local str = string.sub(data, to+1, #data)
+        qshs_asyncGet(string.format(URL, query), function(body)
+            local from, to = string.find(body, "window.bing.sug%(")
+            local str = string.sub(body, to+1, #body)
 
             from, to = string.find(str, "pageview_candidate")
             str = string.sub(str, 1, from - 4 )
@@ -210,7 +205,6 @@ function qsc_anycomplete()
             choices = hs.fnutils.imap(json, function(result)
                 return { ["text"] = result["Txt"], }
             end)
-
             chooser:choices(choices)
         end)
     end
@@ -232,20 +226,16 @@ function qsc_v2exRequest()
         end
     end)
     --   https://www.v2ex.com/api/topics/latest.json
-    hs.http.asyncGet('https://www.v2ex.com/api/topics/hot.json', nil, function(status, data)
-        if status ~= 200 then return end
-        local decoded_data = nil
-        pcall(function() decoded_data = hs.json.decode(data) end)
-
-        if decoded_data and #decoded_data > 0 then
-            local chooser_data = hs.fnutils.imap(decoded_data, function(item)
+    qshs_asyncGet('https://www.v2ex.com/api/topics/hot.json', function(body)
+        local ok, results = pcall(function() return hs.json.decode(body) end)
+        if ok and results and #results then
+            local chooser_data = hs.fnutils.imap(results, function(item)
                 local sub_content = string.gsub(item.content, "\r\n", " ")
                 if utf8.len(sub_content) > 40 then
                     sub_content = string.sub(sub_content, 1, utf8.offset(sub_content, 40)-1)
                 end
                 return {text=item.title, subText=sub_content, arg=item.url}
             end)
-
             chooser:choices(chooser_data)
             chooser:refreshChoicesCallback()
             chooser:show()
@@ -310,10 +300,8 @@ function qsc_youdaoInstantTrans()
         -- Reset list when no query is given
         if string:len() == 0 then return reset() end
 
-        hs.http.asyncGet(string.format(URL, query), nil, function(status, data)
-            if not data then show("NOdata") return end
-            if status ~= 200 then return end
-            -- print(str)
+        qshs_asyncGet(string.format(URL, query), function(data)
+
             local ok, results = pcall(function() return hs.json.decode(data) end)
             if not ok then return end
 

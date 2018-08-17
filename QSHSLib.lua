@@ -29,16 +29,29 @@ end
 function contains(tab, element) return hs.fnutils.contains(tab, element) end
 
 -- // ———————————————————————————— change keys ————————————————————————————
-hyperyKeyIsStrock = false
 hyperyKey = hs.hotkey.modal.new({}, "F17")
 hs.hotkey.bind({}, 'F18',
-    function() hyperyKey.triggered = true;  hyperyKey:enter() hyperyKeyIsStrock = true end,
-    function() hyperyKey.triggered = false; hyperyKey:exit()  hyperyKeyIsStrock = false end
+    function()
+        hyperyKey.triggered = true
+        hyperyKey:enter()
+    end,
+    function()
+        hyperyKey.triggered = false
+        hyperyKey:exit()
+        if qsk_double_click_capslock_equal_esckey then
+            qsk_double_click_capslock_equal_esckey()
+        end
+    end
 )
 hyperyKeyAlt = hs.hotkey.modal.new({}, "F19")
 hs.hotkey.bind({}, 'F20',
-    function() hyperyKeyAlt.triggered = true;  hyperyKeyAlt:enter() end,
-    function() hyperyKeyAlt.triggered = false; hyperyKeyAlt:exit()  end
+    function()
+        hyperyKeyAlt.triggered = true
+        hyperyKeyAlt:enter() end,
+    function()
+        hyperyKeyAlt.triggered = false
+        hyperyKeyAlt:exit()
+    end
 )
 -- ⇪
 function hyperyKeyBind(key, func1, func2) hyperyKey:bind({}, key, func1, func2) end

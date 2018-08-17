@@ -1,8 +1,24 @@
 
+
+
 -- 特殊字符如下：(). % + - * ? [ ^ $  也作为以上特殊字符的转义字符 %
 
 qsk_delay = 0.3
 qsk_keyTab = {"iTerm2", "终端"}
+
+qsk_double_click = 0
+function qsk_double_click_capslock_equal_esckey()
+    qsk_double_click = qsk_double_click + 1
+    qsl_delayedFn(0.3, function()
+        if qsk_double_click > 1 then
+            qshs_isWindowWithAppNamesFn({"iTerm2", "终端", "Atom"}, nil, function()
+                qsl_keyStroke({}, 'escape')
+            end)
+        end
+        qsk_double_click = 0
+    end)
+end
+
 -- Ctrl+b	o	选择下一面板
 function qsk_tmux_o_next()
     qshs_isWindowWithAppNamesFn(qsk_keyTab, "Error : 我不在 iTerm2 下", function()
@@ -54,7 +70,7 @@ function qsk_strokeUp() _qsk_is_stroke = false end
 
 function _qsk_strokeDown(key)
     -- print(_qsk_is_stroke)
-    if _qsk_is_stroke and hyperyKeyIsStrock then
+    if _qsk_is_stroke and hyperyKey.triggered then
         qsl_keyStroke({}, key)
         qsl_delayedFn(0.2, function() _qsk_strokeDown(key) end)
     else
