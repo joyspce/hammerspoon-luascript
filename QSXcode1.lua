@@ -3,10 +3,7 @@
 -- qq: 501919181
 -- Email: joysnipple@icloud.com
 
-
-
 function qsx_stringFn(str, fn)
-
     local string = string.gsub(str, "     ", " ")
     string = string.gsub(string, "   ", " ")
     string = string.gsub(string, "  ", " ")
@@ -78,7 +75,6 @@ function qsx_XcodeGet()
         end)
     end)
 end
-
 
 -- {'f',  "⇪ + F",  "Mothed 1.obj", qsse_strToMothedObj, "2.class", qsse_strToMothedClass},
 function _qsse_stringWith(str)

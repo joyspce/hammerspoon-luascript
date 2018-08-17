@@ -4,18 +4,6 @@
 -- Email: joysnipple@icloud.com
 
 
--- {'h',  "⇪ + H",  "显示 1.隐藏文件", qs_fn(qsl_keyStroke,{'shift', 'cmd'}, '.'), "2.App name", qsw_showCurrentAppName},
-function qsw_showCurrentAppName()
-    qshs_getFocusedWindowFn(function(win)
-        local app = win:application()
-        if (app) then
-            print("current app:"..app:name())
-            show("current app:"..app:name())
-        else
-            show("not find window")
-        end
-    end)
-end
 -- "⇪ + 空格 窗口最大化or合适大小"
 function qswScreenResizeFullOrMiddle()
     qshs_getFocusedWindowFn(function(win)
@@ -134,25 +122,6 @@ function _moveToWhichWindow(whichOne)
     end)
 end
 
---  "⌥ + q       显示空间栏"
-function qswShowSpaceBar()
-    -- * 1. 鼠标移动 显示 空间栏
-    -- 获取鼠标原点\
-    local mousepoint = hs.mouse.getAbsolutePosition()
-    -- 获取当前总window
-    qshs_getFocusedWindowFn(function(win)
-        local frame = win:screen():frame()
-        -- 取屏center
-        hs.mouse.setAbsolutePosition({x = frame.x + frame.w *0.5, 20 })
-        qswShowSpaceBarOnce = true;
-        -- * 2. 按 controller + up
-        hs.eventtap.keyStroke({'ctrl'}, 'Up', 1000)
-        -- * 3. 移动到原点
-        hs.timer.doAfter(0.2, function() hs.mouse.setAbsolutePosition({x = mousepoint.x, y = mousepoint.y}) end);
-        hs.timer.doAfter(3, function() qswShowSpaceBarOnce = false end);
-    end)
-end
-
 -- "⇪ + ⇧ + <   窗口移动到左边 > 到右边"\
 -- +---------+
 -- |HERE|    |
@@ -196,7 +165,6 @@ function qswMoveWindowDown()
         win:setFrame(frame)
     end)
 end
-
 -- "⇪ + ⇧ + /   窗口最小化"
 function qswWindowMinimize() qshs_getFocusedWindowFn(function(win) win:minimize() end) end
 -- "⇪ + ⇧ + -   窗口缩小 + 窗口放大" "⇪ + ⇧ + J   窗口向左移动一格 L右I上K下"
@@ -258,32 +226,12 @@ function screenMoveShift(whichKind)
         end)
     end
 end
--- {"a",     "⇪ + A",  "提示 1.当前APP", hs.hints.windowHints, "2.MousePoint", qsw_mouseHighlight},
-function qsw_mouseHighlight()
-    -- Delete an existing highlight if it exists
-    if mouseCircle then
-        mouseCircle:delete()
-        if mouseCircleTimer then
-            mouseCircleTimer:stop()
-        end
-    end
-    -- Get the current co-ordinates of the mouse pointer
-    mousepoint = hs.mouse.getAbsolutePosition()
-    -- Prepare a big red circle around the mouse pointer
-    mouseCircle = hs.drawing.circle(hs.geometry.rect(mousepoint.x-40, mousepoint.y-40, 80, 80))
-    mouseCircle:setStrokeColor({["red"]=1,["blue"]=0,["green"]=0,["alpha"]=0.9})
-    mouseCircle:setFill(false)
-    mouseCircle:setStrokeWidth(10)
-    mouseCircle:show()
-    -- Set a timer to delete the circle after 3 seconds
-    mouseCircleTimer = hs.timer.doAfter(3, function() mouseCircle:delete() end)
-end
 
 --{'r',  "⇪ + R",  "Fouse Next Screen", qsw_fouseNextScreen},
 function qsw_fouseNextScreen()
+    local origPoint = hs.mouse.getAbsolutePosition()
     -- 1. 获取当前window
     local win = hs.window.frontmostWindow()
-    local origPoint = hs.mouse.getAbsolutePosition()
     local frame = win:screen():frame()
     if frame.x > 0 then
         --show("在副屏") -> 主屏
@@ -296,5 +244,62 @@ function qsw_fouseNextScreen()
     end
     qsl_delayedFn(0.1, function() hs.mouse.setAbsolutePosition(origPoint) end)
 end
+
+--  "⌥ + q       显示空间栏"
+function qswShowSpaceBar()
+    -- * 1. 鼠标移动 显示 空间栏
+    -- 获取鼠标原点\
+    local mousepoint = hs.mouse.getAbsolutePosition()
+    -- 获取当前总window
+    qshs_getFocusedWindowFn(function(win)
+        local frame = win:screen():frame()
+        -- 取屏center
+        hs.mouse.setAbsolutePosition({x = frame.x + frame.w *0.5, 20 })
+        qswShowSpaceBarOnce = true;
+        -- * 2. 按 controller + up
+        hs.eventtap.keyStroke({'ctrl'}, 'Up', 1000)
+        -- * 3. 移动到原点
+        hs.timer.doAfter(0.2, function() hs.mouse.setAbsolutePosition({x = mousepoint.x, y = mousepoint.y}) end);
+        hs.timer.doAfter(3, function() qswShowSpaceBarOnce = false end);
+    end)
+end
+-- {'h',  "⇪ + H",  "显示 1.隐藏文件", qs_fn(qsl_keyStroke,{'shift', 'cmd'}, '.'), "2.App name", qsw_showCurrentAppName},
+function qsw_showCurrentAppName()
+    qshs_getFocusedWindowFn(function(win)
+        local app = win:application()
+        if (app) then
+            print("current app:"..app:name())
+            show("current app:"..app:name())
+        else
+            show("not find window")
+        end
+    end)
+end
+-- {"a",     "⇪ + A",  "提示 1.当前APP", hs.hints.windowHints, "2.MousePoint", qsw_mouseHighlight},
+qsw_circle = nil
+qsw_timerCircle = nil
+function qsw_mouseHighlight()
+    function qsw_fn_circle()
+        qsw_circle:delete()
+        qsw_circle = nil
+        if qsw_timerCircle then qsw_timerCircle:stop() end
+        qsw_timerCircle = nil
+    end
+    -- Delete an existing highlight if it exists
+    if qsw_circle then qsw_fn_circle() end
+    -- Get the current co-ordinates of the mouse pointer
+    mousepoint = hs.mouse.getAbsolutePosition()
+    -- Prepare a big red circle around the mouse pointer
+    qsw_circle = hs.drawing.circle(hs.geometry.rect(mousepoint.x-40, mousepoint.y-40, 80, 80))
+    qsw_circle:setStrokeColor({["red"]=1,["blue"]=0,["green"]=0,["alpha"]=0.9})
+    qsw_circle:setFill(false)
+    qsw_circle:setStrokeWidth(10)
+    qsw_circle:show()
+    -- Set a timer to delete the circle after 3 seconds
+    qsw_timerCircle = hs.timer.doAfter(3, function()
+        qsw_fn_circle()
+    end)
+end
+
 
 --

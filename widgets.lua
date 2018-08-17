@@ -14,7 +14,7 @@ end
 -- hs.drawing.arc(centerPoint, radius, startAngle, endAngle)
 function drawingArc( centerPoint, radius, startAngle, endAngle, setFill, setStrokeWidth, setStrokeColor )
 
-    local cirle = hs.drawing.arc( centerPoint, radius, startAngle, endAngle );
+    local cirle = hs.drawing.arc( centerPoint, radius, startAngle, endAngle);
     cirle:setFill(setFill)
     if setStrokeWidth then cirle:setStrokeWidth(setStrokeWidth) end
     if setStrokeColor then cirle:setStrokeColor(setStrokeColor) end

@@ -3,11 +3,8 @@
 -- qq: 501919181
 -- Email: joysnipple@icloud.com
 
-
-
 function qsaCopyCourrentPath()
-    qshs_isWindowWithAppNamesFn({"访达","Finder"}, '访达 找不到当前路径',
-    function()
+    qshs_isWindowWithAppNamesFn({"访达","Finder"}, '访达 找不到当前路径', function()
         applescript([[
            tell application "Finder"
                activate
@@ -30,8 +27,7 @@ function qsaNewFloder()
     end
 end
 function qsaNewFile()
-    qshs_isWindowWithAppNamesFn({"访达","Finder"}, '不能在当前应用新建文本',
-    function()
+    qshs_isWindowWithAppNamesFn({"访达","Finder"}, '不能在当前应用新建文本', function()
         applescript([[
         tell application "Finder"
            activate
@@ -136,7 +132,6 @@ function qsa_NewShellTemplate()
     end)
 end
 
-
 -- zip 文件
 function qsaZipFileWithPassWord()
     --zip -r -P PasswordJoy /Volumes/WorkDisk/Temp/
@@ -184,36 +179,6 @@ function qsaDumpTrash()
     end tell]])
 end
 
---- "⌥ + D:   鼠标左键点下"
-_qsaIsLeftMouseUp = false;
-function _qsaDragged()
-    if _qsaIsLeftMouseUp and hyperyKey.triggered then
-        qsl_delayedFn(0.01, function()
-            qshs_leftMouseDragged(hs.mouse.getAbsolutePosition())
-            _qsaDragged()
-        end)
-    else
-        _qsaIsLeftMouseUp = false
-    end
-end
-
-function qsa_leftMouseUp()
-    print("qsa_LeftMouseUp")
-    local point = hs.mouse.getAbsolutePosition()
-    qshs_leftMouseUp(point)
-    _qsaIsLeftMouseUp = false
-end
-function qsa_leftMouseDownAndDragged()
-    print("qsa_leftMouseDownAndDragged")
-    if _qsaIsLeftMouseUp  then
-        qsa_leftMouseUp()
-    else
-        _qsaIsLeftMouseUp = true
-        qshs_leftMouseDown(hs.mouse.getAbsolutePosition())
-        qshs_leftMouseDragged(hs.mouse.getAbsolutePosition())
-        _qsaDragged()
-    end
-end
 -- {'t',  "⌥ + T", "1.ToTerminal", qsaOpenCourrentFinderInTerminal, "2.Terminal", 'Terminal'},
 function qsaOpenCourrentFinderInTerminal()
     if qshs_isWindowWithAppNamesFn({"访达", "Finder"}) then
@@ -236,39 +201,6 @@ function qsaOpenCourrentFinderInTerminal()
            activate
         end tell]])
     end
-end
-
-function _qsa_doAfter(interval, times, arr)
-    local len = #arr;
-    for i=1, (times * (len + 1)) do
-        hs.timer.doAfter(interval * i, function()
-            local key = arr[i % (len + 1)]
-            if string.find(key, "0x") then key = tonumber(key) end
-            hs.eventtap.keyStroke({}, key, 1000)
-        end)
-    end
-end
--- 0.5 times \ Down
--- "⇪ + 8  时间 次数 ...键盘Keys"
-function qsa_strokeInEditByPasteboard()
-    qsl_textPrompt("自动操作", "0.5 times \\ Down", "0.1 10 \\ Down",  function(text)
-        if text and  #text > 1 then
-            local array = arrayWithStringAndSplit(text, " ")
-            local interval = tonumber(array[1]);
-            table.remove(array, 1)
-            local times  = tonumber(array[1]) or 2;
-            table.remove(array, 1)
-            _qsa_doAfter(interval, times, array)
-        end
-    end)
-end
--- 0.5 times \ Down
-
--- ⇪ + §  大小写
-local is_qsa_capslock = true;
-function qsa_capslock()
-    hs.hid.capslock.set(is_qsa_capslock)
-    is_qsa_capslock = not is_qsa_capslock;
 end
 
 --

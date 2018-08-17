@@ -42,7 +42,8 @@ operation_config_kyes = {
 
     "",
     "      *****   命 令 行  *****",
-    {'d',  "⇪ + D:", "鼠标左键点下", init_functionWithBack1, qsa_leftMouseDownAndDragged, qsa_leftMouseUp},
+    {'d',  "⇪ + D:", "鼠标左键点下", init_functionWithBack1, qsa_mouseDown, qsa_mouseUp},
+
     {'.',  "⇪ + .",  "显示 1.隐藏文件", qs_fn(qsl_keyStroke,{'shift', 'cmd'}, '.'),  "2.MousePoint", qsw_mouseHighlight},
     {'n',  "⇪ + N",  "New 1.Floder", qsaNewFloder, "2.textFile", qsaNewFile, "3.shell", qsa_NewShellTemplate},
     {'p',  "⇪ + P",  "1.复制当前路径", qsaCopyCourrentPath, "2.reloadLua", hs.reload},

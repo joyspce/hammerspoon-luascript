@@ -5,7 +5,7 @@
 
 -- 存放 init 长代码
 
--- "⌥ + K  Vim"
+-- "⌥ + E  Vim"
 function qsihOpenVim()
     hs.osascript.applescript(
         [[  tell application "Terminal"

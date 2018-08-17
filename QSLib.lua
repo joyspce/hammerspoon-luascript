@@ -5,18 +5,19 @@
 
 -- //  : QSLib
 
-function qs_fn(fn, arg1, arg2,arg3,arg4,arg5)
-    return function() fn(arg1, arg2,arg3,arg4,arg5) end
-end
+-- // ———————————————————————————— function ————————————————————————————
+-- function conditionFn(isTrue, fnA, fnB) if isTrue then fnA() else fnB() end end
+
+function qs_fn(fn,arg1,arg2,arg3,arg4,arg5) return function() fn(arg1, arg2,arg3,arg4,arg5) end end
 
 -- // ———————————————————————————— file operation ————————————————————————————
 function qsl_arrayRead(path)
-   local arrayStr,configfile = {},assert(io.open(path,"r"));
+   local array, configfile = {}, assert(io.open(path,"r"))
    if configfile then
-      for configline in configfile:lines() do arrayStr[ #arrayStr + 1 ] = configline; end
-      configfile:close();
+      for configline in configfile:lines() do array[ #array + 1 ] = configline end
+      configfile:close()
    end
-   return arrayStr;
+   return array
 end
 function qsl_readOrSaveOrAdd(path,readOrWriteOrAdd,...)
    local readOrWriteOrAdd,file = readOrWriteOrAdd or "r",assert(io.open(path,readOrWriteOrAdd));
@@ -26,12 +27,9 @@ end
 function delFile(path) os.execute("rm -rf "..path);  end
 function copyFile(filePath, toPath) os.execute("cp -rf "..filePath.." "..toPath); end
 
--- // ———————————————————————————— function ————————————————————————————
--- function conditionFn(isTrue, fnA, fnB) if isTrue then fnA() else fnB() end end
-
 -- // ———————————————————————————— table ————————————————————————————
 function lenTable(theTable)
-    assert(theTable, "function lenTable(theTable) 值不对")
+    assert(theTable, "lenTable(theTable) 值不对")
     -- array
     if #theTable > 0 then
         return #theTable;
@@ -60,7 +58,6 @@ end
 function removeSameStringInArray(array)
     local targetDic = {}
     for i,v in ipairs(array) do targetDic[v] = v end
-
     local retArray = {}
     for k,v in pairs(targetDic) do retArray[#retArray + 1] = k end
     return retArray
@@ -107,6 +104,10 @@ end
 
 -- // ———————————————————————————— string ————————————————————————————
 
+function isNumber(value) return type(value) == "number" end
+
+function isTable(value) return type(value) == "table" end
+
 -- is前缀
 function qsl_isPreFix(str, preFix) return string.sub(str,1,#preFix) == preFix end
 -- is小写
@@ -133,6 +134,7 @@ function isNumberWithChar(char)
     end
     return false;
 end
+
 -- ret 首字母大写
 function upperFirstWord(words)
     if not words or #words < 1 then show("upperFirstWord Error"); return end
@@ -222,11 +224,6 @@ function qslSSHDownFromServer(port, host, localFullFile, serverFullFilePath)
     local shell = "scp -P "..port.." "..serverFullFilePath.." "..localFullFile
     os.execute(shell)
 end
-
-function isNumber(value) return type(value) == "number" end
-
-function isTable(value) return type(value) == "table" end
-
 
 
 --
