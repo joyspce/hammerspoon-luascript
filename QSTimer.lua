@@ -3,7 +3,6 @@
 -- qq: 501919181
 -- Email: joysnipple@icloud.com
 
-
 -- indexOrKe_yTable(theTable,theValue)
 qst_drewView_obj = nil
 function qst_drewView()

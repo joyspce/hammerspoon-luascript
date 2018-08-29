@@ -8,7 +8,9 @@
 -- // ———————————————————————————— function ————————————————————————————
 -- function conditionFn(isTrue, fnA, fnB) if isTrue then fnA() else fnB() end end
 
-function qs_fn(fn,arg1,arg2,arg3,arg4,arg5) return function() fn(arg1, arg2,arg3,arg4,arg5) end end
+function qsl_fn(fn,arg1,arg2,arg3,arg4,arg5) return function() fn(arg1, arg2,arg3,arg4,arg5) end end
+
+function qsl_obj() return {} end
 
 -- // ———————————————————————————— file operation ————————————————————————————
 function qsl_arrayRead(path)
@@ -19,7 +21,7 @@ function qsl_arrayRead(path)
    end
    return array
 end
-function qsl_readOrSaveOrAdd(path,readOrWriteOrAdd,...)
+function qsl_saveOrAddWithStr(path,readOrWriteOrAdd,...)
    local readOrWriteOrAdd,file = readOrWriteOrAdd or "r",assert(io.open(path,readOrWriteOrAdd));
    if file then file:write(...); file:close(); end
 end
@@ -92,12 +94,20 @@ function printTab(tabOrArr)
     -- array
     if #tabOrArr > 0 then
         for i,v in ipairs(tabOrArr) do
-            if type(v) == "table" then printTab(v) else print("arr["..i.."] :", " var :", v, "\n") end
+            if type(v) == "table" then
+                printTab(v)
+            elseif type(v) ~= "function" then
+                print("arr["..i.."] :", " var :", tostring(v), "\n")
+            end
         end
     -- table
     else
         for k,v in pairs(tabOrArr) do
-            if type(v) == "table" then printTab(v) else print("key :", k, " var :", v, "\n") end
+            if type(v) == "table" then
+                printTab(v)
+            elseif type(v) ~= "function" then
+                print("key :", k, " var :", tostring(v), "\n")
+            end
         end
     end
 end
@@ -108,8 +118,13 @@ function isNumber(value) return type(value) == "number" end
 
 function isTable(value) return type(value) == "table" end
 
+function isContainStr(str, str1)
+    str = string.lower(str)
+    str1 = string.lower(str1)
+    return string.find(str, str1)
+end
 -- is前缀
-function qsl_isPreFix(str, preFix) return string.sub(str,1,#preFix) == preFix end
+function isPreFix(str, preFix) return string.sub(str,1,#preFix) == preFix end
 -- is小写
 function isLowerWithChar(char)
     if string.len(char) == 1 then
@@ -143,7 +158,7 @@ function upperFirstWord(words)
     return aletter .. string.sub(words, 2, #words)
 end
 -- ret 取大写字母
-function qsl_getUpChar(str)
+function getUpChar(str)
     local len = #str
     local ret = ""
     for i=1, len do

@@ -10,11 +10,13 @@
 
 -- "⌥ + Z    1.cycript 2.@import 3.show中文"
 function qss_cycriptStep1()
+    hs.application.launchOrFocus("Terminal")
     if qshs_isWindowWithAppNamesFn({"终端","Terminal"}, 'Terminal is not in fornt') then
         qslPasteWithString("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b/var/root/cy.sh ")
     end
 end
 function qss_cycriptStep2()
+    hs.application.launchOrFocus("Terminal")
     if qshs_isWindowWithAppNamesFn({"终端","Terminal"}, 'Terminal is not in fornt') then
         qslPasteWithString("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b@import com.joys.joys")
     end
@@ -47,10 +49,10 @@ function qss_printChineseWord()
 
     local path = "/Volumes/WorkDisk/Temp/printString.py"
     -- 3. 保存 python print code
-    qsl_readOrSaveOrAdd(path,"w",text)
+    qsl_saveOrAddWithStr(path,"w",text)
     -- 4. run
     local shell = "python "..path
-    qsl_delayedFn(0.1, function() qshslTerminalRunIn(shell) end)
+    qshs_delayedFn(0.1, function() qshslTerminalRunIn(shell) end)
 end
 
 function qss_showCPU_Info()
@@ -61,20 +63,24 @@ function qss_showCPU_Info()
     end tell]] )
 end
 
-function qss_CopyToApp(app, appNames)
-    qsl_delayedFn(0.15, qs_fn(qsl_keyStroke,{'cmd'}, 'c'))
-    qsl_delayedFn(0.2, function() hs.application.launchOrFocus(app) end)
-    qsl_delayedFn(0.3, function()
-        if qshs_isLaunchOrFocus(app, appNames) then qsl_delayedFn(0.3, qs_fn(qsl_keyStroke,{'cmd'}, 'v')) end
+function qss_CopyToApp(app, ...)
+    local appNames = {...}
+    -- show("aa"..appNames[1])
+    qshs_delayedFn(0.15, qsl_fn(qsl_keyStroke,{'cmd'}, 'c'))
+    qshs_delayedFn(0.2, function() hs.application.launchOrFocus(app) end)
+    qshs_delayedFn(0.3, function()
+        if qshs_isLaunchOrFocus(app, appNames) then
+            qshs_delayedFn(0.3, qsl_fn(qsl_keyStroke,{'cmd'}, 'v'))
+        end
     end)
 end
 -- {"v",  "⇪ + V",  "CopyTo 1.Xcode", qss_copyToXcode, "2.记事本", qss_copyToNotes},
-function qss_copyToXcode() qss_CopyToApp('Xcode', {'Xcode'}) end
-function qss_copyToNotes() qss_CopyToApp('Notes', {'Notes', '备忘录'}) end
+function qss_copyToXcode() qss_CopyToApp('Xcode', 'Xcode') end
+function qss_copyToNotes() qss_CopyToApp('Notes', 'Notes', '备忘录') end
 -- x X
-function qss_copyToAtom()  qss_CopyToApp('Atom', {'Atom'}) end
-function qss_copyToQuiver()  qss_CopyToApp('Quiver', {'Quiver'}) end
-
+function qss_copyToAtom()    qss_CopyToApp('Atom', 'Atom') end
+function qss_copyToQuiver()  qss_CopyToApp('Quiver', 'Quiver') end
+function qss_copyTo_iTrem2() qss_CopyToApp('iTerm',  'iTerm2') end
 
 
 -- %E5%BC%80%E5%8F%91%E8%BF%9B%E9%98%B6%28%E5%94%90%E5%B7%A7%29

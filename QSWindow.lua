@@ -12,7 +12,7 @@ function qswScreenResizeFullOrMiddle()
         local fw = win:frame();
         -- full screen
         if fw.y < 1 then
-            qs_fn(qsl_keyStroke,{'cmd','ctrl'}, 'f')()
+            qsl_keyStroke({'cmd','ctrl'}, 'f')
             hs.timer.doAfter(0.03, qswScreenResizeFullOrMiddle)
         elseif not(math.abs(frame.x - fw.x) > 2 or math.abs(frame.y - fw.y) > 2
                 or math.abs(frame.w - fw.w) > 2 or math.abs(frame.h - fw.h) > 2) then
@@ -59,20 +59,35 @@ function qswMoveWindowToCenter()
         win:setFrame(frame);
     end)
 end
-function qswMoveScerrnToNextWindowSameSize()
-    qshs_getFocusedWindowFn(function(win)
-        local frame = win:frame()
-        local mainFrame = win:screen():frame()
-        if (frame.x > qsl_mainScreenW) then -- to small
-            frame.x = frame.x - mainFrame.x
-            hs.mouse.setAbsolutePosition({x = mainFrame.w /2, y = mainFrame.h /2})
-        else
-            frame.x = frame.x + mainFrame.w
-            hs.mouse.setAbsolutePosition({x = mainFrame.w /2 + mainFrame.w , y = mainFrame.h /2})
-        end
-        win:setFrame(frame)
-    end)
-    qswMoveWindowToCenter()
+
+-- toggle window within different monitor
+function qsw_sendWindowNextMonitor()
+    local win = hs.window.focusedWindow()
+    local nextScreen = win:screen():next()
+    win:moveToScreen(nextScreen)
+-- function qswMoveScerrnToNextWindowSameSize()
+--     qshs_getFocusedWindowFn(function(win)
+--         local frame = win:frame()
+--         local mainFrame = win:screen():frame()
+--         if (frame.x > qsl_mainScreenW) then -- to small
+--             frame.x = frame.x - mainFrame.x
+--             hs.mouse.setAbsolutePosition({x = mainFrame.w /2, y = mainFrame.h /2})
+--         else
+--             frame.x = frame.x + mainFrame.w
+--             hs.mouse.setAbsolutePosition({x = mainFrame.w /2 + mainFrame.w , y = mainFrame.h /2})
+--         end
+--         win:setFrame(frame)
+--     end)
+--     qswMoveWindowToCenter()
+-- end
+end
+
+local grid
+function qsw_showGrid()
+    if (not grid ) then
+        grid = require("hs.grid")
+    end
+    grid:show()
 end
 
 local qswShowSpaceBarOnce = false
@@ -81,9 +96,9 @@ function _qswMovetoSpecifyWindow(whichOne, win)
         qswShowSpaceBarOnce = false
         qsl_keyStroke({'ctrl'}, 'Up')
     end
-    qsl_delayedFn(0.3, qs_fn(qsl_keyStroke,{'ctrl'}, tostring(whichOne)))
-    -- qsl_delayedFn(0.7, win:focus())
-    qsl_delayedFn(0.7, function() qswMoveScerrnToNextWindow() end)
+    qshs_delayedFn(0.3, qsl_fn(qsl_keyStroke,{'ctrl'}, tostring(whichOne)))
+    -- qshs_delayedFn(0.7, win:focus())
+    qshs_delayedFn(0.7, function() qswMoveScerrnToNextWindow() end)
 end
 -- "⇪ + 1-4    移动当前APP到桌面 1-4"
 function moveToWhichWindow(whichOne) return function() _moveToWhichWindow(whichOne) end end
@@ -104,7 +119,7 @@ function _moveToWhichWindow(whichOne)
         end
         -- 全屏下
         if (frame.y < 1) then
-            qs_fn(qsl_keyStroke,{'cmd','ctrl'}, 'f')()
+            qsl_keyStroke({'cmd','ctrl'}, 'f')
             hs.timer.doAfter(0.6, function() _moveToWhichWindow(whichOne) end)
             return
         end
@@ -115,9 +130,9 @@ function _moveToWhichWindow(whichOne)
         local point = { x = frame.x + 180 , y = frame.y + 3 };
 
         hs.eventtap.event.newMouseEvent(hs.eventtap.event.types.leftMouseDown, point):post();
-        qsl_delayedFn(0.05,function() hs.eventtap.event.newMouseEvent(hs.eventtap.event.types.leftMouseDragged, point):post() end)
-        qsl_delayedFn(0.13,function() hs.eventtap.event.newMouseEvent(hs.eventtap.event.types.leftMouseUp, point):post() end)
-        qsl_delayedFn(0.15,function() hs.mouse.setAbsolutePosition(mousepoint) end);
+        qshs_delayedFn(0.05,function() hs.eventtap.event.newMouseEvent(hs.eventtap.event.types.leftMouseDragged, point):post() end)
+        qshs_delayedFn(0.13,function() hs.eventtap.event.newMouseEvent(hs.eventtap.event.types.leftMouseUp, point):post() end)
+        qshs_delayedFn(0.15,function() hs.mouse.setAbsolutePosition(mousepoint) end);
         qsl_keyStroke({'ctrl'}, tostring(whichOne))
     end)
 end
@@ -242,7 +257,7 @@ function qsw_fouseNextScreen()
         local point = {x = qsl_mainScreenW + qsl_mainScreenW/2, y = qsl_mainScreenH/2}
         qshs_mouseTap(point)
     end
-    qsl_delayedFn(0.1, function() hs.mouse.setAbsolutePosition(origPoint) end)
+    qshs_delayedFn(0.1, function() hs.mouse.setAbsolutePosition(origPoint) end)
 end
 
 --  "⌥ + q       显示空间栏"
@@ -263,7 +278,7 @@ function qswShowSpaceBar()
         hs.timer.doAfter(3, function() qswShowSpaceBarOnce = false end);
     end)
 end
--- {'h',  "⇪ + H",  "显示 1.隐藏文件", qs_fn(qsl_keyStroke,{'shift', 'cmd'}, '.'), "2.App name", qsw_showCurrentAppName},
+-- {'h',  "⇪ + H",  "显示 1.隐藏文件", qsl_fn(qsl_keyStroke,{'shift', 'cmd'}, '.'), "2.App name", qsw_showCurrentAppName},
 function qsw_showCurrentAppName()
     qshs_getFocusedWindowFn(function(win)
         local app = win:application()

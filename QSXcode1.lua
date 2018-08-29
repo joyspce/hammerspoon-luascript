@@ -15,7 +15,7 @@ function qsx_stringFn(str, fn)
     local array = arrayWithStringAndSplit(string,"\n")
     local text = ""
     for i,v in ipairs(array) do
-        if qsl_isPreFix(v, "//") then
+        if isPreFix(v, "//") then
             text = text..v.."\n"
         else
             if fn then text = text..fn(v).."\n" end
@@ -76,7 +76,7 @@ function qsx_XcodeGet()
     end)
 end
 
--- {'f',  "⇪ + F",  "Mothed 1.obj", qsse_strToMothedObj, "2.class", qsse_strToMothedClass},
+-- {'f',  "⇪ + F",  "Method 1.obj", qsse_strToMethodObj, "2.class", qsse_strToMethodClass},
 function _qsse_stringWith(str)
     local arg = ""
     for i,v in ipairs({"With", "From"}) do
@@ -86,7 +86,7 @@ function _qsse_stringWith(str)
             break
         end
     end
-    if #arg == 0 and qsl_isPreFix(str, "set") then
+    if #arg == 0 and isPreFix(str, "set") then
         arg = string.sub(str, 4, #str)
     end
     if #arg > 1 then
@@ -112,15 +112,15 @@ function qsse_mulitArg(array)
     end
     return text
 end
-function qsx_Xcode_ObjMothed()
+function qsx_Xcode_ObjMethod()
     qshs_savePasteboardFn(function(paste)
         return qsx_stringFn(paste, function(str)
             local arr = arrayWithStringAndSplit(str, "|")
             if #arr > 0 then
                 local text = "- (void)"
                 if #arr == 1 then
-                    local mothedStr = arr[1]
-                    text = text..mothedStr.._qsse_stringWith(mothedStr)
+                    local methodStr = arr[1]
+                    text = text..methodStr.._qsse_stringWith(methodStr)
                 else
                      text = text..qsse_mulitArg(arr)
                 end
@@ -129,15 +129,15 @@ function qsx_Xcode_ObjMothed()
         end)
     end)
 end
-function qsx_Xcode_classMothed()
+function qsx_Xcode_classMethod()
     qshs_savePasteboardFn(function(paste)
         return qsx_stringFn(paste, function(str)
             local arr = arrayWithStringAndSplit(str, "|")
             if #arr > 0 then
                 local text = "+ (void)"
                 if #arr == 1 then
-                    local mothedStr = arr[1]
-                    text = text..mothedStr.._qsse_stringWith(mothedStr)
+                    local methodStr = arr[1]
+                    text = text..methodStr.._qsse_stringWith(methodStr)
                 else
                      text = text..qsse_mulitArg(arr)
                 end
@@ -152,14 +152,13 @@ function qsx_Singleton()
         local array = arrayWithStringAndSplit(paste,";")
         return string.gsub([[
 + (instancetype)sharedManager {
-    static QSSetupVC *mine = nil;
+    static _class_ *mine = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{mine = [[self alloc] init];});
     return mine;
 }
-        ]], "QSSetupVC", array[1])
-    end)
-    qsl_delayedFn(0.35, function() qshs_isSavePasteboard("+ (instancetype)sharedManager;") end)
+]], '_class_', array[1])
+end, "+ (instancetype)sharedManager;")
 end
 
 

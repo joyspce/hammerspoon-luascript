@@ -1,7 +1,29 @@
 
 
 
+
 -- 特殊字符如下：(). % + - * ? [ ^ $  也作为以上特殊字符的转义字符 %
+
+local qsk_double_click_capslock = 0
+function qsk_double_click_capslock_equal_esckey()
+    qsk_double_click_capslock = qsk_double_click_capslock + 1
+    qshs_delayedFn(0.22, function()
+        if not hyperyKey.triggered then
+            if qsk_double_click_capslock == 1 then
+                qsk_double_click_capslock = 0
+                qshs_isWindowWithAppNamesFn({"iTerm2", "终端", "Atom", "hammerspoon"}, nil, function()
+                    qsl_keyStroke({}, 'escape')
+                end)
+            elseif qsk_double_click_capslock > 2 then
+                qsk_double_click_capslock = 0
+                -- 大小写
+                hs.hid.capslock.set(not hs.hid.capslock.get())
+            end
+        -- else
+            -- print("qsk_double_click_capslock_equal_esckey not run")
+        end
+    end)
+end
 
 --- "⌥ + D:   鼠标左键点下"
 _qsaIsLeftMouseUp = false
@@ -12,7 +34,7 @@ end
 function qsa_mouseDragged()
     if _qsaIsLeftMouseUp and hyperyKey.triggered then
         qshs_leftMouseDragged(hs.mouse.getAbsolutePosition())
-        qsl_delayedFn(0.01, qsa_mouseDragged)
+        qshs_delayedFn(0.01, qsa_mouseDragged)
     else
         qshs_leftMouseUp(hs.mouse.getAbsolutePosition())
         _qsaIsLeftMouseUp = falseddddddd
@@ -31,25 +53,11 @@ end
 
 qsk_delay = 0.3
 qsk_keyTab = {"iTerm2", "终端"}
-
-qsk_double_click = 0
-function qsk_double_click_capslock_equal_esckey()
-    qsk_double_click = qsk_double_click + 1
-    qsl_delayedFn(0.3, function()
-        if qsk_double_click > 1 then
-            qshs_isWindowWithAppNamesFn({"iTerm2", "终端", "Atom"}, nil, function()
-                qsl_keyStroke({}, 'escape')
-            end)
-        end
-        qsk_double_click = 0
-    end)
-end
-
 -- Ctrl+b	o	选择下一面板
 function qsk_tmux_o_next()
     qshs_isWindowWithAppNamesFn(qsk_keyTab, "Error : 我不在 iTerm2 下", function()
         qsl_keyStroke({'ctrl'}, 'b')
-        qsl_delayedFn(qsk_delay, function()
+        qshs_delayedFn(qsk_delay, function()
             qsl_keyStroke({}, 'o')
         end)
     end)
@@ -58,7 +66,7 @@ end
 function qsk_tmux_split_horizontally()
     qshs_isWindowWithAppNamesFn(qsk_keyTab, "Error : 我不在 iTerm2 下", function()
         qsl_keyStroke({'ctrl'}, 'b')
-        qsl_delayedFn(qsk_delay, function()
+        qshs_delayedFn(qsk_delay, function()
             hs.eventtap.keyStrokes('"')
         end)
     end)
@@ -67,7 +75,7 @@ end
 function qsk_tmux_split_vertical()
     qshs_isWindowWithAppNamesFn(qsk_keyTab, "Error : 我不在 iTerm2 下", function()
         qsl_keyStroke({'ctrl'}, 'b')
-        qsl_delayedFn(qsk_delay, function()
+        qshs_delayedFn(qsk_delay, function()
             hs.eventtap.keyStrokes('%')
         end)
     end)
@@ -76,7 +84,7 @@ end
 function qsk_tmux_n_next()
     qshs_isWindowWithAppNamesFn(qsk_keyTab, "Error : 我不在 iTerm2 下", function()
         qsl_keyStroke({'ctrl'}, 'b')
-        qsl_delayedFn(qsk_delay, function()
+        qshs_delayedFn(qsk_delay, function()
             qsl_keyStroke({}, 'n')
         end)
     end)
@@ -85,7 +93,7 @@ end
 function qsk_tmux_n_createWindow()
     qshs_isWindowWithAppNamesFn(qsk_keyTab, "Error : 我不在 iTerm2 下", function()
         qsl_keyStroke({'ctrl'}, 'b')
-        qsl_delayedFn(qsk_delay, function()
+        qshs_delayedFn(qsk_delay, function()
             qsl_keyStroke({}, 'c')
         end)
     end)
@@ -98,7 +106,7 @@ function _qsk_strokeDown(key)
     -- print(_qsk_is_stroke)
     if _qsk_is_stroke and hyperyKey.triggered then
         qsl_keyStroke({}, key)
-        qsl_delayedFn(0.2, function() _qsk_strokeDown(key) end)
+        qshs_delayedFn(0.2, function() _qsk_strokeDown(key) end)
     else
         _qsk_is_stroke = false
     end
@@ -107,14 +115,14 @@ local qsk_strokeDown_count = 0
 function qsk_strokeDown(key)
     _qsk_is_stroke = true
     qsk_strokeDown_count = qsk_strokeDown_count + 1
-    qsl_delayedFn(0.3, function()
+    qshs_delayedFn(0.3, function()
         if qsk_strokeDown_count > 1 then
             _qsk_strokeDown(key)
             _qsk_strokeDown(key)
             _qsk_strokeDown(key)
         end
     end)
-    qsl_delayedFn(0.4, function() qsk_strokeDown_count = 0 end)
+    qshs_delayedFn(0.4, function() qsk_strokeDown_count = 0 end)
     _qsk_strokeDown(key)
 end
 
@@ -145,11 +153,5 @@ function qsa_strokeInEditByPasteboard()
 end
 -- 0.5 times \ Down
 
--- ⇪ + §  大小写
-local is_qsa_capslock = true;
-function qsa_capslock()
-    hs.hid.capslock.set(is_qsa_capslock)
-    is_qsa_capslock = not is_qsa_capslock;
-end
 
 --

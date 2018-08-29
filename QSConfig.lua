@@ -3,49 +3,34 @@
 -- qq: 501919181
 -- Email: joysnipple@icloud.com
 
--- // ********************************** mark by joys 2018-06-22 21:24 **
--- // * : define on or off
--- // *******************************************************************
-
--- hs.shutdownCallback = function() print("i am close") end
-
+hs.hotkey.alertDuration=0
+hs.hints.showTitleThresh = 0
 hs.window.animationDuration = 0
 
--- 我的库
-require "QSLib"
+local req = {
+    "QSLib",    --我的库
+    "QSHSLib",
+    "QSView",
+    "QSWindow", -- window
+    "QSDrew",
 
-require "QSHSLib"
+    "widgets",          --analogclock插件
 
--- 显示
-require "QSWindow"
-require "QSDrew"
+    "QSStringEdit",
+    "QSWatch",
+    "QSAction",
 
--- 天气插件
-require "QSWeatherWidgets"
---  analogclock 插件
-require "widgets"
-
--- ****************** key operation
-
-require "QSStringEdit"
-
-require "QSWatch"
-
-require "QSAction"
--- 存放 init 长代码
-require "QSInitHelper"
-
-require "QSShell"
-
-require "QSChooser"
-
-require "QSTimer"
-
-require "QSXcode1"
-
-require "QSKey"
-
--- require "QSTest"
+    "QSInitHelper",     --存放init长代码
+    "QSShell",
+    "QSChooser",
+    "QSTimer",
+    "QSXcode1",
+    "QSKey",
+    "QSAppWatcher",              --输入法
+    -- "QSTest"
+}
+for i,v in ipairs(req) do require(v) end
+req = nil
 
 -- ———————————————————————————— key Operation ————————————————————————————
 function _init_addkey(tab)

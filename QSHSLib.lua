@@ -3,12 +3,12 @@
 -- qq: 501919181
 -- Email: joysnipple@icloud.com
 
-
 function show(str) hs.alert.show(str) end
 function printHex(str) hs.utf8.hexDump(str) end
 function clear() hs.console.clearConsole() end
+clear()
 
-function qsl_delayedFn(time, fn)
+function qshs_delayedFn(time, fn)
     local ret = hs.timer.delayed.new(time, fn)
     ret:start()
     return ret
@@ -26,7 +26,7 @@ end
 
 -- hs.fnutils.contains(table, element) -> bool
 -- Determine if a table contains a given object
-function contains(tab, element) return hs.fnutils.contains(tab, element) end
+function isContains(tab, element) return hs.fnutils.contains(tab, element) end
 
 -- // ———————————————————————————— change keys ————————————————————————————
 hyperyKey = hs.hotkey.modal.new({}, "F17")
@@ -34,13 +34,13 @@ hs.hotkey.bind({}, 'F18',
     function()
         hyperyKey.triggered = true
         hyperyKey:enter()
+        if qsk_double_click_capslock_equal_esckey then
+            qsk_double_click_capslock_equal_esckey()
+        end
     end,
     function()
         hyperyKey.triggered = false
         hyperyKey:exit()
-        if qsk_double_click_capslock_equal_esckey then
-            qsk_double_click_capslock_equal_esckey()
-        end
     end
 )
 hyperyKeyAlt = hs.hotkey.modal.new({}, "F19")
@@ -79,7 +79,7 @@ end
 
 function qshs_mouseTap(point)
     qshs_leftMouseDown(point)
-    qsl_delayedFn(0.1, function() qshs_leftMouseUp(point) end)
+    qshs_delayedFn(0.1, function() qshs_leftMouseUp(point) end)
 end
 
 -- // ———————————————————————————— pasteboard 粘贴板 ————————————————————————————
@@ -89,20 +89,28 @@ function qshs_isSavePasteboard(str)
     return false
 end
 function qshlPasteAndWriteBackWithString(str)
-    qsl_delayedFn(0.15, qs_fn(qsl_keyStroke,{'cmd'}, 'v')) -- 粘贴
-    qsl_delayedFn(0.20, function() qshs_isSavePasteboard(str) end) -- 写回内存
+    qshs_delayedFn(0.15, qsl_fn(qsl_keyStroke,{'cmd'}, 'v')) -- 粘贴
+    qshs_delayedFn(0.20, function() qshs_isSavePasteboard(str) end) -- 写回内存
 end
 -- qshs_savePasteboardFn(function(paste) end)
-function qshs_savePasteboardFn(fn)
+function qshs_savePasteboardFn(fn, saveStr)
     local paste = hs.pasteboard.getContents() or ""
-    qsl_delayedFn(0.1, qs_fn(qsl_keyStroke,{'cmd'}, 'x'))
-    qsl_delayedFn(0.2, function()
+    qshs_delayedFn(0.1, qsl_fn(qsl_keyStroke,{'cmd'}, 'x'))
+    qshs_delayedFn(0.2, function()
         local paste2 = hs.pasteboard.getContents() or ""
 
         if 2 > #paste2 then paste2 = paste end
         if paste2 and #paste2 > 0 then
             local text = fn(paste2)
-            if qshs_isSavePasteboard(text) then qshlPasteAndWriteBackWithString(paste) end
+            print(text)
+            if saveStr then
+                saveStr = '\n'..saveStr
+            else
+                saveStr = ''
+            end
+            if qshs_isSavePasteboard(text..saveStr) then
+                qshlPasteAndWriteBackWithString(paste)
+            end
         else
             show("Error: 粘贴板中 没数据 qshs_savePasteboardFn")
         end
@@ -144,7 +152,7 @@ function qshs_multClick(array)
     local waitTime = 0.4
     if (qshsOnceMultClick == 1) then
         lastTime = hs.timer.secondsSinceEpoch()
-        hsDelay = qsl_delayedFn(waitTime, function()
+        hsDelay = qshs_delayedFn(waitTime, function()
             print("qshsOnceMultClick :", qshsOnceMultClick)
             _qshsRunApp(array[ qshsOnceMultClick % (#array + 1) ])
             qshsOnceMultClick = 0
@@ -192,15 +200,24 @@ function qshs_getFocusedWindowFn(fn)
     if win and fn then fn(win) end
 end
 
-function qshs_isWindowWithAppNamesFn(apps, showError, fn)
-    local app = qshs_getFocusedWindow():application()
-    for i,v in ipairs(apps) do
-        if (app and app:name() == v) then
-            if fn then fn() end
-            return true
+function qshs_isWindowWithAppNamesFn(apps, fn_error, fn)
+    local win = qshs_getFocusedWindow()
+    if win then
+        local app = win:application()
+        for i,v in ipairs(apps) do
+            if (app and app:name() == v) then
+                if fn then fn() end
+                return true
+            end
+        end
+        if (fn_error) then
+            if type(fn_error) == "string" then
+                show(fn_error..apps[1])
+            else
+                fn_error()
+            end
         end
     end
-    if (showError) then show(showError..apps[1]) end
     return false
 end
 
@@ -209,13 +226,15 @@ function qshs_isLaunchOrFocus(app, appNames)
     local win = qshs_getFocusedWindow()
     if win then
         local app = win:application()
+        -- show("dddd")
+        -- show( app:name(), "----", appNames[1])
         for i,v in ipairs(appNames) do if (v == app:name()) then return true end end
     else
         hs.application.launchOrFocus(app)
     end
     qshs_count_launchOrFocus = qshs_count_launchOrFocus + 1
     if qshs_count_launchOrFocus > 5 then return false end
-    qsl_delayedFn(0.3, function() qshs_isLaunchOrFocus(app, appNames) end)
+    qshs_delayedFn(0.3, function() qshs_isLaunchOrFocus(app, appNames) end)
 end
 
 -- //——————————————————— dialog ———————————————————

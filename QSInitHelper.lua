@@ -18,7 +18,7 @@ local countTime = 0
 function qsi_multipleClick(...)
     local array = {...}
     if (countTime == 0) then
-        qsl_delayedFn(8, function() countTime = 0; print("countTime end "..countTime) end)
+        qshs_delayedFn(8, function() countTime = 0; print("countTime end "..countTime) end)
     end
     countTime = countTime + 1;
     if countTime > #array then countTime = 1 end
@@ -113,5 +113,5 @@ function qssClearComment() qsseComment123Count = 1 end
 -- -- "⌥ + 9      打开WorkDisk盘的LuaZip目录"
 -- function qsihOpenLuaZipeFloderAndPastProjetZipFile()
 --     qssh_openFolder("/Volumes/WorkDisk/LuaZip/")();
---     qsl_delayedFn( 1.0, qs_fn(qsl_keyStroke,{'cmd'}, 'v'))
+--     qshs_delayedFn( 1.0, qsl_fn(qsl_keyStroke,{'cmd'}, 'v'))
 -- end

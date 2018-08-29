@@ -117,87 +117,31 @@ function QSWatch()
     end
     return mine
 end
---
-qsw_watch = QSWatch()
--- qsw_watch.watchPath  = hs.configdir -- /Users/joyspace/.hammerspoon
--- qsw_watch.targetPath = "/Volumes/MACHigh/Users/qinshaobo/.hammerspoon"
-qsw_watch.watchPath  = hs.configdir
-qsw_watch.targetPath = "/Volumes/WorkDisk/SyncFloder/MyCode/LUA/hammerSpoon"
+--- for watch hammerspoon file
+watch_hammerPath = QSWatch()
+-- watch_hammerPath.watchPath  = hs.configdir -- /Users/joyspace/.hammerspoon
+-- watch_hammerPath.targetPath = "/Volumes/MACHigh/Users/qinshaobo/.hammerspoon"
+watch_hammerPath.watchPath  = hs.configdir
+watch_hammerPath.targetPath = "/Volumes/WorkDisk/Work工作/MyCode/Lua/hammerSpoon/"
 
-g_watch_SyncFloder_file = hs.pathwatcher.new(qsw_watch.watchPath,
+g_watch_SyncFloder_file = hs.pathwatcher.new(watch_hammerPath.watchPath,
     function(paths, flagTables)
-        qsw_watch.pathwatcher_fn(paths, flagTables, nil)
+        watch_hammerPath.pathwatcher_fn(paths, flagTables, nil)
     end
 ):start()
 
----- for copy 双击 拖动鼠标 监测
-local watcherEventTime, dubbleCickCount = 0, 0;
-function qsw_dubbleCick()
-    if watcherEventTime == 0 then watcherEventTime = os.clock() end
-    dubbleCickCount = dubbleCickCount + 1
-    if dubbleCickCount == 1 or ( os.clock() - watcherEventTime ) >= 0.025 then
-        -- print(" 超时 第一次".. os.clock() - watcherEventTime );
-        watcherEventTime = os.clock()
-        return;
-    end
-    -- 第二次
-    if dubbleCickCount > 1 then
-        -- print("第二次"..os.clock() - watcherEventTime)
-        if os.clock() - watcherEventTime < 0.026 then qs_fn(qsl_keyStroke, {'cmd'}, 'c')() end
-        dubbleCickCount = 1;
-        -- 重新计算时间
-        watcherEventTime = os.clock();
-    end
-end
-
-local watcherEventIsDown, watcherEventIsDrag = false, false;
-
-eventLeftMouseUp = hs.eventtap.new( { hs.eventtap.event.types.leftMouseDown,
-                                      hs.eventtap.event.types.leftMouseDragged,
-                                      hs.eventtap.event.types.leftMouseUp,
-                                      hs.eventtap.event.types.mouseMoved, },
-    function(arg1)
-        local arg1Type = arg1:getType()
-        if arg1Type == hs.eventtap.event.types.leftMouseDown then
-            watcherEventIsDown = true;
-        --show(watcherEventTiem)
-        elseif arg1Type == hs.eventtap.event.types.leftMouseUp then
-            if watcherEventIsDown and watcherEventIsDrag then
-              qs_fn(qsl_keyStroke, {'cmd'}, 'c')()
-            else
-              qsw_dubbleCick()
-            end
-        watcherEventIsDown, watcherEventIsDrag = false, false;
-        elseif arg1Type == hs.eventtap.event.types.leftMouseDragged then
-            watcherEventIsDrag = true;
-        else
-            dubbleCickCount = 0;
-        end
-    end )
-local eventLeftMouseUpIsStop = false;
-
-appWatcher = hs.application.watcher.new(function(appName, eventType, appObject)
-    if (eventType == hs.application.watcher.activated) then
-        local appArr = { "Quiver","Xcode","Safari 浏览器","Dash", "Atom" };
-        for i=1, #appArr do
-            if appName == appArr[i] then
-                if not eventLeftMouseUpIsStop then
-                    eventLeftMouseUp:start();
-                    eventLeftMouseUpIsStop = true;
-                    -- show( appArr[i].." -- isSelectCopy" );
-                end
-                break;
-            else
-                if eventLeftMouseUpIsStop then
-                    eventLeftMouseUp:stop()
-                    eventLeftMouseUpIsStop = false;
-                end
-            end
-        end
+--- wifi watcher
+wifiwatcher = hs.wifi.watcher.new( function()
+    local net = hs.wifi.currentNetwork()
+    if net then
+        hs.notify.show("WiFi connected", "", net, "")
+    else
+        hs.notify.show("WiFi disconnected", "", "", "")
     end
 end)
-appWatcher:start()
+wifiwatcher:start()
 
+--- for auto sent mail
 mail_pass = '' -- 输入你的 Email 密码
 if #mail_pass < 1 then
     local path = "/Volumes/WorkDisk/Temp/password.txt"
@@ -207,7 +151,7 @@ if #mail_pass < 1 then
     end
 end
 --  ——————————————————— 手动分割线 监测 WIFI打开后 Email to joysnipple@icloud.com  ———————————————————
-function qsw_sentMail(mailItems, isShow)
+function qsw_sentMail(mail, isShow)
     local python = [[#!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
@@ -219,7 +163,7 @@ mail_user = '501919181'
 
 ]]
 .."mail_pass = "..mail_pass.."\n"
-..mailItems..
+..mail..
 [[
 
 message = MIMEText(text, 'plain', 'utf-8')
@@ -236,9 +180,9 @@ except smtplib.SMTPException:
     print "Error: 无法发送邮件"
 ]]
     local path = hs.configdir.."/Text/Email.py"
-    qsl_readOrSaveOrAdd(path, "w", python)
+    qsl_saveOrAddWithStr(path, "w", python)
 
-    qsl_delayedFn(0.20, function()
+    qshs_delayedFn(0.20, function()
         local path1 = hs.configdir.."/Text/Email.py"
         local ret = hs.execute("python "..path1)
         if isShow then
@@ -247,29 +191,48 @@ except smtplib.SMTPException:
         end
     end)
 end
+function sentMailTemplete()
+    qslPasteWithString(
+    [[
+sender = '501919181@qq.com'
+receivers = 'joysnipple@icloud.com'
+subject = '主题'
+text = '内容'
+    ]])
+end
+function sendMailWithContentWithEdit()
+    mail = qshslReadPasteboard()
+    if isContainStr(mail, "sender") and isContainStr(mail, "subject")
+    and isContainStr(mail, "receivers") and isContainStr(mail, "text") then
+        qsw_sentMail(mail, true)
+    else
+        show("Error: sent no Templete")
+        return
+    end
+end
 
-local g_qsw_time_doEvery_count = 0
-g_qsw_time_doEvery = hs.timer.doEvery(10, function()
+local count_qsw_time_doEvery = 0
+qsw_time_doEvery = hs.timer.doEvery(10, function()
     -- 1. 获取 Wifi and Len IP
     local array = hs.network.addresses("en1")
     for i,v in ipairs(hs.network.addresses("en0")) do
         array[#array + 1] = v
     end
 
-    g_qsw_time_doEvery_count = g_qsw_time_doEvery_count + 1
-    if g_qsw_time_doEvery_count > 2 then
+    count_qsw_time_doEvery = count_qsw_time_doEvery + 1
+    if count_qsw_time_doEvery > 2 then
         print("i am not sent")
-        g_qsw_time_doEvery:stop()
+        qsw_time_doEvery:stop()
     end
 
+    if #array == 0 then return end
     for i,v in ipairs(array) do
-        if v == "192.168.31.120" then
+        if isContainStr(v, "192.168.31.120") then
             print("本机")
             return
         end
     end
 
-    if #array == 0 then return end
     print("to sent")
     -- 获取 经纬度
     local dis = hs.location.get()
@@ -283,47 +246,11 @@ receivers = 'joysnipple@icloud.com'
 subject = 'auot sent mail'
 text = ']]..info.." time :"..qsl_osTime().."'", nil)
         print("i am sented")
-        g_qsw_time_doEvery:stop()
+        qsw_time_doEvery:stop()
     else
         print("location not found")
     end
-
-
 end):start()
-
-function sentMailTemplete()
-    qslPasteWithString(
-    [[
-sender = '501919181@qq.com'
-receivers = 'joysnipple@icloud.com'
-subject = '主题'
-text = '内容'
-    ]]
-)
-end
-function sendMailWithContentWithEdit()
-    mailItems = qshslReadPasteboard()
-    if string.find(mailItems, "sender") and string.find(mailItems, "subject") and string.find(mailItems, "receivers")
-    and string.find(mailItems, "text") and  string.find(mailItems, "=") then
-        qsw_sentMail(mailItems, true)
-    else
-        show("Error: sent no Templete")
-        return
-    end
-end
-
-wifiwatcher =
-    hs.wifi.watcher.new(
-    function()
-        net = hs.wifi.currentNetwork()
-        if net == nil then
-            hs.notify.show("WiFi disconnected", "", "", "")
-        else
-            hs.notify.show("WiFi connected", "", net, "")
-        end
-    end
-)
-wifiwatcher:start()
 
 
 --

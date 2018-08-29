@@ -13,9 +13,9 @@ operation_config_kyes = {
     "      ***** pasteboard *****",
     -- set get
     {"s",  "⇪ + S",  "1.Set", qsx_XcodeSet, "2.Get", qsx_XcodeGet, "3.Singleton", qsx_Singleton},
-    {'f',  "⇪ + F",  "Mothed 1.obj", qsx_Xcode_ObjMothed, "2.class", qsx_Xcode_classMothed},
-    {'e',  "⇪ + E",  "1.Align=property 对齐", qssePasteEditAlignString, "2.JsonModel", qsse_makeObjc_Model},
-    {'b',  "⇪ + B",  "1.NSCoding", xcode_NSCoding,  "2.self.xxs", xcode_property_self},
+    {'f',  "⇪ + F",  "Method 1.Obj", qsx_Xcode_ObjMethod, "2.Class", qsx_Xcode_classMethod},
+    {'e',  "⇪ + E",  "1.对齐 = @ method", qssePasteEditAlignString, "2.JsonModel", qsse_makeObjc_Model},
+    {'b',  "⇪ + B",  "1.NSCoding 存储", xcode_NSCoding,  "2.self.xxs", xcode_property_self},
     {'w',  "⇪ + W",  "Hook 1.Tweak",qsseToHookFun, "2.Captain", qsseToHCaptainFunc},
 
     {0xa,  "⇪ + §",  "1.@property", qsse_customProperty, "2.ChangeStr", qsse_changPasteboardByText},
@@ -32,6 +32,7 @@ operation_config_kyes = {
     {0x31,    "⇪ + □",  "窗口最大化or合适大小", qswScreenResizeFullOrMiddle},
     {"a",     "⇪ + A",  "提示 1.当前APP", hs.hints.windowHints, "2.App name", qsw_showCurrentAppName},
     {'q',     "⇪ + Q",  "显示空间栏", qswShowSpaceBar},
+    {';',     "⇪ + ;",   "显示 grid", qsw_showGrid},
     {'1',     "⇪ + 1-4","移动当前APP到桌面 1-4", moveToWhichWindow(1)},
     {'2',     "⇪", moveToWhichWindow(2)},
     {'3',     "⇪", moveToWhichWindow(3)},
@@ -44,23 +45,25 @@ operation_config_kyes = {
     "      *****   命 令 行  *****",
     {'d',  "⇪ + D:", "鼠标左键点下", init_functionWithBack1, qsa_mouseDown, qsa_mouseUp},
 
-    {'.',  "⇪ + .",  "显示 1.隐藏文件", qs_fn(qsl_keyStroke,{'shift', 'cmd'}, '.'),  "2.MousePoint", qsw_mouseHighlight},
+    {'.',  "⇪ + .",  "显示 1.隐藏文件", qsl_fn(qsl_keyStroke,{'shift', 'cmd'}, '.'),  "2.MousePoint", qsw_mouseHighlight},
     {'n',  "⇪ + N",  "New 1.Floder", qsaNewFloder, "2.textFile", qsaNewFile, "3.shell", qsa_NewShellTemplate},
     {'p',  "⇪ + P",  "1.复制当前路径", qsaCopyCourrentPath, "2.reloadLua", hs.reload},
     {'g',  "⇪ + G",  "1.v2ex", qsc_v2exRequest, "2.anycomplete", qsc_anycomplete},
-    {'m',  "⇪ + M",  "移动COPY文件", qs_fn(qsl_keyStroke,{'cmd', 'alt'}, 'v')},
+    {'m',  "⇪ + M",  "移动COPY文件", qsl_fn(qsl_keyStroke,{'cmd', 'alt'}, 'v')},
     {'v',  "⇪ + V",  "CopyTo 1.Xcode", qss_copyToXcode, "2.记事本", qss_copyToNotes},
     {'x',  "⇪ + X",  "CopyTo 1.Atom", qss_copyToAtom, "2.Quiver", qss_copyToQuiver},
-    {'t',  "⇪ + T",  "1.倒计时", qst_timer, "2.番茄时间", runtomatoTimeManViewager, "3.大小写", qsa_capslock},
-    {'y',  "⇪ + Y",  "1.有道词典",qsc_youdaoInstantTrans,"2.多张图片 幻灯片模式", qs_fn(qsl_keyStroke,{'cmd', 'alt'}, 'y')},
+    {'z',  "⇪ + Z",  "CopyTo 1.iTrem2", qss_copyTo_iTrem2},
+    {'t',  "⇪ + T",  "1.倒计时", qst_timer, "2.番茄时间", runtomatoTimeManViewager},
+    {'y',  "⇪ + Y",  "1.有道词典",qsc_youdaoInstantTrans,"2.多张图片 幻灯片模式", qsl_fn(qsl_keyStroke,{'cmd', 'alt'}, 'y')},
     "",
     "      *****  keyborad  *****",
-    "⇪ + ⇪ Double click Esc in iTerm2 终端 Atom",
+    "⇪ + ⇪   Tap capslock is Esc in iTerm2 终端 Atom",
+    "⇪ + ⇪   Tri click capslock trun on or off",
     {'h',  "⇪ + H",  "键盘 H左← J下↓ K上↑ K右→ ", init_functionWithBack1,
-                                        qs_fn(qsk_strokeDown, 'Left'),  qsk_strokeUp},
-    {'j',  "⇪", init_functionWithBack1, qs_fn(qsk_strokeDown, 'Down'),  qsk_strokeUp},
-    {'k',  "⇪", init_functionWithBack1, qs_fn(qsk_strokeDown, 'Up'),    qsk_strokeUp},
-    {'l',  "⇪", init_functionWithBack1, qs_fn(qsk_strokeDown, 'Right'), qsk_strokeUp},
+                                        qsl_fn(qsk_strokeDown, 'Left'),  qsk_strokeUp},
+    {'j',  "⇪", init_functionWithBack1, qsl_fn(qsk_strokeDown, 'Down'),  qsk_strokeUp},
+    {'k',  "⇪", init_functionWithBack1, qsl_fn(qsk_strokeDown, 'Up'),    qsk_strokeUp},
+    {'l',  "⇪", init_functionWithBack1, qsl_fn(qsk_strokeDown, 'Right'), qsk_strokeUp},
 
     {'o',  "⇪ + O",  "tmux 1.o next", qsk_tmux_o_next, "2.n next", qsk_tmux_n_next,
                           "3.create window", qsk_tmux_n_createWindow },
@@ -69,7 +72,7 @@ operation_config_kyes = {
     -- 重复自动操作键盘  -- time时间 times次数 ...键盘Keys
     {'8',  "⇪ + 8",  "AutoKeys 秒 次数 key1 key2...", qsa_strokeInEditByPasteboard},
 
-    {51,   "⇪ + ⌫",  "删除一行 或块", qs_fn(qsl_keyStroke,{'cmd'}, 51)},
+    {51,   "⇪ + ⌫",  "删除一行 或块", qsl_fn(qsl_keyStroke,{'cmd'}, 51)},
     "",
     "      *****  Shift Key   *****",
     {'c', "⇪ + ⇧ + C", "窗口移动到中心", qswMoveWindowToCenter},
@@ -90,10 +93,10 @@ operation_config_kyes = {
     {"Up",    "⇪ + ⇧ + ↑", "窗口 竖 少一格 ↓ 大一格", screenMoveShift(7)},
     {"Down",  "⇧", screenMoveShift(8)},
 
-    {0x21, "⇪ + ⇧ + [",  "窗口左上移动", screenMoveShift(1)},
-    {0x2a, "⇪ + ⇧ + \\", "窗口右下移动", screenMoveShift(2)},
-    {0x1e, "⇪ + ⇧ + ]",  "窗口右上移动", screenMoveShift(3)},
-    {0x27, "⇪ + ⇧ + '",  "窗口左下移动", screenMoveShift(4)},
+    {0x21, "⇪ + ⇧ + [", "窗口移动 [左上 ]右上 \\右下 \'左下 ", screenMoveShift(1)},
+    {0x1e, "⇧", screenMoveShift(3)},
+    {0x2a, "⇧",  screenMoveShift(2)},
+    {0x27, "⇧", screenMoveShift(4)},
 
     {'m',  "⇪ + ⇧ + M",   "系统休眠", hs.caffeinate.systemSleep},
     {'r',  "⇪ + ⇧ + R",   "双击 系统重机", function() show("双击 系统重机") end, "", hs.caffeinate.restartSystem},
@@ -106,7 +109,7 @@ operation_config_kyes = {
     {'a',  "⌥ + A", "1.Atom", 'Atom', "2.AppleScript", 'Script Editor', "3.AppCleaner", 'AppCleaner'},
     {'n',  "⌥ + N", "1.Quiver", 'Quiver', "2.Dash", 'Dash'},
     {'i',  "⌥ + I", "1.Idaq64", 'idaq64', "2.Ida", 'ida', "3.Impactor", 'Impactor'},
-    {'h',  "⌥ + H", "Hopper Disassembler v4", 'Hopper Disassembler v4'},
+    {'h',  "⌥ + H", "Hopper Disassembler", 'Hopper Disassembler v3'},
     {'r',  "⌥ + R", "1.Recents", 'RecentsF', "2.Reveal", 'Reveal'},
     {'c',  "⌥ + C", "Charles", 'Charles'},
     {'f',  "⌥ + F", "1.PP助手", 'PP助手', "2.iToolsPro", 'iTools Pro'},
@@ -124,27 +127,24 @@ operation_config_kyes = {
 
     {'m',  "⌥ + M", "1.MachOView", 'MachOView', "2.IINA Movie", 'IINA'},
 
-
     {',',  "⌥ + <", "1.系统设置偏好", 'System Preferences', "2.Activity Monitor",'Activity Monitor'},
     {0x2f, "⌥ + >", "1.系统Console", 'Console', "2.HS Console", hs.toggleConsole},
 
     "",
     "      *****  shell  *****",
-    {'d',  "⌥ + D", "ITerm2", 'iTerm'},
+    {'d',  "⌥ + D", "1.ToITerm2", qsaOpenCourrentFinderInITerm2, "2.iTerm2", 'iTerm'},
     {'t',  "⌥ + T", "1.ToTerminal", qsaOpenCourrentFinderInTerminal, "2.Term 显示RAM CPU info", qss_showCPU_Info},
     {'o',  "⌥ + O", "1.22:2222 2.Phone 3.1234:1234", qsihSSLOpenPort2222},
     {';',  "⌥ + :", "1.Phone 2.1234:1234", qsihSSLToPhone},
     {'z',  "⌥ + Z", "1.Cycript", qss_cycriptStep1, "2.@import", qss_cycriptStep2, "3.show中文", qss_printChineseWord},
     "",
     "      ***** 文件操作 *****",
-    {'1', "⌥ + 1", "MAC系统1.New", qs_fn(qssh_openFolder, "/Volumes/MACNew"), "2.High", qs_fn(qssh_openFolder, "/Volumes/MACHigh"),
-                          "3.Mojave", qs_fn(qssh_openFolder, "/Volumes/MACMojave")},
+    {'1', "⌥ + 1", "MAC系统1.New", qsl_fn(qssh_openFolder, "/Volumes/MACNew"), "2.High", qsl_fn(qssh_openFolder, "/Volumes/MACHigh"),
+                          "3.Mojave", qsl_fn(qssh_openFolder, "/Volumes/MACMojave")},
 
-    {'2',   "⌥ + 2", "1.WorkDisk",  qs_fn(qssh_openFolder,"/Volumes/WorkDisk"), "2.BackUP", qs_fn(qssh_openFolder,"/Volumes/BackUP")                             },
-    {'3',   "⌥ + 3", "1.SyncFloder",qs_fn(qssh_openFolder,"/Volumes/WorkDisk/SyncFloder/"),
-                     "2.WatchFile", qs_fn(qssh_openFolder,"/Volumes/WorkDisk/WatchFile")},
-    {'4',   "⌥ + 4", "1.WorkFiles", qs_fn(qssh_openFolder,"/Volumes/WorkDisk/SyncFloder/WorkFiles/"),
-                     "2.Learn",     qs_fn(qssh_openFolder,"/Volumes/WorkDisk/SyncFloder/Learn/")},
+    {'2',   "⌥ + 2", "1.WorkDisk",  qsl_fn(qssh_openFolder,"/Volumes/WorkDisk"), "2.BackUP", qsl_fn(qssh_openFolder,"/Volumes/BackUP")                             },
+    {'3',   "⌥ + 3", "1.Work工作", qsl_fn(qssh_openFolder,"/Volumes/WorkDisk/Work工作/"),
+                     "2.Learn学习",     qsl_fn(qssh_openFolder,"/Volumes/WorkDisk/Learn学习/")},
 
     {'b',  "⌥ + B", "1.百度网盘", 'BaiduNetdisk_mac', "2.BT", 'Transmission'},
     {'y',   "⌥ + Y", "1.FTP", 'Yummy FTP', "2.BetterZip", 'BetterZip', "3.ZipWithPW", qsaZipFileWithPassWord},
@@ -152,11 +152,23 @@ operation_config_kyes = {
     "",
     "      ***** 其他操作 *****",
     {0x2a,  "⌥ + \\:", "QS快捷键提示", showShortcutsTips},
-    {0x24,  "⌥ + ↩",   "Next moniter same size", qswMoveScerrnToNextWindowSameSize},
+    {0x24,  "⌥ + ↩",   "Next moniter same size", qsw_sendWindowNextMonitor},
     {'Up',  "⌥ + ↑",   "向上翻页 ↓向下翻页", qswScrollWheelUp},
-    {'8',  "⌥ +  8",   "git 1.trending", qs_fn(qsih_openURL, "https://github.com/trending"),
-                            "2.topics",  qs_fn(qsih_openURL, "https://github.com/topics")},
     {'Down',"⌥", qswScrollWheelDown},
+    {'Left',"⌥ + ←",   "Safari back", function()
+        -- hs.application.launchOrFocus("Safari")
+        qshs_isWindowWithAppNamesFn({'Safari 浏览器', 'Safari'}, "Error : 我不在 Safari 下", function()
+            hs.eventtap.keyStroke({'cmd'}, '[')
+        end)
+    end},
+    {'Right',"⌥ + →",   "Safari next", function()
+        -- hs.application.launchOrFocus("Safari")
+        qshs_isWindowWithAppNamesFn({'Safari 浏览器', 'Safari'}, "Error : 我不在 Safari 下", function()
+            hs.eventtap.keyStroke({'cmd'}, ']')
+        end)
+    end},
+    {'8',  "⌥ +  8",   "git 1.trending", qsl_fn(qsih_openURL, "https://github.com/trending"),
+                            "2.topics",  qsl_fn(qsih_openURL, "https://github.com/topics")},
 
     QSK_upDateLastDate,
 }

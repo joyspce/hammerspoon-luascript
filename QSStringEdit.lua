@@ -29,8 +29,8 @@ function qssePasteStringRemoveSameString()
         for i,var in ipairs(array) do
             if #var == 0 then
                 text = text.."\n"
-            elseif qsl_isPreFix(var, "//") or qsl_isPreFix(var, "--") or
-                   qsl_isPreFix(var, "#") or  qsl_isPreFix(var, '"') then
+            elseif isPreFix(var, "//") or isPreFix(var, "--") or
+                   isPreFix(var, "#") or  isPreFix(var, '"') then
                 text = text..var.."\n"
             else
                 if isNotInArray(haveInArray, var) then
@@ -45,7 +45,7 @@ end
 -- "3.InputV", defeating_paste_blocking},
 function defeating_paste_blocking()
     local text = hs.pasteboard.getContents()
-     qsl_delayedFn(0.5, function() hs.eventtap.keyStrokes(text) end)
+     qshs_delayedFn(0.5, function() hs.eventtap.keyStrokes(text) end)
 end
 
 function _qsse_property_max_typeLen(array)
@@ -185,9 +185,9 @@ function qssePasteEditAlignString()
     qshs_savePasteboardFn(function(paste)
         local array = qsl_arrayWithStringAndSplit(paste,"\n")
         -- 3. 计数长度
-        local typeLen;
-        local equalLen;
-        print("typeLen :", typeLen)
+        local typeLen
+        local equalLen
+
         local alignArray = {}
         local countSpace = 0;
         for i,v in ipairs(array) do
@@ -196,18 +196,37 @@ function qssePasteEditAlignString()
                 if countSpace == 0 then alignArray[#alignArray + 1] = "" end
                 countSpace = countSpace + 1
             else
-                countSpace = 0
-                local findProperty = string.find(v, "@property" );
-                if findProperty then -- property
+                -- method
+                if isPreFix(v, "-") or isPreFix(v, "+") then
+                    -- 特殊字符如下：(). % + - * ? [ ^ $  也作为以上特殊字符的转义字符 %
+                    local str = string.gsub(v, "    ", " ")
+                    str = string.gsub(str, "   ", " ")
+                    str = string.gsub(str, "  ", " ")
+                    str = string.gsub(str, ": ", ":")
+                    str = string.gsub(str, " :", ":")
+                    str = string.gsub(str, "%) ", ")")
+                    str = string.gsub(str, " %)", ")")
+
+                    str = string.gsub(str, " %(", "(")
+                    str = string.gsub(str, "%( ", "(")
+                    str = string.gsub(str, "+", "+ ")
+                    str = string.gsub(str, "-", "- ")
+                    str = string.gsub(str, " {", "{")
+                    str = string.gsub(str, "{", " {")
+                    alignArray[#alignArray + 1] = str
+                elseif isPreFix(v, "@property") then
+                --  property
+                    countSpace = 0
                     if not typeLen then typeLen = _qsse_property_max_typeLen(array) end
                     alignArray[#alignArray + 1] = _qsse_property(v, typeLen)
-                else  --  = 对齐
+                else
+                    --  = 对齐
                     local findEqual = string.find(v, "=" );
                     if findEqual then
                         if not equalLen then equalLen = _qsse_equalLen(array) end
                         alignArray[#alignArray + 1] = _qsse_equal_Align(v, equalLen)
                     else
-                        v = string.gsub(v, "  ", " ");
+                        v = string.gsub(v, "  ", " ")
                         v = string.gsub(v, " //", "//")
                         v = string.gsub(v, "  //", "//")
                         alignArray[#alignArray + 1] = v
@@ -259,9 +278,9 @@ function _qssetoSubStrs(args)
         strCon = strCon ..str
     end
 
-    if (#paras > 0) then            -- 有参数的 mothed
+    if (#paras > 0) then            -- 有参数的 method
         strCon = strCon .. "\","
-    else                            -- 没参数的 mothed
+    else                            -- 没参数的 method
         strCon = strCon .. "\""
     end
 
@@ -316,7 +335,7 @@ function qsseToHookFun()
             -- 分成数组
             local arrayRe = arrayWithStringAndSplit(replaceBlock, ";")
             toHookString = reWriteCodesHookFun(arrayRe)
-            show("hook mothed")
+            show("hook method")
         end
         return toHookString
     end)
@@ -431,12 +450,12 @@ function _qsse_prefix(str)
     if preFix then return preFix end
 
     -- foundation or uikit 取3位
-    if qsl_isPreFix(str, "NS") or qsl_isPreFix(str, "UI") then
+    if isPreFix(str, "NS") or isPreFix(str, "UI") then
          return string.lower(string.sub(str,3,5));
     end
 
     -- 取所有大写字母
-    preFix = qsl_getUpChar(str) or ""
+    preFix = getUpChar(str) or ""
     if 2 > #preFix then preFix = str end
     return string.lower(preFix)
 end
@@ -602,7 +621,7 @@ function _qsse_changeTo(split, actions)
 
         for idx, v in ipairs(actions) do
             -- rep=x-b|pre=x|suf=x
-            if qsl_isPreFix(v, "rep=") then    -- 替换
+            if isPreFix(v, "rep=") then    -- 替换
                 local repStr = string.sub(v, #"rep=" + 1, #v)
                 print("rep=" .. repStr)
                 local replaceArr = arrayWithStringAndSplit(repStr, "-")
@@ -614,7 +633,7 @@ function _qsse_changeTo(split, actions)
                     varStr = string.gsub(varStr, replaceArr[1], replaceArr[2])
                 end
 
-            elseif qsl_isPreFix(v, "pre=") then -- 前缀
+            elseif isPreFix(v, "pre=") then -- 前缀
                 print("pre=1 "..v)
                 local pre = string.sub(v, #"pre="+1, #v)
                 print("pre=2"..pre)
@@ -625,7 +644,7 @@ function _qsse_changeTo(split, actions)
                     varStr = pre..varStr
                 end
 
-            elseif qsl_isPreFix(v, "suf=") then -- 后缀
+            elseif isPreFix(v, "suf=") then -- 后缀
                 print("suf="..v)
                 local suf = string.sub(v, #"suf="+1, #v)
 
@@ -654,7 +673,7 @@ function qsse_changPasteboardByText()
     qsl_textPrompt("替换文字", "spl 分割\nrep替换\npre前缀\nsuf后缀\nenter回车\n spl=x|rep=x-b|pre=x|suf=x",
     repText, function(text)
         -- write
-        qsl_readOrSaveOrAdd(path,'w', text)
+        qsl_saveOrAddWithStr(path,'w', text)
 
         local actions = arrayWithStringAndSplit(text, "|")
         local  splits = actions[1]

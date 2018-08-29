@@ -37,7 +37,7 @@ function QSC_Chooser()
         local arr = arrayWithStringAndSplit(text, "|")
         if #arr == 3 then
             this.dataSourse[#this.dataSourse+1] = text
-            qsl_readOrSaveOrAdd(this._path,'a',text.."\n")
+            qsl_saveOrAddWithStr(this._path,'a',text.."\n")
             print("add ok", text)
         else
             show("Error 加入词条")
@@ -47,9 +47,9 @@ function QSC_Chooser()
     this.save = function()
         for i,v in ipairs(this.dataSourse) do
             if i == 1 then
-                qsl_readOrSaveOrAdd(this._path,'w',v.."\n")
+                qsl_saveOrAddWithStr(this._path,'w',v.."\n")
             else
-                qsl_readOrSaveOrAdd(this._path,'a',v.."\n")
+                qsl_saveOrAddWithStr(this._path,'a',v.."\n")
             end
         end
     end

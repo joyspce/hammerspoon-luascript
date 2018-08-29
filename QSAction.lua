@@ -4,6 +4,7 @@
 -- Email: joysnipple@icloud.com
 
 function qsaCopyCourrentPath()
+    hs.application.launchOrFocus("Finder")
     qshs_isWindowWithAppNamesFn({"访达","Finder"}, '访达 找不到当前路径', function()
         applescript([[
            tell application "Finder"
@@ -22,11 +23,13 @@ function qsaCopyCourrentPath()
 end
 
 function qsaNewFloder()
+    hs.application.launchOrFocus("Finder")
     if qshs_isWindowWithAppNamesFn({"访达","Finder"}, '不能在当前应用新建文件夹') then
-        qsl_delayedFn(0.2, qs_fn(qsl_keyStroke,{'cmd', 'shift'}, 'n'))
+        qshs_delayedFn(0.2, qsl_fn(qsl_keyStroke,{'cmd', 'shift'}, 'n'))
     end
 end
 function qsaNewFile()
+    hs.application.launchOrFocus("Finder")
     qshs_isWindowWithAppNamesFn({"访达","Finder"}, '不能在当前应用新建文本', function()
         applescript([[
         tell application "Finder"
@@ -111,7 +114,7 @@ end
 function qsa_NewShellTemplate()
     if not qshs_isWindowWithAppNamesFn({"访达","Finder"}, '访达 找不到当前路径') then return end
     qsaCopyCourrentPath()
-    qsl_delayedFn(0.3, function()
+    qshs_delayedFn(0.3, function()
         local paste = qshslReadPasteboard()
         if hs.fs.displayName(paste) then
             local shell = _new_shell_file()
@@ -124,7 +127,7 @@ function qsa_NewShellTemplate()
                 end
 
                 if not hs.fs.displayName(path) then
-                     qsl_readOrSaveOrAdd(path,'w', shell)
+                     qsl_saveOrAddWithStr(path,'w', shell)
                     break
                 end
             end
@@ -179,6 +182,33 @@ function qsaDumpTrash()
     end tell]])
 end
 
+function qsaOpenCourrentFinderInITerm2()
+    if qshs_isWindowWithAppNamesFn({"访达", "Finder"}) then
+        applescript([[
+               tell application "Finder"
+                   activate
+                   try
+                       set currentPath to POSIX path of (target of window 1 as alias)
+                   on error
+                       set currentPath to POSIX path of (path to desktop as text)
+                   end try
+                   set the clipboard to currentPath
+               end tell
+           ]])
+          qshs_delayedFn(0.1, function()
+              local path = hs.pasteboard.getContents()
+              if (#path > 1) then
+                  hs.application.launchOrFocus("iTerm")
+                  qshs_delayedFn(0.25, function()
+                      hs.eventtap.keyStrokes("cd "..path.."\r")
+                  end)
+              end
+          end)
+    else
+        hs.application.launchOrFocus("iTerm")
+    end
+end
+
 -- {'t',  "⌥ + T", "1.ToTerminal", qsaOpenCourrentFinderInTerminal, "2.Terminal", 'Terminal'},
 function qsaOpenCourrentFinderInTerminal()
     if qshs_isWindowWithAppNamesFn({"访达", "Finder"}) then
@@ -190,16 +220,20 @@ function qsaOpenCourrentFinderInTerminal()
                    on error
                        set currentPath to POSIX path of (path to desktop as text)
                    end try
-                   tell application "Terminal"
-                       activate
-                       do script "cd " &currentPath
-                   end tell
-               end tell
-           ]])
+                   set the clipboard to currentPath
+                end tell
+                ]])
+               qshs_delayedFn(0.1, function()
+                   local path = hs.pasteboard.getContents()
+                   if (#path > 1) then
+                       hs.application.launchOrFocus("Terminal")
+                       qshs_delayedFn(0.25, function()
+                           hs.eventtap.keyStrokes("cd "..path.."\r")
+                       end)
+                   end
+               end)
     else
-        applescript([[tell application "Terminal"
-           activate
-        end tell]])
+        hs.application.launchOrFocus("Terminal")
     end
 end
 
