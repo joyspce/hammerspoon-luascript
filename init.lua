@@ -1,206 +1,381 @@
-
 -- author : joys
--- qq: 501919181
--- Email: joysnipple@icloud.com
+-- qq     : 501919181
+-- Email  : joysnipple@icloud.com
+-- Updata : 2018/11/26 22:23
+-- Use    : init 入口
+-- Change :
+--
+-- 1136548
 
-QSK_upDateLastDate = "最后更新日期: 2018/08/17"
 
-require "QSConfig"
+-- https://github.com/superzcj/ZCJTemplateTool
 
--- 鼠标左键点下
-init_functionWithBack1 = 1
-operation_config_kyes = {
-    "      ***** pasteboard *****",
-    -- set get
-    {"s",  "⇪ + S",  "1.Set", qsx_XcodeSet, "2.Get", qsx_XcodeGet, "3.Singleton", qsx_Singleton},
-    {'f',  "⇪ + F",  "Method 1.Obj", qsx_Xcode_ObjMethod, "2.Class", qsx_Xcode_classMethod},
-    {'e',  "⇪ + E",  "1.对齐 = @ method", qssePasteEditAlignString, "2.JsonModel", qsse_makeObjc_Model},
-    {'b',  "⇪ + B",  "1.NSCoding 存储", xcode_NSCoding,  "2.self.xxs", xcode_property_self},
-    {'w',  "⇪ + W",  "Hook 1.Tweak",qsseToHookFun, "2.Captain", qsseToHCaptainFunc},
+-- 最后更新日期
+local qsK_upDateLastDate = '2018/12/27'
 
-    {0xa,  "⇪ + §",  "1.@property", qsse_customProperty, "2.ChangeStr", qsse_changPasteboardByText},
-    {'c',  "⇪ + C",  "1.@\" \"", qssePasteEditStringToNSString, "2.去重复", qssePasteStringRemoveSameString},
-    -- comment
-    {0x2c, "⇪ + /",  "注释 1.(Time)", qsseComment1, "2.NS", qsseComment2, "3.UI", qsseComment3, "4.C", qsseComment4},
-    {0x2a, "⇪ + \\", "注释", qsseComment123, "1./ 2./ 3./", qssClearComment},
+hs.hotkey.alertDuration=0
+hs.hints.showTitleThresh = 0
+hs.window.animationDuration = 0
+hs.brightness.set(85)
 
-    {'i',  "⇪ + I",  "1.OCSnippet", qsc_chooer, "2.加入词条", qac_add_text, "3.InputV", defeating_paste_blocking},
-    "",
-    "      *****   窗口管理   *****",
-    ---- positiont Move
-    {0x24,    "⇪ + ↩:", "Next moniter full size", qswMoveScerrnToNextWindow},
-    {0x31,    "⇪ + □",  "窗口最大化or合适大小", qswScreenResizeFullOrMiddle},
-    {"a",     "⇪ + A",  "提示 1.当前APP", hs.hints.windowHints, "2.App name", qsw_showCurrentAppName},
-    {'q',     "⇪ + Q",  "显示空间栏", qswShowSpaceBar},
-    {';',     "⇪ + ;",   "显示 grid", qsw_showGrid},
-    {'1',     "⇪ + 1-4","移动当前APP到桌面 1-4", moveToWhichWindow(1)},
-    {'2',     "⇪", moveToWhichWindow(2)},
-    {'3',     "⇪", moveToWhichWindow(3)},
-    {'4',     "⇪", moveToWhichWindow(4)},
-    {'r',  "⇪ + R",  "Fouse Next Screen", qsw_fouseNextScreen},
-    {0x1b, "⇪ + -", "窗口 缩小- 放大+", qswResizeScreen(10)},
-    {0x18, "⇪", qswResizeScreen(11)},
 
-    "",
-    "      *****   命 令 行  *****",
-    {'d',  "⇪ + D:", "鼠标左键点下", init_functionWithBack1, qsa_mouseDown, qsa_mouseUp},
+-- hello i'm joys, welcome you to wacth my vedio,
+-- today i'm showing what's on my deck,  This's my first vedio, look
 
-    {'.',  "⇪ + .",  "显示 1.隐藏文件", qsl_fn(qsl_keyStroke,{'shift', 'cmd'}, '.'),  "2.MousePoint", qsw_mouseHighlight},
-    {'n',  "⇪ + N",  "New 1.Floder", qsaNewFloder, "2.textFile", qsaNewFile, "3.shell", qsa_NewShellTemplate},
-    {'p',  "⇪ + P",  "1.复制当前路径", qsaCopyCourrentPath, "2.reloadLua", hs.reload},
-    {'g',  "⇪ + G",  "1.v2ex", qsc_v2exRequest, "2.anycomplete", qsc_anycomplete},
-    {'m',  "⇪ + M",  "移动COPY文件", qsl_fn(qsl_keyStroke,{'cmd', 'alt'}, 'v')},
-    {'v',  "⇪ + V",  "CopyTo 1.Xcode", qss_copyToXcode, "2.记事本", qss_copyToNotes},
-    {'x',  "⇪ + X",  "CopyTo 1.Atom", qss_copyToAtom, "2.Quiver", qss_copyToQuiver},
-    {'z',  "⇪ + Z",  "CopyTo 1.iTrem2", qss_copyTo_iTrem2},
-    {'t',  "⇪ + T",  "1.倒计时", qst_timer, "2.番茄时间", runtomatoTimeManViewager},
-    {'y',  "⇪ + Y",  "1.有道词典",qsc_youdaoInstantTrans,"2.多张图片 幻灯片模式", qsl_fn(qsl_keyStroke,{'cmd', 'alt'}, 'y')},
-    "",
-    "      *****  keyborad  *****",
-    "⇪ + ⇪   Tap capslock is Esc in iTerm2 终端 Atom",
-    "⇪ + ⇪   Tri click capslock trun on or off",
-    {'h',  "⇪ + H",  "键盘 H左← J下↓ K上↑ K右→ ", init_functionWithBack1,
-                                        qsl_fn(qsk_strokeDown, 'Left'),  qsk_strokeUp},
-    {'j',  "⇪", init_functionWithBack1, qsl_fn(qsk_strokeDown, 'Down'),  qsk_strokeUp},
-    {'k',  "⇪", init_functionWithBack1, qsl_fn(qsk_strokeDown, 'Up'),    qsk_strokeUp},
-    {'l',  "⇪", init_functionWithBack1, qsl_fn(qsk_strokeDown, 'Right'), qsk_strokeUp},
+--
+-- popup_close_on_escape = true
+-- popup_style = hs.webview.windowMasks.utility|hs.webview.windowMasks.HUD|hs.webview.windowMasks.titled|hs.webview.windowMasks.closable
+-- webview=hs.webview.new({x = 100, y = 100, w = 300, h = 300})
+--    :allowTextEntry(true)
+--    :windowStyle(popup_style)
+--    :closeOnEscape(popup_close_on_escape)
+--
+-- webview:url('https://www.sohu.com')
+--       :bringToFront()
+--       :show()
+-- webview:hswindow():focus()
 
-    {'o',  "⇪ + O",  "tmux 1.o next", qsk_tmux_o_next, "2.n next", qsk_tmux_n_next,
-                          "3.create window", qsk_tmux_n_createWindow },
-    {'0',  "⇪ + 0",  "tmux 1.vertical", qsk_tmux_split_vertical, "2.horizontal", qsk_tmux_split_horizontally },
 
-    -- 重复自动操作键盘  -- time时间 times次数 ...键盘Keys
-    {'8',  "⇪ + 8",  "AutoKeys 秒 次数 key1 key2...", qsa_strokeInEditByPasteboard},
+-- AClock.spoon show time in screen center(11:30)
+-- BingDaily.spoon wallpaper in bing
+-- ClipboardTool.spoon/ 有点用
 
-    {51,   "⇪ + ⌫",  "删除一行 或块", qsl_fn(qsl_keyStroke,{'cmd'}, 51)},
-    "",
-    "      *****  Shift Key   *****",
-    {'c', "⇪ + ⇧ + C", "窗口移动到中心", qswMoveWindowToCenter},
-    {'/', "⇪ + ⇧ + /", "窗口最小化", qswWindowMinimize},
+require "QSController"
 
-    {'h',  "⇪ + ⇧ + H",	 "窗口 H左← J下↓ K上↑ L右→", qswMoveWindowToLeft},
-    {'j',  "⇧", qswMoveWindowDown},
-    {'k',  "⇧", qswMoveWindowUp},
-    {'l',  "⇧", qswMoveWindowToRight},
+ctrl = QSController()
 
-    {'y',  "⇪ + ⇧ + Y", "窗口移动 Y左← U下↓ I上↑ O右→", qswResizeScreen(5)},
-    {'u',  "⇧", qswResizeScreen(8)},
-    {'i',  "⇧", qswResizeScreen(7)},
-    {'o',  "⇧", qswResizeScreen(6)},
+ctrl.addTitle({'Window Manager', '窗 口 管 理'}) --- WindowManager
+-- param (keys, detail, func)
+ctrl.add("a",          'Next moniter full size',    wmMoveToNextMoniterFullSize)
+ctrl.add('w',          'Next moniter same size',    wmMoveToNextMoniterSameSize)
 
-    {"Left",  "⇪ + ⇧ + ←", "窗口 横 少一格 → 大一格",screenMoveShift(5)},
-    {"Right", "⇧", screenMoveShift(6)},
-    {"Up",    "⇪ + ⇧ + ↑", "窗口 竖 少一格 ↓ 大一格", screenMoveShift(7)},
-    {"Down",  "⇧", screenMoveShift(8)},
+ctrl.add({0x31,  "□"}, {'APP Full or Fit', '窗口最大化or合适大小'}, wmScreenFullOrMiddle)
 
-    {0x21, "⇪ + ⇧ + [", "窗口移动 [左上 ]右上 \\右下 \'左下 ", screenMoveShift(1)},
-    {0x1e, "⇧", screenMoveShift(3)},
-    {0x2a, "⇧",  screenMoveShift(2)},
-    {0x27, "⇧", screenMoveShift(4)},
+ctrl.add({'Left',  '⇠'}, 'Move APP To Left',   wmMovetoLeft)
+ctrl.add({'Right', '⇢'}, 'Move APP To Right',  wmMovetoRight)
 
-    {'m',  "⇪ + ⇧ + M",   "系统休眠", hs.caffeinate.systemSleep},
-    {'r',  "⇪ + ⇧ + R",   "双击 系统重机", function() show("双击 系统重机") end, "", hs.caffeinate.restartSystem},
-    {'s',  "⇪ + ⇧ + S",   "双击 系统关机", function() show("双击 系统关机") end, "", hs.caffeinate.shutdownSystem},
-    {'q',  "⇪ + ⇧ + Q",   "双击 退出登录", function() show("双击 退出登录") end, "", hs.caffeinate.logOut},
-    "",
-    "      ***** 编辑软件 *****",
-    {'x',  "⌥ + X", "1.Xcode", 'Xcode', "2.XMind ZEN", 'XMind ZEN'},
-    {'e',  "⌥ + E", "1.Vim", qsihOpenVim,"2.PyCharm", 'PyCharm', "3.010 Editor", '010 Editor'},
-    {'a',  "⌥ + A", "1.Atom", 'Atom', "2.AppleScript", 'Script Editor', "3.AppCleaner", 'AppCleaner'},
-    {'n',  "⌥ + N", "1.Quiver", 'Quiver', "2.Dash", 'Dash'},
-    {'i',  "⌥ + I", "1.Idaq64", 'idaq64', "2.Ida", 'ida', "3.Impactor", 'Impactor'},
-    {'h',  "⌥ + H", "Hopper Disassembler", 'Hopper Disassembler v3'},
-    {'r',  "⌥ + R", "1.Recents", 'RecentsF', "2.Reveal", 'Reveal'},
-    {'c',  "⌥ + C", "Charles", 'Charles'},
-    {'f',  "⌥ + F", "1.PP助手", 'PP助手', "2.iToolsPro", 'iTools Pro'},
-    {'j',  "⌥ + J", "1.备忘录", 'Notes', "2.日历", 'Calendar', "3.提醒事件",'Reminders'},
-    {'k',  "⌥ + K", "1.Pages", 'Pages', "2.Keynote", 'Keynote'},
-    "",
-    "      ***** 其他软件 *****",
-    {'s',  "⌥ + S", "1.Safari", 'Safari', "2.Chrome", 'Google Chrome'},
-    {'l',  "⌥ + L", "1.Google镜像", qsih_OpenGoogleImage, "2.Lantern", 'Lantern'},
-    {'g',  "⌥ + G", "1.酷狗", 'KugouMusic', "2.mailTemp", sentMailTemplete, "3.sentMail", sendMailWithContentWithEdit },
-    {'w',  "⌥ + W", "1.微信", 'WeChat', "2.QQ", 'QQ'},
+ctrl.add({'1', '1-4'}, {'Move App to desktop 1-4','移动当前APP到桌面 1-4'},
+                            function() wmMoveToWhichWindow(1) end)
+ctrl.add('2',          nil, function() wmMoveToWhichWindow(2) end)
+ctrl.add('3',          nil, function() wmMoveToWhichWindow(3) end)
+ctrl.add('4',          nil, function() wmMoveToWhichWindow(4) end)
 
-    {'v',  "⌥ + V", "1.VMware Fusion", 'VMware Fusion', "2.VNC", 'VNC Viewer', "3.ssh pi", function() qshslTerminalRunIn("ssh pi@192.168.31.188") end},
-    {'p',  "⌥ + P", "1.Pixelmator", 'Pixelmator', "2.截图", 'Jietu', "3.Enpass", 'Enpass'},
+ctrl.add('q',   {'1.show Mission Control 2.Cheatsheet','1.显示空间栏 2.Cheatsheet'},
+    {wmShowSpaceBar, function() wmShowSpaceBar(true) end})
 
-    {'m',  "⌥ + M", "1.MachOView", 'MachOView', "2.IINA Movie", 'IINA'},
+ctrl.add('r',   '1.Window Edit Cheatsheet', wmWindowEditMode)
+ctrl.add({'tab', 'tab'}, {'show 1.currentApp 2.App name', 'show 1.当前APP 2.App name'},
+    {hs.hints.windowHints, wmShowCurrentAppName})
 
-    {',',  "⌥ + <", "1.系统设置偏好", 'System Preferences', "2.Activity Monitor",'Activity Monitor'},
-    {0x2f, "⌥ + >", "1.系统Console", 'Console', "2.HS Console", hs.toggleConsole},
+ctrl.add('m',   '1.Mouse 2.FocusNextMoniter', {wmMouseHighlight, wmFouseNextMoniter})
 
-    "",
-    "      *****  shell  *****",
-    {'d',  "⌥ + D", "1.ToITerm2", qsaOpenCourrentFinderInITerm2, "2.iTerm2", 'iTerm'},
-    {'t',  "⌥ + T", "1.ToTerminal", qsaOpenCourrentFinderInTerminal, "2.Term 显示RAM CPU info", qss_showCPU_Info},
-    {'o',  "⌥ + O", "1.22:2222 2.Phone 3.1234:1234", qsihSSLOpenPort2222},
-    {';',  "⌥ + :", "1.Phone 2.1234:1234", qsihSSLToPhone},
-    {'z',  "⌥ + Z", "1.Cycript", qss_cycriptStep1, "2.@import", qss_cycriptStep2, "3.show中文", qss_printChineseWord},
-    "",
-    "      ***** 文件操作 *****",
-    {'1', "⌥ + 1", "MAC系统1.New", qsl_fn(qssh_openFolder, "/Volumes/MACNew"), "2.High", qsl_fn(qssh_openFolder, "/Volumes/MACHigh"),
-                          "3.Mojave", qsl_fn(qssh_openFolder, "/Volumes/MACMojave")},
+ctrl.addTitle()
+ctrl.addTitle({'Pasteboard', '粘 贴 板'})
 
-    {'2',   "⌥ + 2", "1.WorkDisk",  qsl_fn(qssh_openFolder,"/Volumes/WorkDisk"), "2.BackUP", qsl_fn(qssh_openFolder,"/Volumes/BackUP")                             },
-    {'3',   "⌥ + 3", "1.Work工作", qsl_fn(qssh_openFolder,"/Volumes/WorkDisk/Work工作/"),
-                     "2.Learn学习",     qsl_fn(qssh_openFolder,"/Volumes/WorkDisk/Learn学习/")},
+ctrl.add('c',  'ClipShow Cheatsheet',        nil, ClipShow)
+ctrl.add('x',  'Language syntax Cheatsheet', nil, LanguageSyntax)
+ctrl.add('z',  'Regular Expression',         nil, RegularExpression)
 
-    {'b',  "⌥ + B", "1.百度网盘", 'BaiduNetdisk_mac', "2.BT", 'Transmission'},
-    {'y',   "⌥ + Y", "1.FTP", 'Yummy FTP', "2.BetterZip", 'BetterZip', "3.ZipWithPW", qsaZipFileWithPassWord},
-    {51,    "⌥ + ⌫", "1.打开垃圾筒", qsaOpenTrash, "2.清空垃圾筒", qsaDumpTrash},
-    "",
-    "      ***** 其他操作 *****",
-    {0x2a,  "⌥ + \\:", "QS快捷键提示", showShortcutsTips},
-    {0x24,  "⌥ + ↩",   "Next moniter same size", qsw_sendWindowNextMonitor},
-    {'Up',  "⌥ + ↑",   "向上翻页 ↓向下翻页", qswScrollWheelUp},
-    {'Down',"⌥", qswScrollWheelDown},
-    {'Left',"⌥ + ←",   "Safari back", function()
-        -- hs.application.launchOrFocus("Safari")
-        qshs_isWindowWithAppNamesFn({'Safari 浏览器', 'Safari'}, "Error : 我不在 Safari 下", function()
-            hs.eventtap.keyStroke({'cmd'}, '[')
-        end)
-    end},
-    {'Right',"⌥ + →",   "Safari next", function()
-        -- hs.application.launchOrFocus("Safari")
-        qshs_isWindowWithAppNamesFn({'Safari 浏览器', 'Safari'}, "Error : 我不在 Safari 下", function()
-            hs.eventtap.keyStroke({'cmd'}, ']')
-        end)
-    end},
-    {'8',  "⌥ +  8",   "git 1.trending", qsl_fn(qsih_openURL, "https://github.com/trending"),
-                            "2.topics",  qsl_fn(qsih_openURL, "https://github.com/topics")},
+ctrl.add('v',  'Snippets Code Cheatsheet',   nil, Snippets)
+-- TempSnippet.lua
+ctrl.add('t',  '1.TempSnippet 2.Cheatsheet', {tempSnippetOutput, tempSnippetOutputCheatsheet})
 
-    QSK_upDateLastDate,
-}
+ctrl.addTitle()
 
-for i,v in ipairs(operation_config_kyes) do
-    if type(v) == "table" then
-        assert(#v > 2, "Error init_addkey table < 2")
-        _init_addkey(v)
+-- OCCode.lua
+-- set get
+ctrl.add('s',  '1.Set 2.@Property', {occXcodeSet, occCustomProperty})
+-- get
+ctrl.add('g',  '1.Get',  occXcodeGet)
+-- Pasteboard.lua
+ctrl.add('e',   {'1.Align= @method', '对齐= @method'}, pbAlignString)
+
+
+-- Comment.lua
+ctrl.add(      {0x2c, '/' }, {'Comment 1./2. 2.Cheatsheet','注释 1./2./3 2.Cheatsheet'},
+    {comment123,  commentShow})
+ctrl.addShift( {0x2c, '/'}, {'Comment function','注释 function'}, functionCommentDiscription)
+
+ctrl.addTitle()
+ctrl.addTitle({'Key Operation','键 盘 操 作'})
+ctrl.add('h',  {'key H← J↓ K↑ L→','键盘 H左← J下↓ K上↑ L右→'},
+                    nil, function() koStrokeDown('Left')  end)
+ctrl.add('j',  nil, nil, function() koStrokeDown('Down')  end)
+ctrl.add('k',  nil, nil, function() koStrokeDown('Up')    end)
+ctrl.add('l',  nil, nil, function() koStrokeDown('Right') end)
+-- next word
+ctrl.add('f',  'select next ', nil, function()
+    hsInAppNameAndFunc({['Atom'] = function()
+         koKeyStroke({'alt'}, 'f')
+    end})
+end)
+-- before word
+ctrl.add('b',  'before word', nil, function()
+    hsInAppNameAndFunc({['Atom'] = function()
+         koKeyStroke({'alt'}, 'b')
+    end})
+end)
+
+-- cut one line
+ctrl.add('y',  'Cut one line', nil, function()
+    hsInAppNameAndFunc({['Atom'] = function()
+         koKeyStroke({'cmd'}, 'x')
+    end})
+end)
+-- cut before in line
+ctrl.add('u',  'cut before', nil, function()
+    hsInAppNameAndFunc({['Atom'] = function()
+        koKeyStroke({'ctrl', 'shift'}, 'a')
+        koKeyStroke({'cmd'}, 'x')
+    end})
+end)
+ctrl.add('i',  'after in line', nil, function()
+    hsInAppNameAndFunc({['Atom'] = function()
+        koKeyStroke({'ctrl'}, 'k')
+    end})
+end)
+-- Cut word
+ctrl.add('o',  'Cut word', nil, function()
+    hsInAppNameAndFunc({['Atom'] = function()
+         koKeyStroke({'ctrl', 'shift'}, 'w')
+         koKeyStroke({'cmd'}, 'x')
+    end})
+end)
+-- delete before char
+ctrl.add('p',  'delete before [ after char', nil, function()
+    hsInAppNameAndFunc({['Atom'] = function()
+         koKeyStroke({'ctrl'}, 'h')
+    end})
+end)
+-- delete after char
+ctrl.add('[',  nil, nil, function()
+    hsInAppNameAndFunc({['Atom'] = function()
+         koKeyStroke({'ctrl'}, 'd')
+    end})
+end)
+ctrl.add({51,  '⌫'}, {'Delete line','删除一行 或块'},     nil,
+    function ()
+        koKeyStroke({'cmd'}, 51)
+    end)
+-- QSController.lua
+ctrl.add('⇪ + ⇪  Tap ⇪ = Esc Atom&iTerm2')
+ctrl.add('⇪ + ⇪  Tri click ⇪ trun on')
+-- KeyOperation.lua
+ctrl.add('d', {'mouse Tap','鼠标左键点下'}, koMouseDown, koMouseUp)
+
+ctrl.addTitle()
+ctrl.add('6',  {'keyStrokes string','输入粘贴板内String'}, nil,
+    function()
+        local text = hs.pasteboard.getContents()
+        if text and #text > 0 then
+            hsDelayedFn(0.5, function() hs.eventtap.keyStrokes(text) end)
+        end
+    end)
+-- 重复自动操作键盘  -- time时间 times次数 ...键盘Keys
+ctrl.add('7',  {'AutoKeys s t key1 2...', 'AutoKeys 秒 次数 key1 2...'},
+koStrokeInEditByPasteboard)
+
+ctrl.add('8',  'tmux 1.o 2.n 3.new window',
+    {koTmux_o_next, koTmux_n_next, koTmux_n_createWindow})
+ctrl.add('9',  'tmux 1.vertic 2.horizon',
+    {koTmux_split_vertical, koTmux_split_horizontally})
+
+ctrl.addTitle()
+ctrl.addTitle({'Widgets & Chooser','插 件 & Chooser'})
+-- Widgets
+ctrl.add('n',  '1.chooserSnippet 2.add text', {qac_chooserSnippet, qac_add_text})
+ctrl.add({0x24, '↩'}, '1.youdao 2.anycomplete', {qsc_youdaoInstantTrans, qsc_anycompleteChooser})
+ctrl.add(';',  'V2EX Hot New', qsc_v2exChooser)
+ctrl.add('\\', {'1.Countdown 2.Countdown', '2.番茄时间 1.倒计时 '}, {runTomatoTime, qst_timer})
+
+ctrl.addTitle()
+ctrl.addTitle({'frequent software' ,'常用 软件'})
+
+ctrl.addAlt('x',  '1.Xcode 2.XMind ZEN', {'Xcode', 'XMind ZEN'})
+ctrl.addAlt('a',  '1.Atom 2.AppCleaner', {'Atom', 'AppCleaner'})
+ctrl.addAlt('u',  'Arduino', 'Arduino')
+ctrl.addAlt('i',  '1.Quiver 2.Dash', {'Quiver','Dash'})
+ctrl.addAlt('f',  {'1.PP Helper 2.iToolsPro','1.PP助手 2.iToolsPro'}, {'PP助手', 'iTools Pro'})
+ctrl.addAlt('j',  {'Notes', '备忘录'}, 'Notes')
+ctrl.addAlt('s',  '1.Safari 2.Cheatsheet', {'Safari', qsoSafariCheatsheet})
+ctrl.addAlt('r',  'Recents', 'RecentsF')
+ctrl.addAlt('e',  '1.PyCharm 2.010 Editor', {'PyCharm', '010 Editor'} )
+ctrl.addAlt('w',  {'1.WeChat, 2.QQ','1.微信 2.QQ'}, {'WeChat', 'QQ'})
+ctrl.addAlt('v',  '1.VMware Fusion 2.VNC', {'VMware Fusion', 'VNC Viewer'})
+ctrl.addAlt({',',   '<'}, {'1.Preferences 2.Activity Monitor','1.系统设置 2.Activity Monitor'},
+    {'System Preferences', 'Activity Monitor'})
+ctrl.addAlt({ 0x2f, '>'}, '1.system Console 2.HS Console', {'Console', hs.toggleConsole})
+ctrl.addTitle()
+ctrl.addAlt({ 0x24, '↩'}, {'Open otherSoft Cheatsheet','Open 其他 软件 Cheatsheet'},
+    qsoOpenOtherSoftWare)
+ctrl.addAlt({ ';',  ':'}, 'Open 1.Shell 2.Cheatsheet',
+    {function() hs.application.launchOrFocus('Terminal') end, qsoOpenShellCheatsheet})
+
+ctrl.addTitle()
+ctrl.addTitle({'File Operation','文件操作'})
+
+ctrl.addAlt('d',  'Floder Downloads',
+    function() hsOpenFolder(os.getenv("HOME")..'/Downloads/') end)
+ctrl.addAlt('l',  'Floder 1.Learn 2.Work', {
+    function()  hsOpenFolder('/Volumes/WorkDisk/Learn学习/') end,
+    function() hsOpenFolder('/Volumes/WorkDisk/Work工作/') end
+})
+
+local iterFn, dirObj = hs.fs.dir("/Volumes")
+local diskPaths = {}
+if iterFn then
+    for file in iterFn, dirObj do
+        if file ~= '.' and file ~= '..' then diskPaths[#diskPaths + 1] = file end
     end
+    table.sort(diskPaths, function(a, b) return a > b end)
+end
+for i, disk in ipairs(diskPaths) do
+    ctrl.addAlt(tostring(i), 'Disk : '..disk, function() hsOpenFolder('/Volumes/'..disk) end)
 end
 
-print('joys config reloaded successful update :', QSK_upDateLastDate)
+ctrl.addAlt({51, '⌫'}, {'Trash can 1.Open 2.Clear','垃圾筒 1.打开 2.清空'},
+    {qsaOpenTrash, qsaDumpTrash})
+
+ctrl.addAlt('n', 'New 1.Floder2.txt3.shell', {qsaNewFloder, qsaNewFile, qsa_NewShellTemplate})
+ctrl.addAlt('p', {'Copy current path', '复制当前路径'}, qsaCopyCourrentPath)
+--
+ctrl.addTitle()
+ctrl.addTitle({'Other Operation','其他操作'})
+
+function showMenuTips()
+    if _MenuView then
+        _MenuView.remove()
+        _MenuView= nil
+        return
+    end
+    MenuView(ctrl.titles)
+end
+ctrl.addAlt({'\\', '\\'}, {'QS hotkey hint','QS快捷键提示'}, showMenuTips) --0x2a
+
+ctrl.addAlt({0x31,  "□"}, 'Keyboard Sheet',
+    function()
+        if _keyboard then
+            _keyboard:hide()
+            _keyboard.escKey:delete()
+            _keyboard = nil
+        else
+            _keyboard = require "QSCode/widgets/KSheet"
+            _keyboard:init()
+            _keyboard:show()
+            _keyboard.escKey = hs.hotkey.bind('', 'escape', "exit menus", function()
+                _keyboard:hide()
+                _keyboard.escKey:delete()
+                _keyboard = nil
+            end)
+        end
+    end)
+ctrl.addAlt('c', 'ColorPicker Sheet',
+    function()
+        if not _ColorPicker then
+            _ColorPicker = require "QSCode/widgets/ColorPicker"
+            _ColorPicker:start()
+        end
+        _ColorPicker.choosermenu:popupMenu(hs.mouse.getAbsolutePosition())
+    end)
+
+ctrl.addAlt({ 'Left', '←'}, 'Safari back  →Safari next',
+    function()
+        hsIsWindowWithAppNamesFn({'Safari 浏览器', 'Safari'}, 'Error : 我不在 Safari 下',
+            function() hs.eventtap.keyStroke({'cmd'}, '[') end)
+    end)
+ctrl.addAlt('Right', nil,
+    function()
+        hsIsWindowWithAppNamesFn({'Safari 浏览器', 'Safari'}, 'Error : 我不在 Safari 下',
+            function() hs.eventtap.keyStroke({'cmd'}, ']')
+    end)
+end)
+g_isOpenKeyMoniter = false
+ctrl.addShift('k', 'is Open KeyMoniter', function()
+    if g_isOpenKeyMoniter then
+        g_isOpenKeyMoniter = false
+        show('Key Moniter is close')
+    else
+        g_isOpenKeyMoniter = true
+        show('Key Moniter is open')
+    end
+end)
+ctrl.addShift('l', 'Lua Header Class Make', QSLuaLuanageTemplate)
+ctrl.addShift('m', {'SystemSleep','系统休眠'}, hs.caffeinate.systemSleep)
+ctrl.addShift('r', {'DoubleClickRestartSystem', '双击 系统重机'},
+    {function() show(qscLang('Double click restartSystem','双击 系统重机')) end,  hs.caffeinate.restartSystem})
+ctrl.addShift('s', {'DoubleClickShutdownSystem', '双击 系统关机'},
+    {function() show(qscLang('Double click shutdownSystem', '双击 系统关机')) end,  hs.caffeinate.shutdownSystem})
+ctrl.addShift('q', {'DoubleClickLogOut', '双击 退出登录'},
+    {function() show(qscLang('Double click logOut','双击 退出登录')) end,  hs.caffeinate.logOut})
+
+ctrl.addShift('c', '1.reload2.Code3.Language',
+    {
+    hs.reload,
+    function()
+        local cfg = QSConfig()
+        cfg.changeprograms()
+        ctrl.titles[#ctrl.titles] =
+            qscLang('current Programe : ','当前编程语言 : ')..cfg.programs[cfg.config.programsIndex]
+    end,
+    function() QSConfig().changeLocal() end })
+
+ctrl.addShift('l', 'Lua Header Class Make', QSLuaLuanageTemplate)
+
+ctrl.addTitle()
+
+ctrl.titles[#ctrl.titles + 1] = 'host :'.. hs.host.localizedName()
+qsK_upDateLastDate = qscLang('Last update :' ,'最后更新日期 :').. qsK_upDateLastDate
+ctrl.titles[#ctrl.titles + 1] = qsK_upDateLastDate
+-- 支持语言
+local cfg = QSConfig()
+ctrl.titles[#ctrl.titles + 1] =
+    qscLang('current Programe:','当前编程语言 :')..cfg.programs[cfg.config.programsIndex]
+
+-- autoRun
+
+require "QSCode/widgets/Weather"
+require "QSCode/widgets/ShowBoard"
+require "QSCode/QSWatch"
+
+local g_char = ""
+local function catcher(event)
+    local char = event:getCharacters()
+
+    if g_isOpenKeyMoniter and #char == 1 and g_char ~= char then
+        g_char = char
+        -- hs.execute('curl http://192.168.88.103/'..string.byte(char))
+        hs.http.asyncGet('http://192.168.88.103/'..string.byte(char), nil, function() end)
+    end
+
+    if event:getFlags()['fn'] and char == "h" then
+        return true, {hs.eventtap.event.newKeyEvent({}, "left", true)}
+    elseif event:getFlags()['fn'] and char == "l" then
+        return true, {hs.eventtap.event.newKeyEvent({}, "right", true)}
+    elseif event:getFlags()['fn'] and char == "j" then
+        return true, {hs.eventtap.event.newKeyEvent({}, "down", true)}
+    elseif event:getFlags()['fn'] and char == "k" then
+        return true, {hs.eventtap.event.newKeyEvent({}, "up", true)}
+    elseif event:getFlags()['fn'] and char == "y" then
+        return true, {hs.eventtap.event.newScrollEvent({3, 0}, {}, "line")}
+    elseif event:getFlags()['fn'] and char == "o" then
+        return true, {hs.eventtap.event.newScrollEvent({-3, 0}, {}, "line")}
+    elseif event:getFlags()['fn'] and char == "u" then
+        return true, {hs.eventtap.event.newScrollEvent({0, -3}, {}, "line")}
+    elseif event:getFlags()['fn'] and char == "i" then
+        return true, {hs.eventtap.event.newScrollEvent({0, 3}, {}, "line")}
+    elseif event:getFlags()['fn'] and char == "," then
+        local currentpos = hs.mouse.getAbsolutePosition()
+        return true, {hs.eventtap.leftClick(currentpos)}
+    elseif event:getFlags()['fn'] and char == "." then
+        local currentpos = hs.mouse.getAbsolutePosition()
+        return true, {hs.eventtap.rightClick(currentpos)}
+    end
+end
+fn_tapper = hs.eventtap.new({hs.eventtap.event.types.keyDown}, catcher):start()
+
+show('Reloaded successful update :'..qsK_upDateLastDate)
+
 
 
 
 --
--- function drawBoxes()
--- 	print("Drawing red and blue boxes.")
--- 	redFrame = hs.geometry.rect({x=100, y=100, h=100, w=200})
--- 	redBox = hs.drawing.rectangle(redFrame)
--- 		:setFillColor({red=1.0})
--- 		:setFill(true)
--- 		:setClickCallback(function()
--- 			print("Red clicked!")
--- 		end)
--- 		:show()
--- 	blueFrame = hs.geometry.rect({x=350, y=100, h=100, w=200})
--- 	blueBox = hs.drawing.rectangle(blueFrame)
--- 		:setFillColor({red=0, blue=1.0})
--- 		:setFill(true)
--- 		:setClickCallback(function()
--- 			print("Blue clicked!")
--- 		end)
--- 		:show()
--- end
